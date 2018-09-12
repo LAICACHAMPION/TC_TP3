@@ -1,0 +1,41 @@
+\section{Dise\~no de funciones transferencias}\begin{tabular}{|c|c|c|c|}
+\hline 
+Tipo de filtro & $f_p[kHz]$ & $f_a[kHz]$ & $f_c[kHz]$ \\ 
+\hline 
+LP & 4   & 14  & --- \\ 
+\hline 
+HP & 14  & 4   & --- \\ 
+\hline 
+BP & --- & --- & 8   \\ 
+\hline 
+BR & --- & --- & 4   \\ 
+\hline 
+\end{tabular} 
+
+
+
+\subsection{High-Pass}
+
+\[G(s)=\frac{s^2}{s^2+87500s+2500000000}\]
+\[f_c=7.957kHz\]
+\[Q=0.57142\]
+\[\xi=0.875\]
+
+Posible implementacion con RLC serie:
+\[R=350\Omega, C=100n, L=4mH\]
+
+\subsection{Low-Pass}
+
+
+
+\[G(s)=	\frac{2500000000}{s^2+87500s+2500000000}\]
+\[f_c=7.957kHz\]
+\[Q=0.57142\]
+\[\xi=0.875\]
+
+Posible implementacion con RLC serie:
+\[R=350\Omega, C=100n, L=4mH\]
+
+\subsection{Band-Pass}
+
+\subsection{Band-Reject}
