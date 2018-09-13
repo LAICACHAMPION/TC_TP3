@@ -35,7 +35,7 @@ K&= \frac{\frac{A_o}{\frac{s}{\omega_p}+1}}{\frac{A_o}{\frac{s}{\omega_p}+1}+1} 
   &=\frac{1}{1+\frac{s}{BWP}}
  \intertext{Siendo $BWP=A_o\cdot \omega_p$}
 \end{align}
-
+\todo{BWP es con 2pi o sin?}
 
 Se buscan las tensiones en las entradas del \textit{op-amp} para luego hallar las corrientes $i_A$ y $i_B$.
 
@@ -77,12 +77,26 @@ De este resultado se obtiene la impedancia de entrada:
 Z_{in}= \frac{ sCR_1R_L+R_L}{sC(R_1(1-K)+R_L) + 1}
 \end{equation}
 
-\begin{enumerate}
-	\item $K \approx 1$. Elijo criterio: $K=1\pm 0.05$
-	\item $sCR_L +1 \approx 1$. Elijo criterio: $2\pi fCR_L <0.05$
-\end{enumerate}
 
-Estas condiciones se cumplen para XXXXXXXXX rango de frecuencias. Dentro de este rango, la impedancia de entrada se puede aproximar a la del modelo de un inductor con resistencia serie con valores $L=CR_LR_1$ y $R_coil=R_L$
+%condiciones para la aproximacion
+\begin{description}
+	\item [\textbf{$K \approx 1$}] Elijo criterio: K tiene la forma de una transferencia de un filtro pasabajos de primer orden. Siendo $f_0$ la frecuencia de corte, se considera que $K\approx 1$ si $f<\frac{f_0}{10}$, es decir, una d\'ecada antes de la frecuencia de corte. En este caso, $f_0=BWP$ y la aproximaci\'on es v\'alida para $f<\frac{BWP}{10}$
+	
+	\item [\textbf{$sCR_L +1 \approx 1$}] Elijo criterio: $2\pi fCR_L <0.05 \iff f< \frac{0.05}{2\pi CR_L}$
+\end{description}
+
+La restricci\'on de BWP es independiente de la eleccion de componentes, osea que es fija. busco con la eleccion de componentes que la otra restriccion sea mas laxa que la primera para que funcione durante mas frecuencia.
+
+Usando TL082 con $BWP=8MHz$:
+\begin{align*}
+\frac{BWP}{10} \leqslant \frac{0.05}{2\pi C R_L} \\
+\Rightarrow CR_L\leqslant \frac{1}{4\pi BWP} \approx 20ns
+\end{align*}
+
+
+
+
+Si la frecuencia cumple con las dos condiciones anteriores, la impedancia de entrada se puede aproximar a la del modelo de un inductor con resistencia serie con valores $L=CR_LR_1$ y $R_{coil}=R_L$
 
 \begin{align}
 	Z_{in} &= sCR_LR+R_L \\
@@ -91,14 +105,17 @@ Estas condiciones se cumplen para XXXXXXXXX rango de frecuencias. Dentro de este
 	\label{eq:ej2_zin_gyrator_con_aprox}
 \end{align}
 
-Observar que $R_1$ no tiene restricciones sobre qu\'e valores puede tomar para que el gyraor se porte como un inductor, no afecta a la resistencia serie final, y si afecta a la L, osea que es el valor clave para modificar 
+Observar que $R_1$ no tiene restricciones sobre qu\'e valores puede tomar para que el gyrator se comporte como un inductor, no afecta a la resistencia serie final, y si afecta a la L, osea que es el valor clave para modificar 
 
  
 
-
-
-
 \subsection{Criterios de dise\~no}
+
+\begin{enumerate}
+	\item Elijo $CR_L < \frac{1}{4\pi BWP}$
+	\item Elijo $R_L < \frac{Rcircuito}{20}$. De ahi obtengo $C$
+	\item Elijo $Rgyrator = \frac{L}{CR_L}$
+\end{enumerate}
 
 
 
