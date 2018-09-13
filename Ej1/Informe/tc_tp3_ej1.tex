@@ -3,6 +3,310 @@
 \documentclass[../../tc_tp3_main.tex]{subfiles}
 
 \begin{document}
+
+\hyphenation{o-pe-ra-cio-nal}
+\hyphenation{o-pe-ra-cio-na-les}
+\hyphenation{si-guien-tes}
+\hyphenation{e-mu-lan-do}
+
+
 \chapter{Filtro con GIC}
+
+\section{Introducci\'on: el \textit{general impedance converter}}
+\label{section:1-intro}
+
+
+\todo[inline]{explicar:cuando se quiere hacer un filtro de segundo order sin usar bobinas, usamos GIC para simular sus efectos} 
+
+
+\begin{figure}[H]
+	\label{fig:ej1-gicg}
+	\centering
+	\begin{circuitikz}
+	\def\gicgxCenter{0}
+	\def\gicgxGnd{3}
+	\def\gicgyVin{0}
+	\def\gicgyopamAp{0.5}
+	\def\gicgyopamBo{2}
+	\def\gicgyopamABm{3.5}
+	\def\gicgyopamAo{5}
+	\def\gicgyopamBp{6.5}
+	\def\gicgyGnd{7}
+	\def\gicgxOpamBin{-.5}
+	\def\gicgxOpamAin{1}
+	
+	\draw
+	(\gicgxCenter, -1)  node[ground] {}
+	to [generic, l=$Z_5$] 		(\gicgxCenter, \gicgyopamAp) node[left]{$V_{GIC}$}
+	to [generic, l_=$Z_4$]	(\gicgxCenter, \gicgyopamBo)  node[right]{$V_2$}
+	to [generic, l_=$Z_3$]  	(\gicgxCenter, \gicgyopamABm)
+	to [generic, l_=$Z_2$] 	(\gicgxCenter, \gicgyopamAo)  node[left]{$V_1$}
+	to [generic, l_=$Z_1$] 	(\gicgxCenter, \gicgyopamBp)
+	to [short, -o, i<=$I$] 			(\gicgxCenter, \gicgyGnd) node[above]{$V_{GIC}$} 
+	
+	(-1.5,5) node [op amp, rotate=180, xscale=0.7, yscale = 0.7] (opamB) {}
+	(opamB.-) |- (\gicgxOpamBin, \gicgyopamABm) 
+	to[short,-*]  (\gicgxCenter, \gicgyopamABm)
+	(opamB.+) |- (\gicgxOpamBin, \gicgyopamBp) 
+	to[short,-*]  (\gicgxCenter, \gicgyopamBp) 
+	(opamB.out) |- (-2, \gicgyopamBo) 
+	to [short,-*]  (\gicgxCenter, \gicgyopamBo)
+	
+	(2,2) node [op amp, xscale=0.7, yscale = 0.7] (opamA) {}
+	(opamA.-) |- (\gicgxOpamAin, \gicgyopamABm) node[above]{$V_{GIC}$} 
+	to[short, *-*]  (\gicgxCenter, \gicgyopamABm) 
+	(opamA.+) |- (\gicgxOpamAin, \gicgyopamAp) 
+	to [short,-*]  (\gicgxCenter, \gicgyopamAp)
+	(opamA.out) |- (2, \gicgyopamAo) 
+	to[short,-*]  (\gicgxCenter, \gicgyopamAo)
+	
+	;\end{circuitikz}
+	\caption{GIC gen\'erico con \textit{op amps} ideales}
+\end{figure}
+
+
+Como consideramos ideales a ambos operacionales, la tensi\'on de entrada se encuentra replicada donde se encuentran los terminales inversores del circuito, y a su vez en la entrada no inversora del segundo operacional. Asimismo, como no hay corriente entre $V^+$ y $V^-$ para ninguno de los operacionales, hay s\'olo tres corrientes, puesto que la corriente de $Z_2$ es la misma que la de $Z_3$, y la de $Z_4$ que la de $Z_5$. Quedan definidas entonces las ecuaciones: \par
+
+
+ \[
+	\left\{
+ 	\begin{aligned}
+		 \frac{V_{GIC} - V_1}{Z_1} - I &= 0\\
+		\frac{V_{GIC} - V_1}{Z_2} + \frac{V_{GIC} - V_2}{Z_3} &= 0 \\ 
+		\frac{V_{GIC} - V_2}{Z_4} + \frac{V_{GIC}}{Z_5} &= 0
+	\end{aligned}
+	\right.
+ \]
+ 
+ Sustituyendo hacia atr\'as, podemos obtener la transferencia hasta la salida de cada operacional:
+ 
+\begin{equation}
+	\label{eq:1-v1v2g}
+	\left\{
+ 	\begin{aligned}
+		\frac{V_1}{V_{GIC}} & =  -\frac{Z_2 \cdot Z_4}{Z_3 \cdot Z_5}\\
+		\frac{V_2}{V_{GIC}} & =  1+ \frac{Z_4}{Z_5} \\ 
+	\end{aligned}
+	\right.
+ \end{equation}
+ 
+ 
+ 
+ De aqu\'i se puede despejar la impedancia de entrada del GIC, es decir $\frac{V_{GIC}}{I}$:
+ 
+ \begin{equation}
+ 	\label{eq:1-z-gic-g}
+ 	Z = \frac{Z_1 \cdot Z_3 \cdot Z_5}{Z_2 \cdot Z_4}
+ \end{equation}
+
+De esta forma, combinando las impedancias convenientemente, se pueden obtener impedancias de toda \'indole (es decir, donde el n\'umero $Z$ puede estar te\'oricamente en cualquier punto del plano complejo). \par
+
+
+
+
+
+\section{Filtro a dise\~nar}
+
+
+\begin{figure}[H]
+	\label{fig:ej1-circuito}
+	\centering
+	\scalebox{0.8}{
+	\begin{circuitikz}
+	\def\cxin{-5}
+	\def\cxC{-3}
+	\def\cyC{5.5}
+	\def\cxCenter{0}
+	\def\cxGnd{3}
+	\def\cyVin{0}
+	\def\cyopamAp{0.5}
+	\def\cyopamBo{2}
+	\def\cyopamABm{3.5}
+	\def\cyopamAo{5}
+	\def\cyopamBp{6.5}
+	\def\cyGnd{7}
+	\def\cxOpamBin{-.5}
+	\def\cxOpamAin{1}
+	
+	\draw
+	(\cxCenter, -1)  node[ground] {}
+	to [R, l_=$R_8$] 		(\cxCenter, \cyopamAp) node[left]{$V_{GIC}$}
+	to [R, l_=$R_4$]		(\cxCenter, \cyopamBo)  node[right]{$V_{out}$}
+	to [R, l_=$R_3$]  		(\cxCenter, \cyopamABm)
+	to [C, l_=$C_2$] 		(\cxCenter, \cyopamAo)  node[left]{$V_1$}
+	to [R, l_=$R_1$] 		(\cxCenter, \cyopamBp)
+	to [short, -*] 		(\cxCenter, \cyGnd) node[above]{$V_{GIC}$} 
+	
+	(\cxCenter, \cyGnd) 
+	to [short, *-*] (\cxC, \cyGnd) 
+	to [R=$R_6$, *-o] (\cxin, \cyGnd) node[left] {$V_{in}$}
+	
+	(\cxC, \cyGnd)
+	to [C = $C_6$] (\cxC,\cyC) node[ground] {}
+	
+	
+	(-1.5,5) node [op amp, rotate=180, xscale=0.7, yscale = 0.7] (opamB) {}
+	(opamB.-) |- (\cxOpamBin, \cyopamABm) 
+	to[short,-*]  (\cxCenter, \cyopamABm)
+	(opamB.+) |- (\cxOpamBin, \cyopamBp) 
+	to[short,-*]  (\cxCenter, \cyopamBp) 
+	(opamB.out) |- (-2, \cyopamBo) 
+	to [short,-*]  (\cxCenter, \cyopamBo)
+	
+	(2,2) node [op amp, xscale=0.7, yscale = 0.7] (opamA) {}
+	(opamA.-) |- (\cxOpamAin, \cyopamABm) node[above]{$V_{GIC}$} 
+	to[short, *-*]  (\cxCenter, \cyopamABm) 
+	(opamA.+) |- (\cxOpamAin, \cyopamAp) 
+	to [short,-*]  (\cxCenter, \cyopamAp)
+	(opamA.out) |- (2, \cyopamAo) 
+	to[short,-*]  (\cxCenter, \cyopamAo)
+	
+	;\end{circuitikz}}
+	\caption{Esquema del circuito}
+\end{figure}
+
+El GIC que utilizaremos en este trabajo se obtiene con las siguientes sustituciones:
+
+ \[
+	\left\{
+ 	\begin{aligned} 
+		Z_1 & =  R_1 \\
+		Z_2 & =  \frac{1}{s\cdot C_2} \\
+		Z_3 & =  R_3 \\
+		Z_4 & =  R_4 \\
+		Z_5 & =  R_8
+	\end{aligned}
+	\right.
+ \]
+
+Por lo tanto, reemplazando en la ecuaci\'on (\ref{eq:1-z-gic-g}) obtenemos la impedancia de este GIC: \par
+
+ \begin{equation}
+ 	\label{eq:1-z-gic}
+ 	Z(s) = s\cdot \frac{R_1 \cdot R_3 \cdot R_8 \cdot C_2}{R_4}
+ \end{equation}
+
+Entonces, con esta secci\'on del filtro estamos emulando una bobina ideal de inductancia: \par
+\begin{equation}
+	\label{eq:1-LGIC}
+	L_{GIC} = \frac{R_1 \cdot R_3 \cdot R_8 \cdot C_2}{R_4}
+\end{equation}
+
+La salida, sin embargo, se mide dentro del GIC. Trataremos a este sistema como la combinaci\'on en cascada de dos sistemas: de $V_{in}$ a $V_{GIC}$, y de $V_{GIC}$ a $V_{out}$.\par
+  
+  
+  
+\subsection{Transferencia de $V_{in}$ a $V_{GIC}$} 
+ 
+Teniendo en cuenta el resultado obtenido en la ecuaci\'on (\ref{eq:1-z-gic}), podemos simplificar el circuito de la siguiente manera: 
+
+\begin{figure}[H]
+	\label{fig:ej1-rlc}
+	\centering
+	\begin{circuitikz}
+	\def\rlcxin{-5}
+	\def\rlcxC{-3}
+	\def\rlcyC{5.5}
+	\def\rlcxCenter{-1}
+	\def\rlcyGnd{7}
+	
+	\draw
+	(\rlcxCenter, \rlcyC)  node[ground] {}
+	to [cute inductor, l_=$L_{GIC}$] 		(\rlcxCenter, \rlcyGnd)  node[above]{$V_{GIC}$} 
+	to [short, *-*] (\rlcxC, \rlcyGnd) 
+	to [R=$R_6$, *-o] (\rlcxin, \rlcyGnd) node[left] {$V_{in}$}
+	
+	(\rlcxC, \rlcyGnd)
+	to [C = $C_6$] (\rlcxC,\rlcyC) node[ground] {}
+	
+	;\end{circuitikz}
+	\caption{Reemplazo del GIC por su inductancia equivalente}
+\end{figure}
+
+La tensi\'on de salida de esta secci\'on, entonces, puede hallarse aplicando un divisor de tensi\'on entre la impedancia de entrada desde $V_{in}$ y del paralelo de la bobina y el capacitor. Se obtiene entonces que:\par
+
+\begin{equation}
+	\label{eq:1-vgicvin}
+	\frac{V_{GIC}}{V_{in}}(s) = \frac{s\cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1}
+\end{equation}
+
+ 
+ 
+ 
+\subsection{Transferencia de $V_{GIC}$ a $V_{out}$}
+
+Para obtener esta transferencia, basta observar que lo que ahora llamamos $V_{out}$ es lo que en la introducci\'on llamamos $V_2$. Por lo tanto, reemplazando los valores gen\'ericos de la ecuaci\'on (\ref{eq:1-v1v2g}) por los particulares de este circuito, obtenemos que:
+
+\begin{equation}
+	\label{eq:1-voutvgic}
+	\frac{V_{out}}{V_{GIC}} (s) = 1+\frac{R_4}{R_5}
+\end{equation}
+
+Por lo tanto, la funci\'on transferencia del circuito se obtiene haciendo el producto de las ecuaciones (\ref{eq:1-vgicvin}) y (\ref{eq:1-voutvgic}):
+
+\begin{equation}
+	\label{eq:voutvin}
+	H(s) = \left( 1+\frac{R_4}{R_5} \right) \cdot \left(  \frac{s\cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1} \right)
+\end{equation}
+
+Esto corresponde a un \textbf{filtro pasabanda}, definido por los siguientes parametros:
+
+\begin{equation}
+	\left\{
+ 	\begin{aligned}
+		\omega_0 &= \sqrt{\frac{1}{L_{GIC}C_6}}\\
+		Q &= R_6 \cdot \sqrt{\frac{C_6}{L_{GIC}}} \\ 
+		\abs{H(i\omega_0)} &= 1+\frac{R_4}{R_5}
+	\end{aligned}
+	\right.
+ \end{equation}
+
+
+
+\begin{equation}
+	\left\{
+ 	\begin{aligned}
+		\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot CR_3}\\
+		\frac{V_2}{V_{GIC}} &= 1+ \frac{R_4}{R_5} \\ 
+	\end{aligned}
+	\right.
+ \end{equation}
+
+
+
+\section{An\'alsis de los componentes del circuito}
+
+\subsection{Funci\'on de $R_8$}
+
+Como ya se mencion\'o, la resistencia $R_8$ es el compoonente que reemplaza a la $Z_5$ del an\'alisis gen\'erico. Por lo tanto, se encuentra entre los operacionales que hacen funcionar al GIC y tierra. De la misma forma que en la secci\'on \ref{1-intro} al considerar ideales a los \textit{op amps}, la tensi\'on $V_{GIC}$ se ve\'ia replicada de la entrada a los terminales inversores de los operacionales, y de ah\'i al no inversor del segundo operacional, si $R_8$ fuese reemplazada por un cable, a la entrada del operacional ver\'iamos simplemente la tensi\'on de tierra, es decir que funcionar\'ia como un cable. Esto tambi\'en puede verse en la ecuaci\'on \ref{1-LGIC}: se comportar\'ia como una bobina de $0H$, es decir un cable ideal.\par
+
+Al conectarlo el GIC a $R_6$ y $C_6$ en estas condiciones
+
+Por otro lado, hacer este  par\'ametro infinito es equivalente a cortar el cable entre la salida del segundo operacional y tierra: se pierde entonces la referencia a masa. Por lo tanto, la impedancia del GIC se hace infinita (como se ve en la ecuaci\'on \ref{1-z-gic-g}, con lo cual se hace desp
+
+
+
+
+\section{Dise\~no del filtro pasabanda}
+
+Las especificaciones de dise\~no de este filtro son:
+
+
+\begin{equation}
+	\left\{
+ 	\begin{aligned}
+		\omega_0 &= 13,000\frac{rad}{s} & \Rightarrow f_0 &= 2,079Hz \\
+		Q &= 4 \\ 
+	\end{aligned}
+	\right.
+ \end{equation}
+
+Asimismo, se establecen las siguientes relaciones entre los componentes:
+
+
+
+R = 2.2k 	-> C = 34.965nF = 39n serie 330n (0.25\%)
+		-> R6 = 4R = 8.8k = 12k //33k (clavado)
+en mc: de 1.8 a 2.4k -> -13  a +16\%
 
 \end{document}
