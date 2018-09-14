@@ -3,6 +3,48 @@
 \documentclass[../../tc_tp3_main.tex]{subfiles}
 
 \begin{document}
-\chapter{Amplificadores de instrumentaci\'on}
+%capítulo, Amplificadores de instrumentación
+\chapter{Amplificadores de instrumentación}
+
+%Introducción
+\section{Introducción}
+
+	%Notación
+	A modo de delimitar un marco teórico y notacional a partir del cual se presentarán con mayor claridad y precisión los términos técnicos presentados a continuación, se procede a definir las dos entradas genéricas $V_1$ y $V_2$ de un circuito de tipo MISO (multiple inputs, single output) como: \par
+	
+	%Notación V_{CM} + V_{DMi}
+ 	\begin{equation}
+  	   \left\{
+	  	    \begin{array}{ll}
+		 					\mathrm{V_1} = \mathrm{V_{CM} + V_{DM1}} \\
+			 				\mathrm{V_2} = \mathrm{V_{CM} + V_{DM2}} \\
+	     	 \end{array}
+	     	\right.
+ 	\end{equation}
+ 	
+	donde $V_{CM}$ es la tensión de modo común, es decir, la componente compartida por las dos señales $V_1$ y $V_2$, y $V_{DMi}$ es la tensión diferencial o la componente única/diferente de la tensión i, con i =1;2.\par
+	Nótese que tanto $V_{CM}$ como $V_{DMi}$ pueden ser nulas o no dependiendo de las señales $V_1$ y $V_2$ y de la relación existente entre ellas. \par
+	En particular, cuando la señal $V_1$ y $V_2$ comparten el mismo canal de transmisión se podrá decir que las señales comparten el ruido proveniente del canal y por lo tanto $V_{CM}$ será una variable aleatoria de distribución de probabilidad acorde a determinar. Además, aquellas señales que estén montadas sobre tensiones continuas también tendrán una componente continua común. \par
+	Debe también hacerse notar el hecho de que $V_1 - V_2 = V_{DM1} - V_{DM2}$, por lo que el modo común se verá eliminado al restar las dos señales de input. \par
+	Una vez establecidas 
+	%definición amplificador diferencial
+	Un \underline{amplificador diferencial} es un circuito cuya función será eliminar
+	
+	%definición CMRR
+	El \underline{CMRR} se define como \todo{Explicar CMRR } 
+	
+	%definición amplificador de instrumentación
+	Un amplificador de instrumentación es un amplificador diferencial que cumple con las siguientes condiciones: \par
+	\begin{enumerate}
+		\item Impedancia de entrada muy grande (idealmente infinita) tanto para el modo diferencial como para el común.
+		\item Impedancia de salida muy baja (idealmente nula).
+		\item Ganancia estable y precisa.
+		\item Un CMRR extremadamente grande.
+	\end{enumerate}
+	Dado que ... \todo{Explicar la degradación de la CMRR} 
+	El 
+	
+	En este trabajo se justificará el  
+\section{Diseño del amplificador de instrumentación}
 
 \end{document}
