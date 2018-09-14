@@ -3,6 +3,9 @@
 \documentclass[../../tc_tp3_main.tex]{subfiles}
 
 \begin{document}
+
+\hyphenation{di-fe-ren-cial}
+
 %capítulo, Amplificadores de instrumentación
 \chapter{Amplificadores de instrumentación}
 
@@ -24,27 +27,63 @@
  	
 	donde $V_{CM}$ es la tensión de modo común, es decir, la componente compartida por las dos señales $V_1$ y $V_2$, y $V_{DMi}$ es la tensión diferencial o la componente única/diferente de la tensión i, con i =1;2.\par
 	Nótese que tanto $V_{CM}$ como $V_{DMi}$ pueden ser nulas o no dependiendo de las señales $V_1$ y $V_2$ y de la relación existente entre ellas. \par
-	En particular, cuando la señal $V_1$ y $V_2$ comparten el mismo canal de transmisión se podrá decir que las señales comparten el ruido proveniente del canal y por lo tanto $V_{CM}$ será una variable aleatoria de distribución de probabilidad acorde a determinar. Además, aquellas señales que estén montadas sobre tensiones continuas también tendrán una componente continua común. \par
-	Debe también hacerse notar el hecho de que $V_1 - V_2 = V_{DM1} - V_{DM2}$, por lo que el modo común se verá eliminado al restar las dos señales de input. \par
-	Una vez establecidas 
-	%definición amplificador diferencial
-	Un \underline{amplificador diferencial} es un circuito cuya función será eliminar
+	En particular, cuando la señal $V_1$ y $V_2$ comparten el mismo canal de transmisión se podrá decir que las señales comparten el ruido proveniente del canal y por lo tanto $V_{CM}$ será una variable aleatoria de distribución de probabilidad acorde, a determinar. Además, aquellas señales que estén montadas sobre tensiones continuas también tendrán una componente continua común. \par
+	Debe también hacerse notar el hecho de que $V_1 - V_2 = V_{DM1} - V_{DM2}$, por lo que el modo común se verá eliminado al restar las dos señales de input. De aquí se desprende la notación a utilizar para el modo diferencial: $V_{DM} = V_{DM1} - V_{DM2}$\par
 	
+	\begin{center}
+	\begin{circuitikz}[american voltages]
+	\draw
+	(6,0) to [short, *-] (3,0)
+  to [V, l_=$\frac{V_{DM}}{2}$] (3,3) 
+  (6,6) to [short, *-] (3,6)
+  to [V, l^= $\frac{V_{DM}}{2}$] (3,3) 
+  to [V, l^= $V_{CM}$] (0,3) 
+	(0,3) to (0,1) node[ground]{}; 
+  \end{circuitikz}
+  \end{center}
+  
+  
+	Una vez establecida la notación anterior, procedemos a definir los siguientes términos:\par
+	
+	%definición de términos técnicos- itemize
+	\begin{itemize}
+	
+	%definición amplificador diferencial
+	\item Un \underline{amplificador diferencial} es un circuito cuya función será atenúar significativamente el modo común (idealmente eliminarlo) de las dos entradas y amplificar el modo diferencial de las mismas, realizando la diferencia entre las dos señales.\par
+	En efecto, teniendo en cuenta la linealidad del sistema o circuito, se puede tratar al efecto sobre las entradas por superposición, por lo que definiendo a la ganancia del modo común a la salida del circuito como $A_{CM}$ y a la del modo diferencial como $A_{DM}$, si H es el efecto del sistema sobre las entradas, entonces $H(V_{1};V_{2}) = A_{DM} * V_{DM} + A_{CM} * V_{CM}$\par
+	
+	A continuación se presenta un modelo típico de un amplificador de diferencias. \todo{Agregar el circuito! con circuitkz!!}
+
 	%definición CMRR
-	El \underline{CMRR} se define como \todo{Explicar CMRR } 
+	\item El \underline{CMRR} se define como la relación entre la ganancia del modo diferencial y el modo común, de forma tal que $CMRR =  \frac{A_{CM}}{A_{DM}}$. El mismo puede ser expresado en decibeles como $CMRR_{dB} =  20 \cdot \log_{10} {(\frac{A_{CM}}{A_{DM}})}$. \par
+	La definición presentada anteriormente debe ser entendida entonces como una medida de cuánto prevalecerá el modo diferencial por sobre el modo común, es decir, permitirá cuantificar qué tan ''bueno'' es el amplificador diferencial: Cuanto mayor el CMRR, mejor cumple su función el  amplificador diferencial. Así, un amplificador diferencial ideal tendrá un CMRR infinito. \par
 	
 	%definición amplificador de instrumentación
-	Un amplificador de instrumentación es un amplificador diferencial que cumple con las siguientes condiciones: \par
+	\item Un \underline{amplificador de instrumentación} es un amplificador diferencial que cumple con las siguientes condiciones: \par
 	\begin{enumerate}
 		\item Impedancia de entrada muy grande (idealmente infinita) tanto para el modo diferencial como para el común.
 		\item Impedancia de salida muy baja (idealmente nula).
 		\item Ganancia estable y precisa.
 		\item Un CMRR extremadamente grande.
 	\end{enumerate}
-	Dado que ... \todo{Explicar la degradación de la CMRR} 
-	El 
+	Cabe destacar que si un amplificador de instrumentación utilizara el modelo de amplificador diferencial presentado anteriormente, las impedancia de entrada del circuito sería finita y en consecuencia se cargaría el resto del circuito. Esto resultaría en un deterioro  de las señales de entrada, perdiéndose la tensión ideal que estas proveerían. Es así como se degradaría el CMRR, ya que el modo común conformado por el ruido no sufriría pérdida mientras la señal diferencial sí lo haría.\par
+	Para solucionar este problema, se inserta un buffer en cada entrada, con una impedancia de entrada resultante infinita idealmente que no deterioraría la señal de entrada.\par
 	
-	En este trabajo se justificará el  
+	En este trabajo se justificará el uso del diseño de un amplificador instrumental propuesto por la cátedra, al cual se le asignará valores específicos para los componentes, justificando también la elección de dichos valores y analizando su comportamiento, intentando corroborar la relación de lo teórico y simulado con lo práctico.
+
+%termino definiciones- itemize	
+	\end{itemize}
+	
+	%presento el circuito
 \section{Diseño del amplificador de instrumentación}
 
 \end{document}
+
+
+	
+%	\begin{figure}[H]	%ejemplo soft clipping
+		%\centering
+		%\includegraphics[scale=0.4]{imagenes/soft_clipping_grafico_tipico.png}
+		%\caption{Ejemplo de soft-clipping}
+		%\label{fig:ej5_soft_clipping_grafico_tipico}
+	%\end{figure}
