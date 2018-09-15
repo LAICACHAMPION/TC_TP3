@@ -8,6 +8,8 @@
 \hyphenation{o-pe-ra-cio-na-les}
 \hyphenation{si-guien-tes}
 \hyphenation{e-mu-lan-do}
+\hyphenation{co-rrien-te}
+\hyphenation{ob-te-ner}
 
 
 \chapter{Filtro con GIC}
@@ -65,7 +67,7 @@
 \end{figure}
 
 
-Como consideramos ideales a ambos operacionales, la tensi\'on de entrada se encuentra replicada donde se encuentran los terminales inversores del circuito, y a su vez en la entrada no inversora del segundo operacional. Asimismo, como no hay corriente entre $V^+$ y $V^-$ para ninguno de los operacionales, hay s\'olo tres corrientes, puesto que la corriente de $Z_2$ es la misma que la de $Z_3$, y la de $Z_4$ que la de $Z_5$. Quedan definidas entonces las ecuaciones: \par
+Como consideramos ideales a ambos operacionales, la tensi\'on de entrada se encuentra replicada donde se encuentran los terminales inversores del circuito, y a su vez en la entrada no inversora del segundo operacional. Asimismo, como no hay corriente entre $V^+$ y $V^-$ para ninguno de los operacionales, hay s\'olo tres corrientes, puesto que la corriente de $Z_2$ es la misma que la de $Z_3$, y la de $Z_4$ que la de $Z_5$. Quedan definidas entonces las ecuaciones:
 
 
  \[
@@ -99,7 +101,7 @@ Como consideramos ideales a ambos operacionales, la tensi\'on de entrada se encu
  	Z = \frac{Z_1 \cdot Z_3 \cdot Z_5}{Z_2 \cdot Z_4}
  \end{equation}
 
-De esta forma, combinando las impedancias convenientemente, se pueden obtener impedancias de toda \'indole (es decir, donde el n\'umero $Z$ puede estar te\'oricamente en cualquier punto del plano complejo). \par
+De esta forma, combinando las impedancias convenientemente, se pueden obtener impedancias de toda \'indole (es decir, donde el n\'umero $Z$ puede estar te\'oricamente en cualquier punto del plano complejo). 
 
 
 
@@ -179,20 +181,20 @@ El GIC que utilizaremos en este trabajo se obtiene con las siguientes sustitucio
 	\right.
  \]
 
-Por lo tanto, reemplazando en la ecuaci\'on (\ref{eq:1-z-gic-g}) obtenemos la impedancia de este GIC: \par
+Por lo tanto, reemplazando en la ecuaci\'on (\ref{eq:1-z-gic-g}) obtenemos la impedancia de este GIC:
 
  \begin{equation}
  	\label{eq:1-z-gic}
  	Z(s) = s\cdot \frac{R_1 \cdot R_3 \cdot R_8 \cdot C_2}{R_4}
  \end{equation}
 
-Entonces, con esta secci\'on del filtro estamos emulando una bobina ideal de inductancia: \par
+Entonces, con esta secci\'on del filtro estamos emulando una bobina ideal de inductancia:
 \begin{equation}
 	\label{eq:1-LGIC}
 	L_{GIC} = \frac{R_1 \cdot R_3 \cdot R_8 \cdot C_2}{R_4}
 \end{equation}
 
-La salida, sin embargo, se mide dentro del GIC. Trataremos a este sistema como la combinaci\'on en cascada de dos sistemas: de $V_{in}$ a $V_{GIC}$, y de $V_{GIC}$ a $V_{out}$.\par
+La salida, sin embargo, se mide dentro del GIC. Trataremos a este sistema como la combinaci\'on en cascada de dos sistemas: de $V_{in}$ a $V_{GIC}$, y de $V_{GIC}$ a $V_{out}$.
   
   
   
@@ -223,7 +225,7 @@ Teniendo en cuenta el resultado obtenido en la ecuaci\'on (\ref{eq:1-z-gic}), po
 	\caption{Reemplazo del GIC por su inductancia equivalente}
 \end{figure}
 
-La tensi\'on de salida de esta secci\'on, entonces, puede hallarse aplicando un divisor de tensi\'on entre la impedancia de entrada desde $V_{in}$ y del paralelo de la bobina y el capacitor. Se obtiene entonces que:\par
+La tensi\'on de salida de esta secci\'on, entonces, puede hallarse aplicando un divisor de tensi\'on entre la impedancia de entrada desde $V_{in}$ y del paralelo de la bobina y el capacitor. Se obtiene entonces que:
 
 \begin{equation}
 	\label{eq:1-vgicvin}
