@@ -7,7 +7,7 @@
 \hyphenation{di-fe-ren-cial}
 \hyphenation{cons-tan-te}
 \hyphenation{ins-tru-men-ta-ción}
-
+\hyphenation{pro-pues-ta}
 %capítulo, Amplificadores de instrumentación
 \chapter{Amplificadores de instrumentación}
 
@@ -149,15 +149,24 @@ Entonces: \par
        $V_{out} = \frac{R_2}{R_1}\cdot (1 + \frac{R_3}{R_4})\cdot (V_1 - V_2)$
 }
 
-Esta relación ideal muestra una ganancia potencialmente grande y, tomando a la resta de la señales de entrada como la entrada de la transferencia, constante para todas las frecuencias. De esta manera el modelo ideal cumple efectivamente con el modelo de un amplificador de instrumentación.
+Esta relación ideal muestra una ganancia potencialmente grande y, tomando a la resta de la señales de entrada como la entrada de la transferencia, constante para todas las frecuencias. De esta manera el modelo ideal cumple efectivamente con el modelo de un amplificador de instrumentación.\par
+
+Luego, en el contexto ideal, si se requiere una ganancia $X$, se puede solucionar este problema mediante las siguientes asignaciones: \par
+ 	\begin{equation}
+  	   \left\{
+	  	    \begin{array}{ll}
+		 					\mathrm{\sqrt{X} = \frac{R_2}{R_1} } \\
+			 				\mathrm{\sqrt{X} - 1 = \frac{R_3}{R_4}} \\
+	     	 \end{array}
+	     	\right.
+ 	\end{equation}
+ 	por lo que la razón $\frac{R_7}{R_6}$ quedaría también determinada como $\frac{R_7}{R_6} = \sqrt{X} - 1$ por la relación antes propuesta.
+
+\subsection{Análisis \underline{NO} ideal del circuito}
+\section{Simulaciones}
+
+\section{Mediciones}
+
+\section{Conclusión}
 
 \end{document}
-
-
-	
-%	\begin{figure}[H]	%ejemplo soft clipping
-		%\centering
-		%\includegraphics[scale=0.4]{imagenes/soft_clipping_grafico_tipico.png}
-		%\caption{Ejemplo de soft-clipping}
-		%\label{fig:ej5_soft_clipping_grafico_tipico}
-	%\end{figure}
