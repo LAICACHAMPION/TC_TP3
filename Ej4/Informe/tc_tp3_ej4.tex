@@ -94,18 +94,126 @@ Obtenemos
 
 Si
 \begin{equation}
--20C_{2}^2 K^2 R_{2}^2 R_{1}  S^{2} + 20 C_{2}^{2} K R_{1} R_{2}^2+ 10 C_{2}^2 R_{1}^2 R_{2} S^{2} + 100 C_{2}^{2} R_{1} R_{2}^2 S^{2} \approx 100 C_{2}^2 R_{1} R_{2} ^2 S^2
+\begin{split}
+-20C_{2}^2 K^2 R_{2}^2 R_{1}  S^{2} +    20 C_{2}^{2} K R_{1} R_{2}^2+ 10 C_{2}^2 R_{1}^2 R_{2} S^{2} + 100 C_{2}^{2} R_{1} R_{2}^2 S^{2}  \\   \approx 100 C_{2}^2 R_{1} R_{2} ^2 S^2
+\end{split}
 \end{equation}
+
+
 
 \todo{ecuacion reducida} 
 
 La ecuacion xx posee la forma
 
 \begin{equation}
-H(S)=\frac {\left( \frac{S}{W_0} \right) ^2 + \frac{S}{Q_Z W_0} +1}{\left( \frac{S}{W_0} \right) ^2 +\frac{S}{Q_Z W_0}+1}
+H(S)=\frac {\left( \frac{S}{W_0} \right) ^2 + \frac{S}{Q_Z W_0} +1}{\left( \frac{S}{W_0} \right) ^2 +\frac{S}{Q_Z W_0}+1} \label{eq:MpasaBanda}
+\end{equation}
+Dicha función transferencia corresponde a un circuito pasa banda de segundo orden, donde $W_0$ es la frecuencia central de la banda y $Q_Z$ , $Q_P$, son los respectivos factores de calidad.
+\subsection{Frecuencia central}
+El coeficiente normalizado del término $S^2$, tanto para el numerado como en el denominador (ecuación zz), es:
+\begin{equation}
+\frac{100 C_{2}^2 R_{1} R_{2} ^2}{2R_1+R_2}  \label{eq:coefP}
+\end{equation}
+Entonces por la ecuación \ref{eq:MpasaBanda} y \ref{eq:coefP}, se obtiene la frecuencias central del pasa banda.
+
+\begin{gather}
+W_0^2=\frac{1}{ecuacion \ref{eq:coefP}}=\frac{2R_1+R_2}{100 C_{2}^2 R_{1} R_{2} ^2}   \\
+W_0=\frac{\sqrt{2+\frac{R_2}{R_1}}}{10C_2 R_2}\\
+f_0=\frac{\sqrt{2+\frac{R_2}{R_1}}}{20 \pi C_2 R_2}
+\end{gather}
+\subsection{Factores de calidad}
+A partir de los coeficientes normalizados de los términos de S, obtenemos los factores de calidad
+
+
+
+
+\subsubsection{Factor de calidad $Q_Z$}
+El coeficiente normalizado correspondiente al termino de $S$ del numerador, es
+\begin{equation}
+\frac{-C_2 K ^2 R_2^2 - 9  C_2 K R_2 ^2 + C_2 R_1^2 +31 C_2 R_1 R_2+10 C_2 R_2^2}{2R_1 +R_2} \label{eq:coefNUM}
 \end{equation}
 
-Dicha funsión transferencia corresponde a un circuito pasa banda de segundo orden, donde $W_0$ es la fecuencia central de la banda y 
+
+Entonces por la ecuación \ref{eq:MpasaBanda} y \ref{eq:coefNUM}, se obtiene:
+
+\begin{gather}
+Q_Z=\frac{1}{W_0 \cdot ecuacion\ref{eq:coefNUM}}\\
+Q_Z=\frac{\left( 2R_1 +R_2 \right) 10 R_2 }{\left( - K ^2 R_2^2 - 9   K R_2 ^2 +  R_1^2 +31  R_1 R_2+10  R_2^2 \right)\sqrt{2+\frac{R_2}{R_1}} }
+\end{gather}
+
+
+
+
+
+
+
+\subsubsection{Factor de calidad $Q_P$}
+El coeficiente normalizado correspondiente al termino de $S$ del denominador, es
+\begin{equation}
+\frac{-C_2 K ^2 R_2^2 + 11  C_2 K R_2 ^2 + C_2 R_1^2 +31 C_2 R_1 R_2}{2R_1 +R_2} \label{eq:coefDEN}
+\end{equation}
+
+
+Entonces por la ecuación \ref{eq:MpasaBanda} y \ref{eq:coefDEN}, se obtiene:
+
+\begin{gather}
+Q_P=\frac{1}{W_0 \cdot ecuacion\ref{eq:coefDEN}}\\
+Q_P=\frac{\left( 2R_1 +R_2 \right) 10 R_2 }{\left( - K ^2 R_2^2 + 11   K R_2 ^2 +  R_1^2 +31  R_1 R_2 \right)\sqrt{2+\frac{R_2}{R_1}} }
+\end{gather}
+
+
+\subsubsection{Modulo de $H(f)$ en $W_0$}
+Definimos $A_0$ como:
+\begin{equation}
+A_0	\widehat{=} \mid H(S=jW_0) \mid
+\end{equation}
+
+Reemplazamos $S=jW_0$ en \ref{eq:MpasaBanda}
+
+\begin{gather}
+A_0 =\frac{Q_P}{Q_Z}\\
+A_0=\frac{- K ^2 R_2^2 - 9   K R_2 ^2 +  R_1^2 +31  R_1 R_2+10  R_2^2}{ - K ^2 R_2^2 + 11   K R_2 ^2 +  R_1^2 +31  R_1 R_2 }
+\end{gather}
+Si $K=0$
+
+\begin{equation}
+\begin{split}
+A_0(K=0) =\frac{R_1^2 +31  R_1 R_2+10  R_2^2}{  R_1^2 +31  R_1 R_2}\\
+= \frac{R_1(R_1+31R_2)+10R_2^2}{R_1(R_1+31R_2)}\\
+\approx \frac{R_1 31 + 10 R_2}{31 R_1}
+\end{split}
+\end{equation}
+\begin{equation}
+A_0(K=0) \approx \frac {3R_1 + R_2}{3R_1} \label{eq:A00}
+\end{equation}
+
+Si $K=1$
+
+\begin{equation}
+\begin{split}
+A_0(K=1) =\frac{R_1^2 + 31R_1 R_2}{10 R_2^2 +R_1^2+31R_1 R_2} \\
+\approx \frac{R_1 31}{10 R_2 + 31 R_1} \\
+ \approx \frac{3 R_1}{R_2 + 3 R_1}
+\end{split}
+\end{equation}
+
+\begin{equation}
+A_0(K=1) \approx \frac {3R_1}{3R_1 + R_2}\label{eq:A01}
+\end{equation}
+
+A partir de \ref{eq:A00} y \ref{eq:A01} obtenemos que
+
+\begin{equation}
+\frac {3R_1}{3R_1 + R_2} \leq A_0  \leq \frac{3R_1 + R_2}{3R_1}
+\end{equation}
+
+
+
+
+
+
+
+
 
 
 
