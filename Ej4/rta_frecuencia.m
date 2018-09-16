@@ -1,3 +1,6 @@
+clear all;
+close all;
+
 R1 = sym('R1');
 R2 = sym('R2');
 R3 = sym('R3');
@@ -20,6 +23,7 @@ Rb=(Zc1*Pt2)/(Pt1+Pt2+Zc1);
 Rc=(Pt1*Pt2)/(Pt1+Pt2+Zc1);
 
 
+
 k1=Ra+R1;
 
 k2=Rb+R1;
@@ -33,18 +37,28 @@ t2=(k1*k2+k1*k3+ k3*k2)/k2;
 
 t3=(k1*k2+k1*k3+ k3*k2)/k1;
 
+%pretty(simplify(t1))
+
 
 x2=1/((1/R3)+(1/t2));
 x3=1/((1/R3)+(1/t3));
 
-
-H=-x3/x2
-H=simplify(H);
-pretty(H);
-
+%latex(simplify(x2))
+pretty((x2));
+%pretty(x2);
 
 
-
+%  H=-x3/x2;
+%  H=simplify(H);
+%  pretty(H);
+% 
+%  
+%  R3=10*R2;
+%  C1=10*C2;
+%  
+%  H=subs(H);
+%  H=simplify(H);
+%  pretty(H);
 
 
 
