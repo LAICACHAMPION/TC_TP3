@@ -4,13 +4,6 @@
 
 \begin{document}
 
-\hyphenation{o-pe-ra-cio-nal}
-\hyphenation{o-pe-ra-cio-na-les}
-\hyphenation{si-guien-tes}
-\hyphenation{e-mu-lan-do}
-\hyphenation{co-rrien-te}
-\hyphenation{ob-te-ner}
-
 
 \chapter{Filtro con GIC}
 
@@ -18,7 +11,7 @@
 \label{section:1-intro}
 
 
-\todo[inline]{explicar:cuando se quiere hacer un filtro de segundo order sin usar bobinas, usamos GIC para simular sus efectos} 
+\todo[inline]{explicar:cuando se quiere hacer un filtro de segundo orden sin usar bobinas, usamos GIC para simular sus efectos} 
 
 
 \begin{figure}[H]
@@ -114,56 +107,56 @@ De esta forma, combinando las impedancias convenientemente, se pueden obtener im
 	\label{fig:ej1-circuito}
 	\centering
 	\scalebox{0.8}{
-	\begin{circuitikz}
-	\def\cxin{-5}
-	\def\cxC{-3}
-	\def\cyC{5.5}
-	\def\cxCenter{0}
-	\def\cxGnd{3}
-	\def\cyVin{0}
-	\def\cyopamAp{0.5}
-	\def\cyopamBo{2}
-	\def\cyopamABm{3.5}
-	\def\cyopamAo{5}
-	\def\cyopamBp{6.5}
-	\def\cyGnd{7}
-	\def\cxOpamBin{-.5}
-	\def\cxOpamAin{1}
-	
-	\draw
-	(\cxCenter, -1)  node[ground] {}
-	to [R, l_=$R_8$] 		(\cxCenter, \cyopamAp) node[left]{$V_{GIC}$}
-	to [R, l_=$R_4$]		(\cxCenter, \cyopamBo)  node[right]{$V_{out}$}
-	to [R, l_=$R_3$]  		(\cxCenter, \cyopamABm)
-	to [C, l_=$C_2$] 		(\cxCenter, \cyopamAo)  node[left]{$V_1$}
-	to [R, l_=$R_1$] 		(\cxCenter, \cyopamBp)
-	to [short, -*] 		(\cxCenter, \cyGnd) node[above]{$V_{GIC}$} 
-	
-	(\cxCenter, \cyGnd) 
-	to [short, *-*] (\cxC, \cyGnd) 
-	to [R=$R_6$, *-o] (\cxin, \cyGnd) node[left] {$V_{in}$}
-	
-	(\cxC, \cyGnd)
-	to [C = $C_6$] (\cxC,\cyC) node[ground] {}
-	
-	
-	(-1.5,5) node [op amp, rotate=180, xscale=0.7, yscale = 0.7] (opamB) {}
-	(opamB.-) |- (\cxOpamBin, \cyopamABm) 
-	to[short,-*]  (\cxCenter, \cyopamABm)
-	(opamB.+) |- (\cxOpamBin, \cyopamBp) 
-	to[short,-*]  (\cxCenter, \cyopamBp) 
-	(opamB.out) |- (-2, \cyopamBo) 
-	to [short,-*]  (\cxCenter, \cyopamBo)
-	
-	(2,2) node [op amp, xscale=0.7, yscale = 0.7] (opamA) {}
-	(opamA.-) |- (\cxOpamAin, \cyopamABm) node[above]{$V_{GIC}$} 
-	to[short, *-*]  (\cxCenter, \cyopamABm) 
-	(opamA.+) |- (\cxOpamAin, \cyopamAp) 
-	to [short,-*]  (\cxCenter, \cyopamAp)
-	(opamA.out) |- (2, \cyopamAo) 
-	to[short,-*]  (\cxCenter, \cyopamAo)
-	
-	;\end{circuitikz}}
+		\begin{circuitikz}
+			\def\cxin{-5}
+			\def\cxC{-3}
+			\def\cyC{5.5}
+			\def\cxCenter{0}
+			\def\cxGnd{3}
+			\def\cyVin{0}
+			\def\cyopamAp{0.5}
+			\def\cyopamBo{2}
+			\def\cyopamABm{3.5}
+			\def\cyopamAo{5}
+			\def\cyopamBp{6.5}
+			\def\cyGnd{7}
+			\def\cxOpamBin{-.5}
+			\def\cxOpamAin{1}
+			
+			\draw
+			(\cxCenter, -1)  node[ground] {}
+			to [R, l_=$R_8$] 		(\cxCenter, \cyopamAp) node[left]{$V_{GIC}$}
+			to [R, l_=$R_4$]		(\cxCenter, \cyopamBo)  node[right]{$V_{out}$}
+			to [R, l_=$R_3$]  		(\cxCenter, \cyopamABm)
+			to [C, l_=$C_2$] 		(\cxCenter, \cyopamAo)  node[left]{$V_1$}
+			to [R, l_=$R_1$] 		(\cxCenter, \cyopamBp)
+			to [short, -*] 		(\cxCenter, \cyGnd) node[above]{$V_{GIC}$} 
+			
+			(\cxCenter, \cyGnd) 
+			to [short, *-*] (\cxC, \cyGnd) 
+			to [R=$R_6$, *-o] (\cxin, \cyGnd) node[left] {$V_{in}$}
+			
+			(\cxC, \cyGnd)
+			to [C = $C_6$] (\cxC,\cyC) node[ground] {}
+			
+			
+			(-1.5,5) node [op amp, rotate=180, xscale=0.7, yscale = 0.7] (opamB) {}
+			(opamB.-) |- (\cxOpamBin, \cyopamABm) 
+			to[short,-*]  (\cxCenter, \cyopamABm)
+			(opamB.+) |- (\cxOpamBin, \cyopamBp) 
+			to[short,-*]  (\cxCenter, \cyopamBp) 
+			(opamB.out) |- (-2, \cyopamBo) 
+			to [short,-*]  (\cxCenter, \cyopamBo)
+			
+			(2,2) node [op amp, xscale=0.7, yscale = 0.7] (opamA) {}
+			(opamA.-) |- (\cxOpamAin, \cyopamABm) node[above]{$V_{GIC}$} 
+			to[short, *-*]  (\cxCenter, \cyopamABm) 
+			(opamA.+) |- (\cxOpamAin, \cyopamAp) 
+			to [short,-*]  (\cxCenter, \cyopamAp)
+			(opamA.out) |- (2, \cyopamAo) 
+			to[short,-*]  (\cxCenter, \cyopamAo)	
+		;\end{circuitikz}
+	}
 	\caption{Esquema del circuito}
 \end{figure}
 
@@ -205,23 +198,24 @@ Teniendo en cuenta el resultado obtenido en la ecuaci\'on (\ref{eq:1-z-gic}), po
 \begin{figure}[H]
 	\label{fig:ej1-rlc}
 	\centering
+	
 	\begin{circuitikz}
-	\def\rlcxin{-5}
-	\def\rlcxC{-3}
-	\def\rlcyC{5.5}
-	\def\rlcxCenter{-1}
-	\def\rlcyGnd{7}
-	
-	\draw
-	(\rlcxCenter, \rlcyC)  node[ground] {}
-	to [cute inductor, l_=$L_{GIC}$] 		(\rlcxCenter, \rlcyGnd)  node[above]{$V_{GIC}$} 
-	to [short, *-*] (\rlcxC, \rlcyGnd) 
-	to [R=$R_6$, *-o] (\rlcxin, \rlcyGnd) node[left] {$V_{in}$}
-	
-	(\rlcxC, \rlcyGnd)
-	to [C = $C_6$] (\rlcxC,\rlcyC) node[ground] {}
-	
+		\def\rlcxin{-5}
+		\def\rlcxC{-3}
+		\def\rlcyC{5.5}
+		\def\rlcxCenter{-1}
+		\def\rlcyGnd{7}
+		
+		\draw
+		(\rlcxCenter, \rlcyC)  node[ground] {}
+		to [cute inductor, l_=$L_{GIC}$] 		(\rlcxCenter, \rlcyGnd)  node[above]{$V_{GIC}$} 
+		to [short, *-*] (\rlcxC, \rlcyGnd) 
+		to [R=$R_6$, *-o] (\rlcxin, \rlcyGnd) node[left] {$V_{in}$}
+		
+		(\rlcxC, \rlcyGnd)
+		to [C = $C_6$] (\rlcxC,\rlcyC) node[ground] {}
 	;\end{circuitikz}
+	
 	\caption{Reemplazo del GIC por su inductancia equivalente}
 \end{figure}
 
@@ -255,11 +249,11 @@ Esto corresponde a un \textbf{filtro pasabanda}, definido por los siguientes par
 
 \begin{equation}
 	\left\{
- 	\begin{aligned}
-		\omega_0 &= \sqrt{\frac{1}{L_{GIC}C_6}}\\
-		Q &= R_6 \cdot \sqrt{\frac{C_6}{L_{GIC}}} \\ 
-		\abs{H(i\omega_0)} &= 1+\frac{R_4}{R_5}
-	\end{aligned}
+	 	\begin{aligned}
+			\omega_0 &= \sqrt{\frac{1}{L_{GIC}C_6}}\\
+			Q &= R_6 \cdot \sqrt{\frac{C_6}{L_{GIC}}} \\ 
+			\abs{H(i\omega_0)} &= 1+\frac{R_4}{R_5}
+		\end{aligned}
 	\right.
  \end{equation}
 
@@ -267,10 +261,10 @@ Esto corresponde a un \textbf{filtro pasabanda}, definido por los siguientes par
 
 \begin{equation}
 	\left\{
- 	\begin{aligned}
-		\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot CR_3}\\
-		\frac{V_2}{V_{GIC}} &= 1+ \frac{R_4}{R_5} \\ 
-	\end{aligned}
+	 	\begin{aligned}
+			\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot CR_3}\\
+			\frac{V_2}{V_{GIC}} &= 1+ \frac{R_4}{R_5} \\ 
+		\end{aligned}
 	\right.
  \end{equation}
 
@@ -296,10 +290,10 @@ Las especificaciones de dise\~no de este filtro son:
 
 \begin{equation}
 	\left\{
- 	\begin{aligned}
-		\omega_0 &= 13,000\frac{rad}{s} & \Rightarrow f_0 &= 2,079Hz \\
-		Q &= 4 \\ 
-	\end{aligned}
+		\begin{aligned}
+			\omega_0 &= 13,000\frac{rad}{s} & \Rightarrow f_0 &= 2,079Hz \\
+			Q &= 4 \\ 
+		\end{aligned}
 	\right.
  \end{equation}
 
