@@ -284,19 +284,130 @@ Etapa & $R_1$ & $R_2$ & $R_3$ & $C_1$ & $C_2$ & $f_0$  \\
 \end{table}
 
 \subsection{Conexión de las etapas}
+Las etapas se podrían conectar de dos maneras, en cascada o en paralelo.
+\subsubsection{Cascada}
+La salida de una etapa se conecta a la entrada de la otra etapa. Si $H_1$, $H_2$ y $H_3$, son las funciones transferencia de cada etapa,entonces  la función transferencia del sistema es $H=H_1 H_2 H_3$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{imagenes/cascada.png}
+\caption{Esquema de conexion cascada} 
+\end{figure}
+
+\subsubsection{Paralelo}
+Las entradas de cada etapa se conectan juntas y las salidas también. Sin embargo las salidas se deben conectar juntas a través de por ejemplo un sumador.
+\\En esta configuración la función transferencia del sistema es $H=H_1+ H_2+ H_3$.
 
 
 
 
+\subsubsection{Simulación}
+Se simularon ambas configuraciones cascada y paralelo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/parCasSimMax_m.png}
+\caption{Maxima ganancia - magnitud} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/parCasSimMax_f.png}
+\caption{Maxima ganancia - fase} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/parCasSimMin_m.png}
+\caption{Maxima atenuación - magnitud} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/parCasSimMin_f.png}
+\caption{Maxima atenuación - fase} 
+\end{figure}
+
+Como se observa en los gráficos, en la condición de máxima ganancia la amplitud de los sobre picos es mayor en paralelo y en máxima atenuación la máxima atenuación de los sobre picos corresponde a la configuración cascada.
 
 
+\subsubsection{Just-noticeable difference (JND)}
+Es al minima cantidad de algo que el humano puede persicir, por lo menos en la mtidad de los casos. En el caso del audio, la minama variacion perceptible es de 1dB.
+\subsubsection{Figura de ruido}
+\todo{mejorar lo del ruido}
+El objetivo es determinar que configuración que es más susceptible al ruido. Los componentes, tantos pasivos como activos generan ruido. En  la conexión cascada el ruido de cada etapa es amplificado por la etapa posterior, por ende posee más ruido que la configuración en paralelo.
+
+\subsubsection{Elección de topología}
+
+En cuanto al JND tanto el paralelo como  serie, dependiendo si se encuentra en máxima ganancia o atenuación, tienen máxima amplitud, por ende no es criterio para elegir. El oído humano no puede percibir la diferencia de fase, por lo tanto no aporta a la elección de topología.
+\\Sobre el ruido, la configuración paralelo, tiene una leve ventaja sobre la cascada, sin embargo para realizarla se debe agregar un sumador, lo que complejiza el circuito. Por ende se eligió la topología cascada.
+
+\subsection{Realizacion de la placa}
+
+Se conectaron las tres etapas en cascada, se agregó una entrada de audio mono (Jack 3,5 mini plug) además de pines, también esto se hizo a la salida. En cuanto al amplificador operacional, se decidió utilizar tres Tl081, debido a sus altas prestación en cuanto al slew rate, y ruido.
+
+\subsection{Mediciones}
+Se realizaron las siguientes mediciones al circuito:
+\begin{itemize}
+ \item Respuesta en frecuencia a máxima ganancia.
+ \item Respuesta en frecuencia a máxima atenuación.
+ \item Respuesta en frecuencia si atenuar o ganar.
+ \item Impedancia de entrada máxima y mínima.
+ \item Impedancia de salida máxima y mínima.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/max_m.png}
+\caption{Maxima ganancia - magnitud} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/max_f.png}
+\caption{Maxima ganancia - fase} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/min_m.png}
+\caption{Maxima atenuación - magnitud} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/min_f.png}
+\caption{Maxima atenuación - fase} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/med_m.png}
+\caption{Sin ganancia ni atenuación - magnitud} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/med_f.png}
+\caption{Sin ganancia ni atenuación - fase} 
+\end{figure}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Impedancia & Maxima & Minima \\
+\hline \hline
+Entrada& 3.69 $K \Omega$  &1.584 $K \Omega$ \\ \hline
+Salida&8.122$\Omega$  &0.022$\Omega$  \\ \hline
 
 
-
-
-
-
-
-
+\end{tabular}
+\caption{Frecuencias centrales} 
+\label{tab:MFc}
+\end{center}
+\end{table}
+\subsection{Conclusión}
+Se logró realizar el ecualizador de tres bandas, dicho circuito se comportó como era de esperarse en el rango de frecuencias audibles. Tal como se observan en las mediciones, las simulación y las mediciones ajustan perfectamente.
 
 \end{document}
