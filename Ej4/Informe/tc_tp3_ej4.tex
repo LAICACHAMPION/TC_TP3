@@ -209,6 +209,99 @@ A partir de \ref{eq:A00} y \ref{eq:A01} obtenemos que
 
 \todo{Agregar el punto b}
 
+\section{Análisis paramétrico}
+
+
+La función transferencia depende de un parámetro K que pertenece al intervalo 0,1. Dicho parámetro provino del modelado del potenciómetro. Para analizar el funcionamiento del circuito, se realizaron gráficos de las distintas características del circuito en función de la constante.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/param.png}
+\caption{Diagrama parametrico} 
+\end{figure}
+
+Como se observa en la figura, la posición del potenciómetro altera la ganancia del circuito (linea azul), con k=0 el circuito multiplica la entrada por 2(gana 6dB) y con K=1 multiplica a la entrada por 0.5 (atenúa 6dB).
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/param005.png}
+\caption{Diagrama parametrico- polos y ceros -  k desde 0 a 0.5} 
+\end{figure}
+
+k variando desde cero a 0.5, se observa que los ceros son reales y ce aproximan hacia el valor de $-w_0$ en el eje real. En cuanto a los polos se alejan del eje imaginario. 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/param051.png}
+\caption{Diagrama parametrico- polos y ceros -  k desde 0.5 a 1} 
+\end{figure}
+
+
+k variando desde 0.5 a 1, se observa que los polos son reales y que a medida que aumenta k se alejan del valor de $-w_0$. Los ceros son imaginarios y a medida que aumenta k se acercan al eje imaginario.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{imagenes/param bode.png}
+\caption{Diagrama parametrico- respuesta en frecuencia} 
+\end{figure}
+
+Como se observa en el gráfico de la respuesta en frecuencia, cuando k vale 0 se produce la máxima ganancia y a medida que aumenta disminuye la ganancia hasta el punto de no atenuar ni ganar (k=0.5) y a partir de ese punto comienza a atenuar.
+
+\section{Análisis de singularidades}
+
+Partiendo de que el comportamiento del circuito es descripto por la ecuación \ref{eq:MpasaBanda} , y que $Q_p$ se rfiere al factor de calidad de los polos, $Q_z$ se refiere al factor de calidad de los ceros y $W_0$ es la frecuencia de pasa banda.
+\subsection{Polos}
+Aplicando la formula resolvente obtenemos:
+$$Polos_{1,2}=-\frac{W_0}{2 Q_p} \pm \frac{W_0}{2}\sqrt{\frac{1}{Q_p^2}-4}$$
+Como Qp siempre es positivo para todo valor de r1,r2 , c2 y k entre 0 y 1. Entonces la parte real de los polos siempre es negativa, Por ende el sistema es estable. Además los polos di tienen parte imaginaria no nula son polos conjugados
+\subsection{Ceros}
+El resultado de aplicar la formula resolvente:
+$$Ceros_{1,2}=-\frac{W_0}{2 Q_z} \pm \frac{W_0}{2}\sqrt{\frac{1}{Q_z^2}-4}$$
+Análogamente a los polos, también se cumple que Qz sea positivo. Por ende, la parte real de los ceros es negativa y son complejos conjugados.
+
+\subsection{Sistema de fase mínima}
+
+Se definen los sistemas de fase mínima, como aquellos que sus singularidades se encuentren en el semiplano izquierdo. 
+\\
+Como se mostró anteriormente, tanto los polos y ceros se encuentran en el semiplano izquierdo, por ende el sistema es de fase mínima.
+
+\section{Ecualizador de fase}
+\todo{chqear definicion}
+Un ecualizador de fase es un circuito que no altera la amplitud de la señal pero si la fase.
+Se desea implementar un circuito de segundo orden, que pueda convertir un sistema de fase mínima a uno de fase no mínima.
+\\
+Se implementó el siguiente circuito:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.35\textwidth]{imagenes/eqFase.png}
+\caption{Ecualizador de fase - circuito} 
+\end{figure}
+
+Aplicando la formula de divisor de tension se obtiene la funsion transferencia:
+
+\begin{equation}
+H(S)=\frac{L}{R}\frac{S}{\frac{S^2}{\frac{1}{LC}}+\frac{SL}{R} +1}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Equalizador de 3 bandas}
 
 \subsection{Espectro audible}
@@ -298,7 +391,11 @@ La salida de una etapa se conecta a la entrada de la otra etapa. Si $H_1$, $H_2$
 Las entradas de cada etapa se conectan juntas y las salidas también. Sin embargo las salidas se deben conectar juntas a través de por ejemplo un sumador.
 \\En esta configuración la función transferencia del sistema es $H=H_1+ H_2+ H_3$.
 
-
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{imagenes/paralelo.png}
+\caption{Esquema de conexion paralelo} 
+\end{figure}
 
 
 \subsubsection{Simulación}
@@ -403,11 +500,13 @@ Salida&8.122$\Omega$  &0.022$\Omega$  \\ \hline
 
 
 \end{tabular}
-\caption{Frecuencias centrales} 
-\label{tab:MFc}
+\caption{Impedancia} 
+\label{tab:MImp}
 \end{center}
 \end{table}
-\subsection{Conclusión}
+\section{Conclusión}
 Se logró realizar el ecualizador de tres bandas, dicho circuito se comportó como era de esperarse en el rango de frecuencias audibles. Tal como se observan en las mediciones, las simulación y las mediciones ajustan perfectamente.
+
+
 
 \end{document}
