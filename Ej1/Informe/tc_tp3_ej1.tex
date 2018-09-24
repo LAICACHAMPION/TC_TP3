@@ -7,7 +7,7 @@
 
 \chapter{Filtro con GIC}
 
-\section{Introducci\'on: el \textit{general impedance converter}}
+\section{Introducci\'on: el GIC}
 \label{section:1-intro}
 
 
@@ -15,48 +15,48 @@
 
 
 \begin{figure}[H]
-	\label{fig:ej1-gicg}
 	\centering
 	\begin{circuitikz}
-	\def\gicgxCenter{0}
-	\def\gicgxGnd{3}
-	\def\gicgyVin{0}
-	\def\gicgyopamAp{0.5}
-	\def\gicgyopamBo{2}
-	\def\gicgyopamABm{3.5}
-	\def\gicgyopamAo{5}
-	\def\gicgyopamBp{6.5}
-	\def\gicgyGnd{7}
-	\def\gicgxOpamBin{-.5}
-	\def\gicgxOpamAin{1}
-	
-	\draw
-	(\gicgxCenter, -1)  node[ground] {}
-	to [generic, l=$Z_5$] 		(\gicgxCenter, \gicgyopamAp) node[left]{$V_{GIC}$}
-	to [generic, l_=$Z_4$]	(\gicgxCenter, \gicgyopamBo)  node[right]{$V_2$}
-	to [generic, l_=$Z_3$]  	(\gicgxCenter, \gicgyopamABm)
-	to [generic, l_=$Z_2$] 	(\gicgxCenter, \gicgyopamAo)  node[left]{$V_1$}
-	to [generic, l_=$Z_1$] 	(\gicgxCenter, \gicgyopamBp)
-	to [short, -o, i<=$I$] 			(\gicgxCenter, \gicgyGnd) node[above]{$V_{GIC}$} 
-	
-	(-1.5,5) node [op amp, rotate=180, xscale=0.7, yscale = 0.7] (opamB) {}
-	(opamB.-) |- (\gicgxOpamBin, \gicgyopamABm) 
-	to[short,-*]  (\gicgxCenter, \gicgyopamABm)
-	(opamB.+) |- (\gicgxOpamBin, \gicgyopamBp) 
-	to[short,-*]  (\gicgxCenter, \gicgyopamBp) 
-	(opamB.out) |- (-2, \gicgyopamBo) 
-	to [short,-*]  (\gicgxCenter, \gicgyopamBo)
-	
-	(2,2) node [op amp, xscale=0.7, yscale = 0.7] (opamA) {}
-	(opamA.-) |- (\gicgxOpamAin, \gicgyopamABm) node[above]{$V_{GIC}$} 
-	to[short, *-*]  (\gicgxCenter, \gicgyopamABm) 
-	(opamA.+) |- (\gicgxOpamAin, \gicgyopamAp) 
-	to [short,-*]  (\gicgxCenter, \gicgyopamAp)
-	(opamA.out) |- (2, \gicgyopamAo) 
-	to[short,-*]  (\gicgxCenter, \gicgyopamAo)
-	
+		\def\gicgxCenter{0}
+		\def\gicgxGnd{3}
+		\def\gicgyVin{0}
+		\def\gicgyopamAp{0.5}
+		\def\gicgyopamBo{2}
+		\def\gicgyopamABm{3.5}
+		\def\gicgyopamAo{5}
+		\def\gicgyopamBp{6.5}
+		\def\gicgyGnd{7}
+		\def\gicgxOpamBin{-.5}
+		\def\gicgxOpamAin{1}
+		
+		\draw
+		(\gicgxCenter, -1)  node[ground] {}
+		to [generic, l=$Z_5$] 		(\gicgxCenter, \gicgyopamAp) node[left]{$V_{GIC}$}
+		to [generic, l_=$Z_4$]	(\gicgxCenter, \gicgyopamBo)  node[right]{$V_2$}
+		to [generic, l_=$Z_3$]  	(\gicgxCenter, \gicgyopamABm)
+		to [generic, l_=$Z_2$] 	(\gicgxCenter, \gicgyopamAo)  node[left]{$V_1$}
+		to [generic, l_=$Z_1$] 	(\gicgxCenter, \gicgyopamBp)
+		to [short, -o, i<=$I$] 			(\gicgxCenter, \gicgyGnd) node[above]{$V_{GIC}$} 
+		
+		(-1.5,5) node [op amp, rotate=180, xscale=0.7, yscale = 0.7] (opamB) {}
+		(opamB.-) |- (\gicgxOpamBin, \gicgyopamABm) 
+		to[short,-*]  (\gicgxCenter, \gicgyopamABm)
+		(opamB.+) |- (\gicgxOpamBin, \gicgyopamBp) 
+		to[short,-*]  (\gicgxCenter, \gicgyopamBp) 
+		(opamB.out) |- (-2, \gicgyopamBo) 
+		to [short,-*]  (\gicgxCenter, \gicgyopamBo)
+		
+		(2,2) node [op amp, xscale=0.7, yscale = 0.7] (opamA) {}
+		(opamA.-) |- (\gicgxOpamAin, \gicgyopamABm) node[above]{$V_{GIC}$} 
+		to[short, *-*]  (\gicgxCenter, \gicgyopamABm) 
+		(opamA.+) |- (\gicgxOpamAin, \gicgyopamAp) 
+		to [short,-*]  (\gicgxCenter, \gicgyopamAp)
+		(opamA.out) |- (2, \gicgyopamAo) 
+		to[short,-*]  (\gicgxCenter, \gicgyopamAo)
+		
 	;\end{circuitikz}
 	\caption{GIC gen\'erico con \textit{op amps} ideales}
+	\label{fig:ej1-gicg}
 \end{figure}
 
 
@@ -104,7 +104,6 @@ De esta forma, combinando las impedancias convenientemente, se pueden obtener im
 
 
 \begin{figure}[H]
-	\label{fig:ej1-circuito}
 	\centering
 	\scalebox{0.8}{
 		\begin{circuitikz}
@@ -158,6 +157,7 @@ De esta forma, combinando las impedancias convenientemente, se pueden obtener im
 		;\end{circuitikz}
 	}
 	\caption{Esquema del circuito}
+	\label{fig:ej1-circuito}
 \end{figure}
 
 El GIC que utilizaremos en este trabajo se obtiene con las siguientes sustituciones:
@@ -196,7 +196,6 @@ La salida, sin embargo, se mide dentro del GIC. Trataremos a este sistema como l
 Teniendo en cuenta el resultado obtenido en la ecuaci\'on (\ref{eq:1-z-gic}), podemos simplificar el circuito de la siguiente manera: 
 
 \begin{figure}[H]
-	\label{fig:ej1-rlc}
 	\centering
 	
 	\begin{circuitikz}
@@ -217,6 +216,7 @@ Teniendo en cuenta el resultado obtenido en la ecuaci\'on (\ref{eq:1-z-gic}), po
 	;\end{circuitikz}
 	
 	\caption{Reemplazo del GIC por su inductancia equivalente}
+	\label{fig:ej1-rlc}
 \end{figure}
 
 La tensi\'on de salida de esta secci\'on, entonces, puede hallarse aplicando un divisor de tensi\'on entre la impedancia de entrada desde $V_{in}$ y del paralelo de la bobina y el capacitor. Se obtiene entonces que:
@@ -235,55 +235,41 @@ Para obtener esta transferencia, basta observar que lo que ahora llamamos $V_{ou
 
 \begin{equation}
 	\label{eq:1-voutvgic}
-	\frac{V_{out}}{V_{GIC}} (s) = 1+\frac{R_4}{R_5}
+	\frac{V_{out}}{V_{GIC}} (s) = 1+\frac{R_4}{R_8}
 \end{equation}
 
 Por lo tanto, la funci\'on transferencia del circuito se obtiene haciendo el producto de las ecuaciones (\ref{eq:1-vgicvin}) y (\ref{eq:1-voutvgic}):
 
 \begin{equation}
 	\label{eq:voutvin}
-	H(s) = \left( 1+\frac{R_4}{R_5} \right) \cdot \left(  \frac{s\cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1} \right)
+	H(s) = \left( 1+\frac{R_4}{R_8} \right) \cdot \left(  \frac{s\cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1} \right)
 \end{equation}
 
 Esto corresponde a un \textbf{filtro pasabanda}, definido por los siguientes parametros:
 
 \begin{equation}
+	\label{eq:1-w0QyHw0}
 	\left\{
 	 	\begin{aligned}
 			\omega_0 &= \sqrt{\frac{1}{L_{GIC}C_6}}\\
 			Q &= R_6 \cdot \sqrt{\frac{C_6}{L_{GIC}}} \\ 
-			\abs{H(i\omega_0)} &= 1+\frac{R_4}{R_5}
+			\abs{H(i\omega_0)} &= 1+\frac{R_4}{R_8}
 		\end{aligned}
 	\right.
  \end{equation}
-
-
-
-\begin{equation}
-	\left\{
-	 	\begin{aligned}
-			\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot CR_3}\\
-			\frac{V_2}{V_{GIC}} &= 1+ \frac{R_4}{R_5} \\ 
-		\end{aligned}
-	\right.
- \end{equation}
-
-
-
-\section{An\'alsis de los componentes del circuito}
-
-\subsection{Funci\'on de $R_8$}
-
-Como ya se mencion\'o, la resistencia $R_8$ es el compoonente que reemplaza a la $Z_5$ del an\'alisis gen\'erico. Por lo tanto, se encuentra entre los operacionales que hacen funcionar al GIC y tierra. De la misma forma que en la secci\'on \ref{1-intro} al considerar ideales a los \textit{op amps}, la tensi\'on $V_{GIC}$ se ve\'ia replicada de la entrada a los terminales inversores de los operacionales, y de ah\'i al no inversor del segundo operacional, si $R_8$ fuese reemplazada por un cable, a la entrada del operacional ver\'iamos simplemente la tensi\'on de tierra, es decir que funcionar\'ia como un cable. Esto tambi\'en puede verse en la ecuaci\'on \ref{1-LGIC}: se comportar\'ia como una bobina de $0H$, es decir un cable ideal.\par
-
-Al conectarlo el GIC a $R_6$ y $C_6$ en estas condiciones
-
-Por otro lado, hacer este  par\'ametro infinito es equivalente a cortar el cable entre la salida del segundo operacional y tierra: se pierde entonces la referencia a masa. Por lo tanto, la impedancia del GIC se hace infinita (como se ve en la ecuaci\'on \ref{1-z-gic-g}, con lo cual se hace desp
-
 
 
 
 \section{Dise\~no del filtro pasabanda}
+
+
+\begin{figure*}[h!]
+  \includegraphics[scale = 0.5]{imagenes/polos.jpg}
+  \caption{Ubicaci\'on de los polos para distintos valores de $R_6$}
+  \label{fig:1-polos}
+\end{figure*}
+
+
 
 Las especificaciones de dise\~no de este filtro son:
 
@@ -291,18 +277,172 @@ Las especificaciones de dise\~no de este filtro son:
 \begin{equation}
 	\left\{
 		\begin{aligned}
-			\omega_0 &= 13,000\frac{rad}{s} & \Rightarrow f_0 &= 2,079Hz \\
-			Q &= 4 \\ 
+			\omega_0 &= 13,000\nicefrac{rad}{s} & \Rightarrow f_0 = 2,079Hz \\
+			Q &= 4  & \Rightarrow f_1 = 1,827Hz &\wedge f_1 = 2,344Hz  \\ 
+		\end{aligned}
+	\right.
+ \end{equation}
+ 
+El par\'ametro $\abs{H(i\omega_0)}$ no est\'a definido a priori. Sin embargo, se debe tener presente que el mismo corresponde a la salida de un \textit{op amp} en la frecuencia en la cual m\'as cr\'itico es que el circuito funcione correctamente. Por lo tanto, ser\'ia poco pr\'actico tener una gran ganancia en este punto, puesto que esto limitar\'ia mucho el rango de tensiones de entrada admisibles, ya que si bien en esta frecuencia el \textit{slew rate} no deber\'ia ser un problema, no ocurre lo mismo con la saturaci\'on. \par 
+ 
+Para simplificar la elecci\'on de componentes, se establecen las siguientes relaciones entre los mismos: 
+ 
+\begin{equation}
+	\label{eq:1-relacionescomponentes}
+	\left\{
+		\begin{array}{ccccccccc}	
+			R_1 &=& R_3 &=& R_4 &=& R_8 &=& R\\
+			R_6 &=& Q\cdot R &=& 4 \cdot R \\
+			C_2 &=& C_6 &=& C
+		\end{array}
+	\right.
+ \end{equation} 
+ 
+ Reemplazando en (\ref{eq:1-w0QyHw0}), se obtiene que:
+ 
+ \begin{equation}
+	\left\{
+	 	\begin{aligned}
+			\omega_0 &= \frac{1}{RC}\\
+			Q &= 4\\ 
+			\abs{H(i\omega_0)} &= 2
+		\end{aligned}
+	\right.
+ \end{equation}
+ 
+ Resulta entonces que, si se respeta el criterio establecido en (\ref{eq:1-relacionescomponentes}), s\'olo queda elegir $R$ de tal manera que los valores de $R_6 = 4\cdot R$ y $C = \frac{1}{13,000 \nicefrac{rad}{s} \cdot R}$ puedan obtenerse con el menor error posible con valores comerciales y est\'en en un rango razonable de valores. \par
+ 
+ Para definir dicho rango de valores, se tomar\'a el siguiente criterio:
+ 
+ \begin{itemize}
+	\item  $R_6$ se encuentra en serie con la entrada del circuito, y por lo tanto se establecer\'a entre ella y la resistencia interna del generador un divisor de tensi\'on, cuyos efectos ser\'an despreciables s\'olo si $R_6 \gg R_G = 50\Omega$. Por lo tanto, $R_6$ debe ser al menos del orden de los $k \Omega$
+	\item Puesto que el ruido t\'ermico es proporcional a la resistencia, no se utilizar\'an resistencias del orden de los $M\Omega$.
+  	\item Las capacidades deben ser mucho mayores a las que introducen las puntas del osciloscopio al medir, que son de alrededor de $100pF$ si se utilizan en $\times 1$. Por ende, requeriremos que $C$ sea mayor a $10nF$, de forma que sea al menos 100 veces mayor que la del osciloscopio. 
+ \end{itemize}
+
+
+\subsection{Funci\'on de $R_6$}
+
+
+\todo[inline]{ESTO ESTA AL REVES, CORREGIR}
+
+Si consideramos la simplificaci\'on del circuito utilizada en la figura (\ref{fig:ej1-rlc}), $R_6$ es una resistencia serie en un circuito resonante. Como tal, su valor no influye en la frecuencia de resonancia, sino que determina el factor de calidad del circuito: a medida que $R_6$ se hace m\'as peque\~na, el comportamiento del circuito se acerca m\'as a un pasabanda ideal, es decir uno con ancho de banda tendiendo a 0. An\'alogamente, a medida que $R_6$ se hace infinito, el ancho de banda crece, convirtiendo al circuito en un pasa todo: la impedancia del $LC$ se hace despreciable ante la de la resistencia y toda la tensi\'on cae en ella en un rango cada vez mayor de frecuencias. \par
+
+Como se observa en la figura (\ref{fig:1-polos}), el valor de $R_6$ determina si el sistema se encuentra subamortiguado ($Q>\nicefrac{1}{2}$), cr\'iticamente amortiguado ($Q = \nicefrac{1}{2}$) o sobreamortiguado ($Q < \nicefrac{1}{2}$), lo cual a su vez determina el ancho de banda. Por lo tanto, la resistencia $R_6$ es el componente que define la selectividad del filtro.
+
+
+
+\subsection{Funci\'on de $R_8$}
+
+La resistencia $R_8$ establece la conexi\'on entre los operacionales que integran el GIC y tierra. De no incluirse en el circuito, el GIC entero se comportar\'ia como un circuito abierto, y lo mismo si se reemplazara por un cable: la impedancia total del GIC se har\'ia 0. \par
+
+Sin embargo, en este an\'alisis no se est\'a teniendo en cuenta las limitaciones de los operacionales. Si reemplazamos los valores gen\'ericos de las ecuaciones (\ref{eq:1-v1v2g}) con los particulares de este GIC, podemos observar qu\'e ocurre con la transferencia a cada operacional:
+
+\begin{equation}
+	\left\{
+	 	\begin{aligned}
+			\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot CR_3}\\
+			\frac{V_2}{V_{GIC}} &= 1+ \frac{R_4}{R_8} \\ 
 		\end{aligned}
 	\right.
  \end{equation}
 
-Asimismo, se establecen las siguientes relaciones entre los componentes:
+Resulta entonces que la ganancia m\'axima de ambos operacionales est\'a limitada por la relaci\'on entre $R_4$ y $R_8$. Por ende, a medida que $\nicefrac{R_4}{R_8}$ crece, el rango de tensiones en el cual los \textit{op amps} no saturan ni se ven limitados por el \textit{slew rate} se hace menor. \par
 
 
 
-R = 2.2k 	-> C = 34.965nF = 39n serie 330n (0.25\%)
-		-> R6 = 4R = 8.8k = 12k //33k (clavado)
+\subsection{An\'alisis de sensibilidades}
+
+Dado que no es posible cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole}, y adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (para las resistencias) o el $10\%$ (para los capacitores), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c||c|c|c|c|c|c|c|}
+		\hline
+		\backslashbox{$y$}{$x$} & $R_1$          & $C_2$          & $R_3$          & $R_4$         & $R_8$          & $C_6$          & $R_6$ \\ \hline\hline
+		\\[-1em]
+		$\omega_0$                                 & $-\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & $\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & 0     \\ \hline
+		\\[-1em]
+		$Q$                                        & $-\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & $\nicefrac{1}{2}$ & $-\nicefrac{1}{2}$ & $\nicefrac{1}{2}$  & 1     \\ \hline
+	\end{tabular}
+	\caption{Sensibilidad de $\omega_0$ y $Q$ a los componentes}
+\end{table} 
+
+Se puede observar que todos los componentes del GIC influyen de igual manera en los par\'ametros caracter\'isticos del circuito, si bien los aumentos en $R_4$ se ven reflejados de manera inversamente proporcional cuando las dem\'as lo hacen de manera proporcional y viceversa. Lo mismo que ocurre con estos valores ocurre con $C_6$: cambios peque\~nos en este par\'ametro son un $50\%$ menos visibles en $\omega_0$ y $Q$, con lo cual por ejemplo su $10\%$ de tolerancia puede llegar a cambiar hasta un $5\%$ las caracter\'isticas del filtro (en el peor caso).\par 
+
+El \'unico componente que presenta otros efectos es $R_6$: mientras que no incide en absoluto en la frecuencia de resonancia, es el principal factor a tener en cuenta en el factor de calidad. Por lo tanto, es cr\'itico obtener un valor preciso para esta resistencia, dentro de lo que permite la tolerancia.  
+
+
+\subsection{Elecci\'on de \textit{op amp}}
+
+Para poder simular adecuadamente el comportamiento del circuito y as\'i elegir los valores de componentes m\'as apropiados, se debe definir primero qu\'e modelo de operacional utilizaremos, de forma tal que las simulaciones sean lo m\'as fidedignas posibles.\par
+
+Debido a que este filtro debe amplificar frecuencias de alrededor de los $2kHz$ y atenuar las dem\'as, el \textit{bandwidth product} del operacional no es un requisito cr\'itico: en frecuencias donde sus efectos puedan apreciarse, por ejemplo del orden de los $100kHz$, la se\~nal deber\'ia estar atenuada m\'as de $40dB$. Incluso si el polo del operacional afectase la respuesta en frecuencia en este punto, lo que har\'ia ser\'ia introducir una atenuaci\'on a\'un mayor, y si el objetivo de un filtro pasabanda es anular estas frecuencias esto no ser\'ia un problema. \par 
+
+Lo mismo puede decirse del \textit{slew rate}: en las frecuencias a partir de las cuales un \textit{slew rate} modesto podr\'ia apreciarse, la salida est\'a ya tan atenuada que no ser\'a observable, sobre todo considerando que con los generadores de funciones que utilizaremos no pueden entregar m\'as de $20V_{pp}$ en la entrada. A frecuencias cercanas a la de resonancia, los operacionales saturar\'an antes de que el \textit{slew rate} traiga problemas.\par
+
+\todo[inline]{terminar esto}
+
+\subsection{Elecci\'on de componentes}
+
+\begin{figure*}[h!]
+  \includegraphics[scale = 0.7]{imagenes/ej1-montecarlo.jpg}
+  \caption{An\'alsis de montecarlo (resistencias 5\%, capacitores 10\%)}
+  \label{fig:1-montecarlo}
+\end{figure*}
+
+El valor elegido para $R$ fue $2.2k\Omega$. Los par\'ametros del circuito quedan determinados entonces de la siguiente manera:
+
+
+\begin{table}[H]
+	\centering
+
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		           		& Valor ideal                              & Valor elegido                      	& Error ($\%$) 	\\ \hline \hline
+		$R_1$      		& $2.2k\Omega$                        & $2.2k\Omega$                       	& 0            	\\ \hline
+		$C_2$      		& $34.965nF$				& $34.878nF$               		& -0.25         	\\ \hline
+		$R_3$      		& $2.2k\Omega$                        & $2.2k\Omega$                       & 0            	\\ \hline
+		$R_4$      		& $2.2k\Omega$                        & $2.2k\Omega$                       & 0            	\\ \hline
+		$R_8$      		& $2.2k\Omega$                        & $2.2k\Omega$                       & 0            	\\ \hline
+		$C_6$      		& $34.965nF$ 				& $34.878nF$               		& -0.25         	\\ \hline
+		$R_6$      		& $8.8k\Omega$                      	& $8.8k\Omega$       			& 0            	\\ \hline
+		$\omega_0$ 	& $13,000\nicefrac{rad}{s}$	&  $13,032 \nicefrac{rad}{s}$ 	& 0.25         	\\ \hline
+		$Q$        		& 4                                           & 4                              		& 0            	\\ \hline
+	\end{tabular}
+	\caption{Valores de los componentes, y $\omega_0$ y $Q$ resultantes}
+\end{table}
+
+
+
+De esta forma, todas las resistencias tienen su valor te\'orico exacto (dejando de lado la tolerancia del componente por el momento), y s\'olo se requiere hacer una combinaci\'on paralelo de $12k\Omega$ con $33k\Omega$ para obtener el valor de $R_6$. En cuanto a los capacitores, el valor de $34.878nF$ se obtiene al conectar en serie un capacitor de $39nF$ con uno de $330nF$. Tanto $C_2$ como $C_6$ afectan a $\omega_0$ con una sensibilidad de $-\nicefrac{1}{2}$, con lo cual sus efectos combinados s\'olo resultan en un $0.25\%$ de desviaci\'on respecto de $\omega_0$. En cuanto al valor de $Q$, al ser iguales ambos capacitores sus efectos se compensan, y s\'olo depende de $R_6$, con lo cual se obtiene de forma exacta.  \par
+
+Con esta selecci\'on de componentes y operacional, se efectu\'o un an\'alisis de Montecarlo en \textit{LtSpice}. De acuerdo al mismo, la tolerancia de los componentes lleva a que el rango donde se encontrar\'a la frecuencia de corte es aproximadamente entre $1.85kHz$ y $2.3kHz$, lo cual implica un margen de error de $\pm 10%$.
+
 en mc: de 1.8 a 2.4k -> -13  a +16\%
+
+\section{An\'alisis de resultados}
+
+\subsection{Respuesta en frecuencia}
+
+\begin{figure*}[h!]
+  \includegraphics[scale = 0.7]{imagenes/tc_tp3_ej1_hf_mag.png}
+  \includegraphics[scale = 0.7]{imagenes/tc_tp3_ej1_hf_fase.png}
+  \caption{Diagrama de bode de la respuesta en frecuencia }
+  \label{fig:1-rtafrec}
+\end{figure*}
+
+
+
+\subsection{Respuesta al escal\'on}
+
+\subsection{Impedancia de entrada}
+
+\subsection{Impedancia de salida}
+
+\subsection{Limitaciones}
+
+
+\section{Conclusiones}
 
 \end{document}
