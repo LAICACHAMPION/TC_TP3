@@ -44,21 +44,23 @@ x2=1/((1/R3)+(1/t2));
 x3=1/((1/R3)+(1/t3));
 
 %latex(simplify(x2))
-%pretty((x2));
-%pretty(x2);
+pretty(x2)
+%pretty(x2)
 
 
-  H=-x3/x2;
-  H=simplify(H);
-  pretty(H);
-% 
-%  
-  R3=10*R2;
-  C1=10*C2;
-%  
-  H=subs(H);
-  H=simplify(H);
-  pretty(H);
+
+
+%   H=-x3/x2;
+%   H=simplify(H);
+%   pretty(H);
+% % 
+% %  
+%   R3=10*R2;
+%   C1=10*C2;
+% %  
+%   H=subs(H);
+%   H=simplify(H);
+%   pretty(H);
 
 
 
