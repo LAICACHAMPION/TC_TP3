@@ -264,9 +264,10 @@ Esto corresponde a un \textbf{filtro pasabanda}, definido por los siguientes par
 
 
 \begin{figure*}[h!]
-  \includegraphics[scale = 0.5]{imagenes/polos.jpg}
-  \caption{Ubicaci\'on de los polos para distintos valores de $R_6$}
-  \label{fig:1-polos}
+	\centering
+  	\includegraphics[scale = 0.7]{imagenes/polos.jpg}
+  	\caption{Ubicaci\'on de los polos para distintos valores de $R_6$}
+  	\label{fig:1-polos}
 \end{figure*}
 
 
@@ -324,11 +325,11 @@ Para simplificar la elecci\'on de componentes, se establecen las siguientes rela
 \subsection{Funci\'on de $R_6$}
 
 
-\todo[inline]{ESTO ESTA AL REVES, CORREGIR}
+Si consideramos la simplificaci\'on del circuito utilizada en la figura (\ref{fig:ej1-rlc}), $R_6$ es una resistencia serie en un circuito resonante. Como tal, su valor no influye en la frecuencia de resonancia, sino que determina el factor de calidad del circuito: a medida que $R_6$ se hace m\'as grande, el comportamiento del circuito se acerca m\'as a un pasabanda ideal, es decir uno con ancho de banda tendiendo a 0. An\'alogamente, a medida que $R_6$ se hace 0, el ancho de banda crece, convirtiendo al circuito en un pasa todo. \par
 
-Si consideramos la simplificaci\'on del circuito utilizada en la figura (\ref{fig:ej1-rlc}), $R_6$ es una resistencia serie en un circuito resonante. Como tal, su valor no influye en la frecuencia de resonancia, sino que determina el factor de calidad del circuito: a medida que $R_6$ se hace m\'as peque\~na, el comportamiento del circuito se acerca m\'as a un pasabanda ideal, es decir uno con ancho de banda tendiendo a 0. An\'alogamente, a medida que $R_6$ se hace infinito, el ancho de banda crece, convirtiendo al circuito en un pasa todo: la impedancia del $LC$ se hace despreciable ante la de la resistencia y toda la tensi\'on cae en ella en un rango cada vez mayor de frecuencias. \par
+Esto se debe a que el factor de calidad del filtro $Q = \nicefrac{R_6}{R}$, donde $R$ lo consideramos constante, es inversamente proporcional a esta resistencia. Por lo tanto, para $R_6=0.5\cdot R$, el circuito tiene sus dos polos superpuestos en $s = -\omega_0$. A medida que aumenta, los polos se hacen complejos conjugados , acerc\'andose cada vez m\'as al eje imaginario, donde se encontrar\'ian los polos del pasabanda ideal. Si $R_6$ disminuye, en cambio, los polos se separan en dos reales distintos entre s\'i,   aumentando cada vez m\'as el ancho de banda del circuito. \par
 
-Como se observa en la figura (\ref{fig:1-polos}), el valor de $R_6$ determina si el sistema se encuentra subamortiguado ($Q>\nicefrac{1}{2}$), cr\'iticamente amortiguado ($Q = \nicefrac{1}{2}$) o sobreamortiguado ($Q < \nicefrac{1}{2}$), lo cual a su vez determina el ancho de banda. Por lo tanto, la resistencia $R_6$ es el componente que define la selectividad del filtro.
+Esto puede observarse en la figura (\ref{fig:1-polos}). De la misma podemos concluir que la resistencia $R_6$ es el componente que define la selectividad del filtro.
 
 
 
@@ -381,11 +382,12 @@ Debido a que este filtro debe amplificar frecuencias de alrededor de los $2kHz$ 
 
 Lo mismo puede decirse del \textit{slew rate}: en las frecuencias a partir de las cuales un \textit{slew rate} modesto podr\'ia apreciarse, la salida est\'a ya tan atenuada que no ser\'a observable, sobre todo considerando que con los generadores de funciones que utilizaremos no pueden entregar m\'as de $20V_{pp}$ en la entrada. A frecuencias cercanas a la de resonancia, los operacionales saturar\'an antes de que el \textit{slew rate} traiga problemas.\par
 
-\todo[inline]{terminar esto}
+Por lo tanto, se eligi\'o el operacional TL082. Si bien hay operacionales con mayor \textit{bandwidth product} en el pa\~nol de la universidad, como el LM833, el TL cuenta con una gran impedancia de entrada, de $10^{12}\Omega$, una corriente de \textit{bias} de $90pA$, y una gran amplificaci\'on de $100\nicefrac{mV}{V}$. Esto no va en desmedro de su \textit{slew rate}, que es de $13\nicefrac{V}{\mu s}$, y su ancho de banda de $4MHz$ es m\'as que suficiente para el rango de frecuencias donde se va a trabajar.
+
 
 \subsection{Elecci\'on de componentes}
 
-\begin{figure*}[h!]
+\begin{figure*}[H]
   \includegraphics[scale = 0.7]{imagenes/ej1-montecarlo.jpg}
   \caption{An\'alsis de montecarlo (resistencias 5\%, capacitores 10\%)}
   \label{fig:1-montecarlo}
@@ -417,28 +419,107 @@ El valor elegido para $R$ fue $2.2k\Omega$. Los par\'ametros del circuito quedan
 
 De esta forma, todas las resistencias tienen su valor te\'orico exacto (dejando de lado la tolerancia del componente por el momento), y s\'olo se requiere hacer una combinaci\'on paralelo de $12k\Omega$ con $33k\Omega$ para obtener el valor de $R_6$. En cuanto a los capacitores, el valor de $34.878nF$ se obtiene al conectar en serie un capacitor de $39nF$ con uno de $330nF$. Tanto $C_2$ como $C_6$ afectan a $\omega_0$ con una sensibilidad de $-\nicefrac{1}{2}$, con lo cual sus efectos combinados s\'olo resultan en un $0.25\%$ de desviaci\'on respecto de $\omega_0$. En cuanto al valor de $Q$, al ser iguales ambos capacitores sus efectos se compensan, y s\'olo depende de $R_6$, con lo cual se obtiene de forma exacta.  \par
 
-Con esta selecci\'on de componentes y operacional, se efectu\'o un an\'alisis de Montecarlo en \textit{LtSpice}. De acuerdo al mismo, la tolerancia de los componentes lleva a que el rango donde se encontrar\'a la frecuencia de corte es aproximadamente entre $1.85kHz$ y $2.3kHz$, lo cual implica un margen de error de $\pm 10%$.
+Con esta selecci\'on de componentes y operacional, se efectu\'o un an\'alisis de Montecarlo en \textit{LtSpice}. De acuerdo al mismo, la tolerancia de los componentes lleva a que el rango donde se encontrar\'a la frecuencia de corte es aproximadamente entre $1.85kHz$ y $2.3kHz$, lo cual implica un margen de error de $\pm 10\%$. \par
 
-en mc: de 1.8 a 2.4k -> -13  a +16\%
+Por lo tanto, se procedi\'o a implementar este filtro en una PCB con los componentes indicados y el amplificador TL082. Se utilizaron resistencias de metal-film y capacitores film. A su vez, se incluyeron dos capacitores de $100nF$ multicapa de desacople: uno entre $V_{CC}^+$ y tierra y otro entre $V_{CC}^-$ y tierra. Estos capacitores tienen como funci\'on compensar peque\~nos cambios de tensi\'on en la alimentaci\'on del operacional, para que la misma sea m\'as estable.
+
 
 \section{An\'alisis de resultados}
 
 \subsection{Respuesta en frecuencia}
 
 \begin{figure*}[h!]
-  \includegraphics[scale = 0.7]{imagenes/tc_tp3_ej1_hf_mag.png}
-  \includegraphics[scale = 0.7]{imagenes/tc_tp3_ej1_hf_fase.png}
-  \caption{Diagrama de bode de la respuesta en frecuencia }
-  \label{fig:1-rtafrec}
+	\centering
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_hf_mag.png}
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_hf_fase.png}
+  	\caption{Diagrama de bode de la respuesta en frecuencia}
+  	\label{fig:1-rtafrec}
 \end{figure*}
 
+Como se observa en los gr\'aficos de la figura (\ref{fig:1-rtafrec}), la respuesta en frecuencia del circuito coincide con la que se obtiene en la simulaci\'on. Para frecuencias altas, a partir de $100kHz$, comienzan a observarse en la fase los efectos del polo del operacional, que no se tuvieron en cuenta a la hora de calcular la funci\'on transferencia. Por otro lado, la medici\'on de magnitud a $1MHz$ discrepa de tanto la simulaci\'on como el c\'alculo. Esto puede deberse a que debido a la gran atenuaci\'on, la se\~nal de salida era tan peque\~na que resulta comparable con el ruido del osciloscopio, eliminando su validez. Tambi\'en es posible que a estas frecuencias, el comportamiento de los componentes se vea afectado por sus partes inductivas, lo cual no est\'a contemplado en el modelo te\'orico ni en \textit{Spice}. \par
 
+Se observa una pendiente de +20dB por d\'ecada hasta la frecuencia de corte, alrededor de los $2k\Omega$, y -20dB por d\'ecada a partir de la misma, con un salto de $-180^\circ$ en la fase: de $90^\circ$ a $-90^\circ$. Siendo que el factor de calidad calculado es $Q=4$, y se observa en la medici\'on el mismo comportamiento que en la simulaci\'on y el c\'alculo, se puede concluir que el filtro cumple con las prestaciones requeridas. 
 
 \subsection{Respuesta al escal\'on}
 
+\todo[inline]{calcular y simular rta esc}
+
+De lo desarrollado en la secci\'on anterior, podr\'iamos preguntarnos si el circuito exhibir\'a el comportamiento de derivador para frecuencias mucho menores que la de resonancia, y de integrador para frecuencias mucho mayores. En esos rangos, el filtro tiene la pendiente y la fase adecuada para que esto suceda. Se realizaron pues mediciones de respuesta al escal\'on. Para la derivada, deber\'iamos observar s\'olo el transitorio cuando la entrada tiene un salto, donde la derivada es el impulso $\delta(t)$, y en el integrador deber\'iamos observar una se\~nal triangular.
+
+Calcularemos primero anal\'iticamente qu\'e deber\'ia observarse a la salida. Siendo que ya contamos con la funci\'on transferencia del sistema (\ref{eq:voutvin}) y que el mismo es BIBO-estable (pues la parte real de sus ceros es negativa, como se observa en el diagrama de polos (\ref{fig:1-polos})), para obtener la respuesta al escal\'on basta antitransformar la expresi\'on:
+
+\[	Y(s) = H(s) \cdot \mathcal{L}[u(t)] = \frac{H(s)}{s} \Leftrightarrow\]\\
+\[	Y(s) =  \frac{\left( 1+\frac{R_4}{R_8} \right) \cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1} \]
+
+Si reemplazamos por los par\'ametros de este circuito $\alpha = \frac{1}{2R_6 C_6}$ (coeficiente de amortiguamiento) y $\omega_d = \sqrt{\omega_0^2 - \alpha^2}$ (pseudofrecuencia, que es real porque los polos del sistema son complejos conjugados)
+
+
+\begin{figure}[H]
+	\centering
+  	\includegraphics[scale = 0.3]{imagenes/tc_tp3_ej1_100Hz.png}
+  	\caption{Respuesta a escal\'on de 100Hz}
+  	\label{fig:1-rtaesc-100Hz}
+\end{figure}
+
+En esta frecuencia, observamos que una vez superado el r\'egimen permanente, la se\~nal se establece en $0V$, lo cual coincide con el comportamiento esperado. Sin embargo, la duraci\'on del transitorio es del orden de la frecuencia. Para que este tiempo sea menos significante, deber\'iamos trabajar en frecuencias menores, pero esto a su vez conllevar\'ia una atenuaci\'on cada vez mayor. Por lo tanto, no ser\'ia prudente usar este circuito como derivador.
+
+\begin{figure}[H]
+	\centering
+  	\includegraphics[scale = 0.3]{imagenes/tc_tp3_ej1_6kHz.png}
+  	\caption{Respuesta a escal\'on de 6kHz}
+  	\label{fig:1-rtaesc-6kHz}
+\end{figure}
+
+Con una frecuencia de $6kHz \sim 3\cdot f_0$, en la salida ya se observa la integral de la entrada, que es lo que esper\'abamos observar. Recordando que la fase comienza a  verse afectada por los polos del operacional a partir de los $100kHz$ aproximadamente, este circuito podr\'ia usarse como integrador para se\~nales de frecuencias entre los $6kHz$ y los $100kHz$.
+
+\begin{figure*}[h!]
+	\centering
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zin_x1_mag.png}
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zin_x1_fase.png}
+  	\caption{Diagrama de bode de la impedancia de entrada}
+  	\label{fig:1-zin}
+\end{figure*}
+
+
 \subsection{Impedancia de entrada}
 
+
+Si consideramos la simplificaci\'on del GIC a una bobina de la figura (\ref{fig:ej1-rlc}), la impedancia de entrada del circuito no es m\'as que una resistencia en serie con una bobina y un capacitor en paralelo. Operando algebr\'aicamente la expresi\'on de la impedancia de entrada que se obtiene es:
+
+\begin{equation}
+	Z_{in}(s) = R_6 \cdot \left( \frac{L_{GIC}C_6 \cdot s^2 + \frac{L_{GIC}}{R_6} \cdot s + 1}{L_{GIC}C_6 \cdot s^2 +1} \right) 
+\end{equation}
+
+Por lo tanto, esperar\'iamos que la impedancia de entrada presente un pico en la frecuencia de resonancia, donde idealmente deber\'ia tenerse impedancia infinita, y que para frecuencias mucho mayores o mucho menores se observe $Z_{in}(f) \sim R_6 = 8.8k\Omega$.\par
+
+Sin embargo, como se observa en el diagrama de bode de la figura (\ref{fig:1-zin}), esta expresi\'on no es suficiente para explicar el comportamiento del circuito. Si bien mediciones y c\'alculo coinciden hasta los $10kHz$ la fase y $100kHz$ en la magnitud, es necesario tener en cuenta la presencia de las puntas del osciloscopio para poder tener un modelo representativo de lo que est\'a sucediendo, como se observa en la simulaci\'on. En esta \'ultima est\'an incluidos los efectos de las dos puntas conectadas para medir la impedancia de entrada: una antes de una resistencia de $8.9k\Omega$ (medida con mult\'imetro), y otra entre esta resistencia y el circuito, considerando a la impedancia de entrada como el cociente de la tensi\'on de entrada al circuito y la corriente por esta resistencia.
+
+
 \subsection{Impedancia de salida}
+
+\begin{figure*}[h!]
+	\centering
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zout_mag.png}
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zout_fase.png}
+  	\caption{Diagrama de bode de la impedancia de salida}
+  	\label{fig:1-zout}
+\end{figure*}
+
+La impedancia de salida de este circuito es la salida del uno de los \textit{op amps} del TL082, y como tal idealmente es nula. Sin embargo, simulando en \textit{LtSpice} se puede observar que si bien la misma es de unos pocos miliohms para frecuencias bajas, a partir de los $10kHz$ comienza a crecer, llegando a aproximadamente $90\Omega$ en $1MHz$. En este caso las mediciones se realizaron con un analizador de impedancias para no tener problemas con las puntas del osciloscopio. \par
+
+Incluso utilizando el analizador de impedancias, la magnitud de la impedancia de salida era tan peque\~na que el instrumento no lograba medir su fase. S\'olo a partir de aproximadamente $750Hz$, cuando se super\'o el medio ohm, se comenzaron a obtener datos sobre la misma. \par
+
+Como se puede observar en la figura (\ref{fig:1-zout}), en el rango de valores donde la fase pudo medirse, la misma coincide con la de la simulaci\'on, y muestra un salto de aproximadamente $120^\circ$ alrededor de la frecuencia de resonancia. Por otro lado, la magnitud coincide en forma, mas no as\'i en valor: se midi\'o consistentemente casi el doble de lo que predice la simulaci\'on. Esto puede deberse a discrepancias entre el modelo utilizado por \textit{Spice}, y el operacional concreto utilizado. Si bien cada modelo tiene caracter\'isticas gen\'ericas similares, algunos par\'ametros pueden poseer una gran dispersi\'on, como es por ejemplo el caso de $A_0$. \par 
+
+Siendo que observamos un salto en la fase alrededor de la frecuencia de corte, ser\'ia razonable que esto se vea reflejado en la magnitud de la impedancia. Si bien no es apreciable en la escala de la figura (\ref{fig:1-zout}), al hacer \textit{zoom} alrededor de $f_0$ efectivamente se aprecia un pico en la impedancia, similar al que se ve\'ia a la entrada. Esto pone de manifiesto el comportamiento no ideal del operacional, puesto que al no ser su impedancia de salida verdaderamente 0, la del circuito ya no es s\'olo la del operacional sino \'esta en paralelo con la salida del resto del circuito. 
+
+\begin{figure}[H]
+	\centering
+  	\includegraphics[scale = 0.6]{imagenes/tc_tp3_ej1_zout_zoom.png}
+  	\caption{Detalle de la impedancia de salida alrededor de $f_0$}
+  	\label{fig:1-zout-zoom1}
+\end{figure}
+
 
 \subsection{Limitaciones}
 
