@@ -223,7 +223,7 @@ La tensi\'on de salida de esta secci\'on, entonces, puede hallarse aplicando un 
 
 \begin{equation}
 	\label{eq:1-vgicvin}
-	\frac{V_{GIC}}{V_{in}}(s) = \frac{s\cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1}
+	\frac{V_{GIC}}{V_{in}}(s) = \frac{s\cdot \frac{L_{GIC}}{R_6}}{ L_{GIC}C_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1}
 \end{equation}
 
  
@@ -342,10 +342,11 @@ Sin embargo, en este an\'alisis no se est\'a teniendo en cuenta las limitaciones
 \begin{equation}
 	\left\{
 	 	\begin{aligned}
-			\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot CR_3}\\
+			\frac{V_1}{V_{GIC}} &= -\frac{R_4}{R_8} \cdot \frac{1}{s\cdot C_2 R_3}\\
 			\frac{V_2}{V_{GIC}} &= 1+ \frac{R_4}{R_8} \\ 
 		\end{aligned}
 	\right.
+	\label{eq:v1v2vgic}
  \end{equation}
 
 Resulta entonces que la ganancia m\'axima de ambos operacionales est\'a limitada por la relaci\'on entre $R_4$ y $R_8$. Por ende, a medida que $\nicefrac{R_4}{R_8}$ crece, el rango de tensiones en el cual los \textit{op amps} no saturan ni se ven limitados por el \textit{slew rate} se hace menor. \par
@@ -448,11 +449,25 @@ De lo desarrollado en la secci\'on anterior, podr\'iamos preguntarnos si el circ
 
 Calcularemos primero anal\'iticamente qu\'e deber\'ia observarse a la salida. Siendo que ya contamos con la funci\'on transferencia del sistema (\ref{eq:voutvin}) y que el mismo es BIBO-estable (pues la parte real de sus ceros es negativa, como se observa en el diagrama de polos (\ref{fig:1-polos})), para obtener la respuesta al escal\'on basta antitransformar la expresi\'on:
 
-\[	Y(s) = H(s) \cdot \mathcal{L}[u(t)] = \frac{H(s)}{s} \Leftrightarrow\]\\
+\[	Y(s) = H(s) \cdot \mathcal{L}\{u(t)\{(s) = \frac{H(s)}{s} \Leftrightarrow\]\\
 \[	Y(s) =  \frac{\left( 1+\frac{R_4}{R_8} \right) \cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1} \]
 
-Si reemplazamos por los par\'ametros de este circuito $\alpha = \frac{1}{2R_6 C_6}$ (coeficiente de amortiguamiento) y $\omega_d = \sqrt{\omega_0^2 - \alpha^2}$ (pseudofrecuencia, que es real porque los polos del sistema son complejos conjugados)
+Si reemplazamos por los par\'ametros de este circuito $\alpha = \frac{1}{2R_6 C_6}$ (coeficiente de amortiguamiento) y $\omega_d = \sqrt{\omega_0^2 - \alpha^2}$ (pseudofrecuencia, que es real porque los polos del sistema son complejos conjugados), entonces podemos reescribir la salida del sistema completando cuadrados y asociando como:\par
 
+\[
+	\begin{aligned} 
+	Y(s) &= \frac{ \left( 1+\frac{R_4}{R_8} \right) \cdot \frac{L_{GIC}}{R_6} \cdot \frac{1}{L_{GIC}C_6} }{s^2  + \frac{1}{2R_6 C_6} \cdot s + \frac{1}{L_{GIC}C_6}} \\
+	 &= \left( 1+\frac{R_4}{R_8} \right) \cdot \frac{2\alpha}{\omega_d} \cdot \left( \frac{\omega_d}{(s+\alpha)^2 + \omega_d^2} \right)
+	 \end{aligned}
+\]
+
+Recordando que $\mathcal{L}\{ \frac{b}{(s+a)^2+b^2} \}(s) = e^{-at}\cdot \cos{bt}$, entonces por linealidad la respuesta al escal\'on de este circuito es:
+
+\begin{equation}
+	y(t) = \left(1+\frac{R_4}{R_8} \right) \cdot \frac{2\alpha}{\omega_d} \cdot e^{-\alpha t}\cdot \cos{\omega_d t}
+\end{equation} 
+
+Por lo tanto, el transitorio que esperar\'iamos observar es una oscilaci\'on modulada por una exponencial decreciente, con pseudofrecuenica $\omega_d \sim 11,286 \nicefrac{rad}{s} \sim 1,800Hz$ y tiempo caracter\'istico $\tau = \frac{1}{\alpha} \sim 153\mu s$. Por lo tanto, el tiempo de establecimiento de la se\~nal deber\'ia ser de aproximadamente $6\tau \sim 0.92ms$, o el equivalente a 1.65 pseudoper\'iodos.
 
 \begin{figure}[H]
 	\centering
@@ -460,6 +475,10 @@ Si reemplazamos por los par\'ametros de este circuito $\alpha = \frac{1}{2R_6 C_
   	\caption{Respuesta a escal\'on de 100Hz}
   	\label{fig:1-rtaesc-100Hz}
 \end{figure}
+
+Se observa aqu\'i que si bien la forma del transitorio es la que se esperaba obtener, su tiempo de establecimiento es pr\'acticamente el doble que el calculado. Esto puede deberse a
+\todo[inline]{terminar esto, simular}
+
 
 En esta frecuencia, observamos que una vez superado el r\'egimen permanente, la se\~nal se establece en $0V$, lo cual coincide con el comportamiento esperado. Sin embargo, la duraci\'on del transitorio es del orden de la frecuencia. Para que este tiempo sea menos significante, deber\'iamos trabajar en frecuencias menores, pero esto a su vez conllevar\'ia una atenuaci\'on cada vez mayor. Por lo tanto, no ser\'ia prudente usar este circuito como derivador.
 
@@ -523,6 +542,28 @@ Siendo que observamos un salto en la fase alrededor de la frecuencia de corte, s
 
 \subsection{Limitaciones}
 
+\subsubsection{Limitaciones por tensi\'on}
+
+Como ya se ha discutido, si bien este circuito puede modelarse como un RLC, no se utiliza una bobina sino una combinaci\'on de resistencias, capacitores y operacionales. Por lo tanto, su comportamiento ser\'a el deseado siempre y cuando estos \'ultimos est\'en trabajando en su zona lineal, para lo cual es fundamental evitar que lleguen a saturaci\'on. \par
+
+Debido a que los operacionales se alimentaron con $V_{cc}^\pm = \pm 15V$, ser\'ia prudente dejar al menos $3V$ de margen, es decir no permitir que la salida deba superar los $24V_{pp}$. 
+
+\begin{figure}[H]
+	\centering
+  	\includegraphics[scale = 0.3]{imagenes/tc_tp3_ej1_saturacion.png}
+  	\caption{Salida del circuito con el \textit{op amp} saturado}
+  	\label{fig:1-saturacion}
+\end{figure}
+
+Se observa aqu\'i que la m\'axima tensi\'on pico a pico que puede haber a la salida es $25.3V_{pp}$, por lo cual mantenerlo en $24V_{pp}$ ser\'ia recomendable.\par
+
+Debe tenerse en cuenta, adem\'as, que la salida de los dos operacionales describen dos comportamientos distintos, por lo cual que uno no sature no implica que el otro no lo haga. En la figura (\ref{fig:1-saturacion}) se aprecia que con que uno s\'olo de los operacionales sature (en $V_{out}$, la se\~nal verde) lleva a que el otro ($V_1$, se\~nal violeta) tampoco exhiba el comportamiento deseado. Recordando los resultados obtenidos en (\ref{eq:v1v2vgic}) y (\ref{eq:1-vgicvin}), as\'i como la expresi\'on de $L_{GIC} $ en funci\'on de los componentes en (\ref{eq:1-LGIC}) podemos obtener la transferencia al otro operacional como:
+
+\begin{equation}
+	\frac{V_1}{V_{in}} (s)=  - \frac{\nicefrac{R_1}{R_6}}{ L_{GIC}C_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1}
+\end{equation}
+
+Esto corresponde a un filtro pasabajos de segundo orden, cuya frecuencia de corte es la misma que la de resonancia del circuito. Por lo tanto, para frecuencias bajas se deber\'a tener en cuenta la saturaci\'on de este \textit{op amp} en lugar de la salida del circuito, puesto que la ganancia se estabilizar\'a en $\nicefrac{R_1}{R_6} = \nicefrac{1}{4}\sim -12dB$ en lugar de decrecer 20dB por d\'ecada. Sin embargo, esto no pudo observarse con los $20V{pp}$ m\'aximos que entregan los generadores del laboratorio de la Universidad.
 
 \section{Conclusiones}
 
