@@ -33,7 +33,7 @@ Zin = R6calc + 1/(s*Ccalc + 1/s/Lcalc);
 %grid on;
 
 w = 2*pi*logspace(1, 6, 1000);
-superponedor('','tc_tp3_ej1_hf.csv', 'tc_tp3_ej1_hf_spice.csv', H, w, 'tc_tp3_ej1_hf');
+%superponedor('','tc_tp3_ej1_hf.csv', 'tc_tp3_ej1_hf_spice.csv', H, w, 'tc_tp3_ej1_hf');
 % 
  w = 2*pi*logspace(2,6,1000);
 %superponedorZ('','tc_tp3_ej1_zin.csv', 'tc_tp3_ej1_zin_spice_x1.csv', Zin, w);
@@ -45,7 +45,7 @@ superponedor('','tc_tp3_ej1_hf.csv', 'tc_tp3_ej1_hf_spice.csv', H, w, 'tc_tp3_ej
 % zmag = zmag.Children(2);
 % zmag.YLim = [0 200000];
 
-%superponedorZsinH('','bode rochi.csv', 'tc_tp3_ej1_zout_spice_x1.csv', w);
+superponedorZsinH('','bode rochi.csv', 'tc_tp3_ej1_zout_spice_x1.csv', w, 'tc_tp3_ej1_zout');
 % 
 % 
 % valoresR6 = [R6ideal/50, R6ideal/30, R6ideal/10,R6ideal/8, R6ideal/7, R6ideal/5, R6ideal, R6ideal*10];
