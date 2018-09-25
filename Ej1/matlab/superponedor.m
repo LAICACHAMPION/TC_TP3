@@ -36,10 +36,10 @@ if sim == 1
     c_s=csvread(simulacion);
     magMedida2=c_s(:,2);
     semilogx(c_s(:,1),magMedida2, 'LineWidth', 3);
-    formataxes(titulo, 'Frecuencia (Hz)', 'Mangnitud (dB)', ... % titulo y ejes
+    formataxes(titulo, 'Frecuencia (Hz)', 'Magnitud (dB)', ... % titulo y ejes
                     'Medici\''on','C\''alculo', 'Simulaci\''on')% legends
 else
-    formataxes(titulo, 'Frecuencia (Hz)', 'Mangnitud (dB)', ... % titulo y ejes
+    formataxes(titulo, 'Frecuencia (Hz)', 'Magnitud (dB)', ... % titulo y ejes
                     'Medici\''on','C\''alculo')% legends
 end
 
@@ -73,6 +73,8 @@ else
     formataxes(titulo, 'Frecuencia (Hz)', 'Fase ($^o$)', ... % titulo y ejes
                     'Medici\''on','C\''alculo')% legends
 end
+
+
 if nargin==6
 saveas(fase,strcat(guardar,'_fase','.png'));
 end

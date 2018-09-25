@@ -26,7 +26,7 @@ if nargin >= 4
     lgd.Interpreter = 'latex';
 end
 fig = gcf;
-fig.Position = [100 200 1000 400];
+fig.Position = [100 200 1000 350];
 
 % xticks(sort([xticks 25e3]));
 % xticklabels({'$10^3$', '$10^4$', '$2.5\times 10^4$', '$10^5$', '$10^6$'});

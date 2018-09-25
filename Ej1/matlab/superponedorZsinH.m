@@ -56,12 +56,12 @@ hold off;
 
 fase=figure('Name','Bode fase','NumberTitle','off');
 
-semilogx(c_m(:,1).*1000,c_m(:,4), 'LineWidth', 3);
+semilogx(c_m(:,1).*1000,wrapTo360(c_m(:,4)), 'LineWidth', 3);
 hold on;
 %semilogx(wout,phase, 'LineWidth', 3);
 
 if sim == 1
-semilogx(c_s(:,1),c_s(:,3), 'LineWidth', 3);
+semilogx(c_s(:,1),wrapTo360(c_s(:,3)), 'LineWidth', 3);
 % title(titulo);
 % grid on;
 % ylabel('Fase (°)');

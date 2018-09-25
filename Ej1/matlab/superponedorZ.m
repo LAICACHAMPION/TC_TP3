@@ -41,6 +41,8 @@ else
     formataxes(titulo, 'Frecuencia (Hz)', 'Impedancia ($\Omega$)', ... % titulo y ejes
                     'Medici\''on','C\''alculo')% legends
 end
+axes = gca;
+axes.YLim = [0 200000];
 
 
 if nargin==6
@@ -63,6 +65,8 @@ else
     formataxes(titulo, 'Frecuencia (Hz)', 'Fase ($^o$)', ... % titulo y ejes
                     'Medici\''on','C\''alculo')% legends
 end
+
+
 if nargin==6
 saveas(fase,strcat(guardar,'_fase','.png'));
 end
