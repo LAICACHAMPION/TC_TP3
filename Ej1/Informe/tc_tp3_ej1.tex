@@ -10,7 +10,7 @@
 \section{Introducci\'on: el GIC}
 \label{section:1-intro}
 
-En el dise\~no de filtros, pueden existir requerimientos cuya soluci\'on m\'as conveniente implica utilizar bobinas. Sin embargo, conseguir inductancias de valor elevado puede involucrar agregar a un circuito un componente de gran tama\~no, puesto que puede hacerse necesario un gran n\'umero de vueltas, adem\'as de un n\'ucleo magn\'etico. A su vez, la resistencia serie de estos componentes suele ser elevada, dando lugar a comportamientos no deseados. Por otro lado, en general uno debe construir sus propias bobinas, lo cual es poco conveniente y sujeto a mayor error que simplemente adquirir capacitores y resistencias. \par 
+En el dise\~no de filtros, pueden existir requerimientos cuya soluci\'on m\'as conveniente implique utilizar bobinas. Sin embargo, conseguir inductancias de valor elevado puede involucrar agregar a un circuito un componente de gran tama\~no, puesto que puede hacerse necesario un gran n\'umero de vueltas, adem\'as de un n\'ucleo magn\'etico. A su vez, la resistencia serie de estos componentes suele ser elevada, dando lugar a comportamientos no deseados. Por otro lado, en general uno debe construir sus propias bobinas, lo cual es poco conveniente y sujeto a mayor error que simplemente adquirir capacitores y resistencias. \par 
 
 Si el rango de frecuencias donde se est\'a trabajando permite utilizar amplificadores operacionales, una posible respuesta a este problema es construir un \textit{general impedance converter}. La configuraci\'on general del mismo es la siguiente:
 
@@ -353,7 +353,7 @@ Resulta entonces que la ganancia m\'axima de ambos operacionales est\'a limitada
 
 \subsection{An\'alisis de sensibilidades}
 
-Dado que no cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole} implicar\'ia utilizar combinaciones serie o paralelo para todos los componentes, y que adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (para las resistencias) o el $10\%$ (para los capacitores), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
+Dado que cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole} implicar\'ia utilizar combinaciones serie o paralelo para todos los componentes, y que adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (para las resistencias) o el $10\%$ (para los capacitores), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
 
 \begin{table}[H]
 	\centering
@@ -422,7 +422,7 @@ De esta forma, todas las resistencias tienen su valor te\'orico exacto (dejando 
 
 Con esta selecci\'on de componentes y operacional, se efectu\'o un an\'alisis de Montecarlo en \textit{LtSpice}. De acuerdo al mismo, la tolerancia de los componentes lleva a que el rango donde se encontrar\'a la frecuencia de corte es aproximadamente entre $1.85kHz$ y $2.3kHz$, lo cual implica un margen de error de $\pm 10\%$. \par
 
-Consideramos elegir los componentes de manera tal que se gane precisi\'on a costa de necesitar hacer m\'as combinaciones serie o paralelo es a costa de agrega complejidad al circuito, y al fin y al cabo con la tolerancia de los componentes la diferencia ser\'ia apenas apreciable. Entonces esta elecci\'on de componentes se determin\'o como la definitiva.\par
+Consideramos que no se justifica elegir los componentes de manera tal que se gane precisi\'on, pues esto es a costa de necesitar hacer m\'as combinaciones serie o paralelo, y por tanto agregar complejidad al circuito, y al fin y al cabo con la tolerancia de los componentes la diferencia ser\'ia apenas apreciable. Entonces esta elecci\'on de componentes se determin\'o como la definitiva.\par
 
 Por lo tanto, se procedi\'o a implementar este filtro en una PCB con los componentes indicados y el amplificador TL082. Se utilizaron resistencias de metal-film y capacitores film. A su vez, se incluyeron dos capacitores de $100nF$ multicapa de desacople: uno entre $V_{CC}^+$ y tierra y otro entre $V_{CC}^-$ y tierra. Estos capacitores tienen como funci\'on compensar peque\~nos cambios de tensi\'on en la alimentaci\'on del operacional, para que la misma sea m\'as estable.
 
@@ -448,11 +448,11 @@ Se observa una pendiente de +20dB por d\'ecada hasta la frecuencia de resonancia
 
 \subsection{Respuesta al escal\'on}
 
-De lo desarrollado en la secci\'on anterior, podr\'iamos preguntarnos si el circuito exhibir\'a el comportamiento de derivador para frecuencias mucho menores que la de resonancia, y de integrador para frecuencias mucho mayores. En esos rangos, el filtro tiene la pendiente y la fase adecuada para que esto suceda. Se realizaron pues mediciones de respuesta al escal\'on. Para la derivada, deber\'iamos observar s\'olo el transitorio cuando la entrada tiene un salto, donde la derivada es el impulso $\delta(t)$, y en el integrador deber\'iamos observar una se\~nal triangular.
+De lo desarrollado en la secci\'on anterior, podr\'iamos preguntarnos si el circuito exhibir\'a el comportamiento de derivador para frecuencias mucho menores que la de resonancia, y de integrador para frecuencias mucho mayores. En esos rangos, el filtro tiene la pendiente y la fase adecuada para que esto suceda. Se realizaron pues mediciones de respuesta al escal\'on. Para la derivada, deber\'iamos observar un r\'egimen permanente de 0 constante, y en el integrador deber\'iamos observar una se\~nal triangular.
 
 Calcularemos primero anal\'iticamente qu\'e deber\'ia observarse a la salida. Siendo que ya contamos con la funci\'on transferencia del sistema (\ref{eq:voutvin}) y que el mismo es BIBO-estable (pues la parte real de sus ceros es negativa, como se observa en el diagrama de polos (\ref{fig:1-polos})), para obtener la respuesta al escal\'on basta antitransformar la expresi\'on:
 
-\[	Y(s) = H(s) \cdot \mathcal{L}\{u(t)\{(s) = \frac{H(s)}{s} \Leftrightarrow\]\\
+\[	Y(s) = H(s) \cdot \mathcal{L}\{u(t)\}(s) = \frac{H(s)}{s} \Leftrightarrow\]\\
 \[	Y(s) =  \frac{\left( 1+\frac{R_4}{R_8} \right) \cdot \frac{L_{GIC}}{R_6}}{ LC_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1} \]
 
 Si reemplazamos por los par\'ametros de este circuito $\alpha = \frac{1}{2R_6 C_6}$ (coeficiente de amortiguamiento) y $\omega_d = \sqrt{\omega_0^2 - \alpha^2}$ (pseudofrecuencia, que es real porque los polos del sistema son complejos conjugados), entonces podemos reescribir la salida del sistema completando cuadrados y asociando como:\par
@@ -485,7 +485,7 @@ La simulaci\'on en el \textit{LtSpice} valida los c\'alculos realizados hasta el
 \begin{figure}[H]
 	\centering
   	\includegraphics[scale = 0.32]{imagenes/tc_tp3_ej1_100Hz.png}
-  	\caption{Respuesta a escal\'on de 100Hz}
+  	\caption{Respuesta a escal\'on de $100Hz$}
   	\label{fig:1-rtaesc-100Hz}
 \end{figure}
 
@@ -496,13 +496,13 @@ Por otro ado, respecto del comportamiento derivador, en esta frecuencia, observa
 \begin{figure}[H]
 	\centering
   	\includegraphics[scale = 0.32]{imagenes/tc_tp3_ej1_6kHz.png}
-  	\caption{Respuesta a escal\'on de 6kHz}
+  	\caption{Respuesta a escal\'on de $6kHz$}
   	\label{fig:1-rtaesc-6kHz}
 \end{figure}
 
 Con una frecuencia de $6kHz \sim 3\cdot f_0$, en la salida ya se observa la integral de la entrada, que es lo que esper\'abamos observar. Recordando que la fase comienza a  verse afectada por los polos del operacional a partir de los $100kHz$ aproximadamente, este circuito podr\'ia usarse como integrador para se\~nales de frecuencias entre los $6kHz$ y los $100kHz$.
 
-\begin{figure*}[h!]
+\begin{figure*}[b]
 	\centering
   	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zin_x1_mag.png}
   	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zin_x1_fase.png}
@@ -527,7 +527,7 @@ Sin embargo, como se observa en el diagrama de bode de la figura (\ref{fig:1-zin
 
 \subsection{Impedancia de salida}
 
-\begin{figure*}[h!]
+\begin{figure*}[b]
 	\centering
   	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zout_mag.png}
   	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zout_fase.png}
@@ -535,20 +535,21 @@ Sin embargo, como se observa en el diagrama de bode de la figura (\ref{fig:1-zin
   	\label{fig:1-zout}
 \end{figure*}
 
-La impedancia de salida de este circuito es la salida del uno de los \textit{op amps} del TL082, y como tal idealmente es nula. Sin embargo, simulando en \textit{LtSpice} se puede observar que si bien la misma es de unos pocos miliohms para frecuencias bajas, a partir de los $10kHz$ comienza a crecer, llegando a aproximadamente $90\Omega$ en $1MHz$. En este caso las mediciones se realizaron con un analizador de impedancias para no tener problemas con las puntas del osciloscopio. \par
+La impedancia de salida de este circuito es la salida del uno de los \textit{op amps} del TL082, y como tal idealmente es nula. Sin embargo, simulando en \textit{LtSpice} se puede observar que si bien la misma es de unos pocos miliohms para frecuencias bajas, a partir de los $10kHz$ comienza a crecer, llegando a aproximadamente $90\Omega$ en $1MHz$. \par
 
 Incluso utilizando el analizador de impedancias, la magnitud de la impedancia de salida era tan peque\~na que el instrumento no lograba medir su fase. S\'olo a partir de aproximadamente $750Hz$, cuando se super\'o el medio ohm, se comenzaron a obtener datos sobre la misma. \par
 
 Como se puede observar en la figura (\ref{fig:1-zout}), en el rango de valores donde la fase pudo medirse, la misma coincide con la de la simulaci\'on, y muestra un salto de aproximadamente $120^\circ$ alrededor de la frecuencia de resonancia. Por otro lado, la magnitud coincide en forma, mas no as\'i en valor: se midi\'o consistentemente casi el doble de lo que predice la simulaci\'on. Esto puede deberse a discrepancias entre el modelo utilizado por \textit{Spice}, y el operacional concreto utilizado. Si bien cada modelo tiene caracter\'isticas gen\'ericas similares, algunos par\'ametros pueden poseer una gran dispersi\'on, como es por ejemplo el caso de $A_0$. \par 
 
-Siendo que observamos un salto en la fase alrededor de la frecuencia de corte, ser\'ia razonable que esto se vea reflejado en la magnitud de la impedancia. Si bien no es apreciable en la escala de la figura (\ref{fig:1-zout}), al hacer \textit{zoom} alrededor de $f_0$ efectivamente se aprecia un pico en la impedancia, similar al que se ve\'ia a la entrada. Esto pone de manifiesto el comportamiento no ideal del operacional, puesto que al no ser su impedancia de salida verdaderamente 0, la del circuito ya no es s\'olo la del operacional sino \'esta en paralelo con la salida del resto del circuito. 
-
 \begin{figure}[H]
 	\centering
-  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zout_zoom.png}
+  	\includegraphics[scale = 0.6]{imagenes/tc_tp3_ej1_zout_zoom.png}
   	\caption{Detalle de la impedancia de salida alrededor de $f_0$}
   	\label{fig:1-zout-zoom1}
 \end{figure}
+
+Siendo que observamos un salto en la fase alrededor de la frecuencia de corte, ser\'ia razonable que esto se vea reflejado en la magnitud de la impedancia. Si bien no es apreciable en la escala de la figura (\ref{fig:1-zout}), al hacer \textit{zoom} alrededor de $f_0$ efectivamente se aprecia un pico en la impedancia, similar al que se ve\'ia a la entrada. Esto pone de manifiesto el comportamiento no ideal del operacional, puesto que al no ser su impedancia de salida verdaderamente 0, la del circuito ya no es s\'olo la del operacional sino \'esta en paralelo con la salida del resto del circuito. 
+
 
 
 \subsection{Limitaciones}
@@ -578,7 +579,7 @@ Esto corresponde a un filtro pasabajos de segundo orden, cuya frecuencia de cort
 
 No es recomendable aumentar los valores elegidos de $V_{CC}$, puesto que la hoja de datos del operacional establece que el l\'imite absoluto para este valor es de $\pm 18V$.\par
 
-Por otro lado, incluso cuando la saturaci\'on no es un problema, debe tenerse en cuenta que los componentes utilizados tienen limitaciones de potencia. Por ejemplo, ambas resistencias utilizadas para formar $R_6$ permiten disipar $\nicefrac{1}{8}W$. La mayor proporci\'on de corriente ir\'a a $R_{6a} = 12k\Omega$, que puede disipar como m\'aximo $i_{a_rms} = \sqrt{\frac{\nicefrac{1}{8}}{12000\Omega}} \sim 3.23mA$. Esto implica que la corriente de entrada debe mantenerse por debajo de $i_{rms} = \left(\frac{33k\Omega+12k\Omega}{33k\Omega}\right) \cdot i_{a_{rms}} \sim 4.4mA$ . Siendo que la impedancia de entrada del circuito es la misma que $R_6$ para casi todas las frecuencias, para estos valores la tensi\'on debe ser mucho menor a $38V_{rms}$. La impedancia de entrada aumenta alrededor de la frecuencia de resonancia, pero en ese caso el circuito se ve limitado por la saturaci\'on de los operacionales, con lo cual tampoco es posible utilizar el circuito en esas condiciones. \par
+Por otro lado, incluso cuando la saturaci\'on no es un problema, debe tenerse en cuenta que los componentes utilizados tienen limitaciones de potencia. Por ejemplo, ambas resistencias utilizadas para formar $R_6$ permiten disipar $\nicefrac{1}{8}W$. La mayor proporci\'on de corriente ir\'a a $R_{6a} = 12k\Omega$, que puede disipar como m\'aximo $i_{a_{rms}} = \sqrt{\frac{\nicefrac{1}{8} W}{12000\Omega}} \sim 3.23mA$. Esto implica que la corriente de entrada debe mantenerse por debajo de $i_{rms} = \left(\frac{33k\Omega+12k\Omega}{33k\Omega}\right) \cdot i_{a_{rms}} \sim 4.4mA$ . Siendo que la impedancia de entrada del circuito es la misma que $R_6$ para casi todas las frecuencias, para estos valores la tensi\'on debe ser mucho menor a $38V_{rms}$. La impedancia de entrada aumenta alrededor de la frecuencia de resonancia, pero en ese caso el circuito se ve limitado por la saturaci\'on de los operacionales, con lo cual tampoco es posible utilizar el circuito en esas condiciones. \par
 
 
 
@@ -593,9 +594,10 @@ En hoja de datos del TL082 podemos observar que para una resistencia de carga de
 \section{Conclusiones}
 
 Se logr\'o implementar un filtro pasabandas con las prestaciones especificadas, que present\'o el comportamiento esperado hasta $100kHz$. La frecuencia de resonancia del mismo es $f_0 = 1.94kHz$, la cual difiere de la frecuencia pedida de $13,000\nicefrac{rad}{s}$ por un $6\%$. Gr\'aficamente se observa tambi\'en que el factor de calidad es el pedido. \par
-Asimismo, se logr\'o comprobar que el modelo utilizado para la simulaci\'on predice satisfactoriamente el comportamiento de la impedancia de entrada, de salida y del escal\'on. S\'olo se observaron discrepancias significativas para el caso de la impedancia de salida, la cual depende intr\'insecamente de par\'ametros del operacional que poseen una gran dispersi\'on. \par
 
-Todo esto fue posible gracias a la simplificaci\'on del GIC como una bobina cuya inductancia est\'a definida por las impedancias presentes en este subcircuito. Sin embargo, de haber usado un RLC real no se habr\'ia tenido problemas con la saturaci\'on y ancho de banda de los operacionales. Pero sto habr\'ia sido a costa de tener que agregar una bobina al circuito, lo cual en general es un elemento de gran tama\~no, con una elevada resistencia serie, o en su defecto m\'as caro que el resto de los elementos utilizados. En cambio, con capacitores, resistencias y operacionales logramos simular el comportamiento de una bobina de alrededor de $170mH$, que es un valor considerablemente grande.
+Asimismo, se logr\'o comprobar que el modelo utilizado para la simulaci\'on predice satisfactoriamente el comportamiento de la impedancia de entrada, de salida y de respuesta al escal\'on. S\'olo se observaron discrepancias significativas para el caso de la impedancia de salida, la cual depende intr\'insecamente de par\'ametros del operacional que poseen una gran dispersi\'on. \par
+
+Todo esto fue posible gracias a la simplificaci\'on del GIC como una bobina cuya inductancia est\'a definida por las impedancias presentes en este subcircuito. Sin embargo, de haber usado un RLC real no se habr\'ia tenido problemas con la saturaci\'on y ancho de banda de los operacionales. Pero esto habr\'ia sido a costa de tener que agregar una bobina al circuito, lo cual en general es un elemento de gran tama\~no, con una elevada resistencia serie, o en su defecto m\'as caro que el resto de los elementos utilizados. En cambio, con capacitores, resistencias y operacionales logramos simular el comportamiento de una bobina de alrededor de $170mH$, que es un valor considerablemente grande.
 
 
 \clearpage
@@ -672,5 +674,8 @@ $f(kHz)$ & $V_{r_{pp}}\,(V)$ & $V_{in_{pp}}\,(V)$ & $\phase{Z}\,(^\circ)$ & $\ab
 \end{tabular}
 \end{table}
 
+\subsection{Impedancia de salida}
+
+Estas mediciones se realizaron con la ayuda de un \textit{software} automatizado. La tabla de valores no se incluye porque son demasiados. Se puede acceder a la misma en el siguiente link: \url{https://github.com/LAICACHAMPION/TC_TP3/blob/master/Ej1/Mediciones/tc_tp3_ej1_zout.csv}. Tener en mente que hasta los $\sim 750Hz$ la fase no es consistentemente $0^\circ$ como los datos parecen indicar, sino que el analizador de impedancias no indicaba ninguna fase.
 
 \end{document}
