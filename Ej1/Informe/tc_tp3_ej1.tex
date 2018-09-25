@@ -10,9 +10,9 @@
 \section{Introducci\'on: el GIC}
 \label{section:1-intro}
 
+En el dise\~no de filtros, pueden existir requerimientos cuya soluci\'on m\'as conveniente implica utilizar bobinas. Sin embargo, conseguir inductancias de valor elevado puede involucrar agregar a un circuito un componente de gran tama\~no, puesto que puede hacerse necesario un gran n\'umero de vueltas, adem\'as de un n\'ucleo magn\'etico. A su vez, la resistencia serie de estos componentes suele ser elevada, dando lugar a comportamientos no deseados. Por otro lado, en general uno debe construir sus propias bobinas, lo cual es poco conveniente y sujeto a mayor error que simplemente adquirir capacitores y resistencias. \par 
 
-\todo[inline]{explicar:cuando se quiere hacer un filtro de segundo orden sin usar bobinas, usamos GIC para simular sus efectos} 
-
+Si el rango de frecuencias donde se est\'a trabajando permite utilizar amplificadores operacionales, una posible respuesta a este problema es construir un \textit{general impedance converter}. La configuraci\'on general del mismo es la siguiente:
 
 \begin{figure}[H]
 	\centering
@@ -388,7 +388,8 @@ Por lo tanto, se eligi\'o el operacional TL082. Si bien hay operacionales con ma
 
 \subsection{Elecci\'on de componentes}
 
-\begin{figure*}[H]
+\begin{figure*}[b]
+	\centering
   \includegraphics[scale = 0.7]{imagenes/ej1-montecarlo.jpg}
   \caption{An\'alsis de montecarlo (resistencias 5\%, capacitores 10\%)}
   \label{fig:1-montecarlo}
@@ -461,30 +462,38 @@ Si reemplazamos por los par\'ametros de este circuito $\alpha = \frac{1}{2R_6 C_
 	 \end{aligned}
 \]
 
-Recordando que $\mathcal{L}\{ \frac{b}{(s+a)^2+b^2} \}(s) = e^{-at}\cdot \cos{bt}$, entonces por linealidad la respuesta al escal\'on de este circuito es:
+Recordando que $\mathcal{L}\{ \frac{b}{(s+a)^2+b^2} \}(s) = e^{-at}\cdot \sin{bt} \cdot u(t)$, entonces por linealidad la respuesta al escal\'on de este circuito es:
 
 \begin{equation}
-	y(t) = \left(1+\frac{R_4}{R_8} \right) \cdot \frac{2\alpha}{\omega_d} \cdot e^{-\alpha t}\cdot \cos{\omega_d t}
+	y(t) = u(t) \cdot \left(1+\frac{R_4}{R_8} \right) \cdot \frac{2\alpha}{\omega_d} \cdot e^{-\alpha t}\cdot \sin{\omega_d t}
 \end{equation} 
 
-Por lo tanto, el transitorio que esperar\'iamos observar es una oscilaci\'on modulada por una exponencial decreciente, con pseudofrecuenica $\omega_d \sim 11,286 \nicefrac{rad}{s} \sim 1,800Hz$ y tiempo caracter\'istico $\tau = \frac{1}{\alpha} \sim 153\mu s$. Por lo tanto, el tiempo de establecimiento de la se\~nal deber\'ia ser de aproximadamente $6\tau \sim 0.92ms$, o el equivalente a 1.65 pseudoper\'iodos.
+Por lo tanto, el transitorio que esperar\'iamos observar es una oscilaci\'on modulada por una exponencial decreciente, con pseudofrecuenica $\omega_d \sim 12,930 \nicefrac{rad}{s} \sim 2,058Hz$ y tiempo caracter\'istico $\tau = \frac{1}{\alpha} \sim 614\mu s$. Por lo tanto, el tiempo de establecimiento de la se\~nal deber\'ia ser de aproximadamente $6\tau \sim 3.68ms$, o el equivalente a $\sim 7.57$ pseudoper\'iodos.
+
 
 \begin{figure}[H]
 	\centering
-  	\includegraphics[scale = 0.3]{imagenes/tc_tp3_ej1_100Hz.png}
+  	\includegraphics[scale = 0.7]{imagenes/tc_tp3_ej1_rtaesc.png}
+  	\caption{Simulaci\'on y c\'alculo de respuesta al escal\'on}
+  	\label{fig:1-rtaesc-spice}
+\end{figure}
+
+La simulaci\'on en el \textit{LtSpice} valida los c\'alculos realizados hasta el momento, con lo cual procederemos a comparar estos resultados con lo obtenido en las mediciones.
+
+\begin{figure}[H]
+	\centering
+  	\includegraphics[scale = 0.32]{imagenes/tc_tp3_ej1_100Hz.png}
   	\caption{Respuesta a escal\'on de 100Hz}
   	\label{fig:1-rtaesc-100Hz}
 \end{figure}
 
-Se observa aqu\'i que si bien la forma del transitorio es la que se esperaba obtener, su tiempo de establecimiento es pr\'acticamente el doble que el calculado. Esto puede deberse a
-\todo[inline]{terminar esto, simular}
+Esta respuesta al escal\'on coincide a grandes rasgos con la obtenida en la figura (\ref{fig:1-rtaesc-spice}). Sin embargo, no llega a observarse que el sistema contin\'ue oscilando m\'as all\'a del sexto pseudoper\'iodo. Esto puede deberse a resistencias serie par\'asitas que amortig\"uen a\'un m\'as el sistema, o puede que simplemente no sean apreciables frente al ruido del osciloscopio.\par
 
-
-En esta frecuencia, observamos que una vez superado el r\'egimen permanente, la se\~nal se establece en $0V$, lo cual coincide con el comportamiento esperado. Sin embargo, la duraci\'on del transitorio es del orden de la frecuencia. Para que este tiempo sea menos significante, deber\'iamos trabajar en frecuencias menores, pero esto a su vez conllevar\'ia una atenuaci\'on cada vez mayor. Por lo tanto, no ser\'ia prudente usar este circuito como derivador.
+Por otro ado, respecto del comportamiento derivador, en esta frecuencia, observamos que una vez superado el r\'egimen permanente, la se\~nal se establece en $0V$, lo cual coincide con el comportamiento esperado. Sin embargo, la duraci\'on del transitorio es del orden de la frecuencia. Para que este tiempo sea menos significante, deber\'iamos trabajar en frecuencias menores, pero esto a su vez conllevar\'ia una atenuaci\'on cada vez mayor. Por lo tanto, no ser\'ia prudente usar este circuito como derivador.
 
 \begin{figure}[H]
 	\centering
-  	\includegraphics[scale = 0.3]{imagenes/tc_tp3_ej1_6kHz.png}
+  	\includegraphics[scale = 0.32]{imagenes/tc_tp3_ej1_6kHz.png}
   	\caption{Respuesta a escal\'on de 6kHz}
   	\label{fig:1-rtaesc-6kHz}
 \end{figure}
@@ -534,7 +543,7 @@ Siendo que observamos un salto en la fase alrededor de la frecuencia de corte, s
 
 \begin{figure}[H]
 	\centering
-  	\includegraphics[scale = 0.6]{imagenes/tc_tp3_ej1_zout_zoom.png}
+  	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_zout_zoom.png}
   	\caption{Detalle de la impedancia de salida alrededor de $f_0$}
   	\label{fig:1-zout-zoom1}
 \end{figure}
@@ -542,11 +551,11 @@ Siendo que observamos un salto en la fase alrededor de la frecuencia de corte, s
 
 \subsection{Limitaciones}
 
-\subsubsection{Limitaciones por tensi\'on}
+\subsubsection{Limitaci\'on por tensi\'on}
 
 Como ya se ha discutido, si bien este circuito puede modelarse como un RLC, no se utiliza una bobina sino una combinaci\'on de resistencias, capacitores y operacionales. Por lo tanto, su comportamiento ser\'a el deseado siempre y cuando estos \'ultimos est\'en trabajando en su zona lineal, para lo cual es fundamental evitar que lleguen a saturaci\'on. \par
 
-Debido a que los operacionales se alimentaron con $V_{cc}^\pm = \pm 15V$, ser\'ia prudente dejar al menos $3V$ de margen, es decir no permitir que la salida deba superar los $24V_{pp}$. 
+Debido a que los operacionales se alimentaron con $V_{CC}^\pm = \pm 15V$, ser\'ia prudente dejar al menos $3V$ de margen, es decir no permitir que la salida deba superar los $24V_{pp}$. 
 
 \begin{figure}[H]
 	\centering
@@ -563,7 +572,21 @@ Debe tenerse en cuenta, adem\'as, que la salida de los dos operacionales describ
 	\frac{V_1}{V_{in}} (s)=  - \frac{\nicefrac{R_1}{R_6}}{ L_{GIC}C_6 \cdot s^2  + \frac{L_{GIC}}{R_6} \cdot s + 1}
 \end{equation}
 
-Esto corresponde a un filtro pasabajos de segundo orden, cuya frecuencia de corte es la misma que la de resonancia del circuito. Por lo tanto, para frecuencias bajas se deber\'a tener en cuenta la saturaci\'on de este \textit{op amp} en lugar de la salida del circuito, puesto que la ganancia se estabilizar\'a en $\nicefrac{R_1}{R_6} = \nicefrac{1}{4}\sim -12dB$ en lugar de decrecer 20dB por d\'ecada. Sin embargo, esto no pudo observarse con los $20V{pp}$ m\'aximos que entregan los generadores del laboratorio de la Universidad.
+Esto corresponde a un filtro pasabajos de segundo orden, cuya frecuencia de corte es la misma que la de resonancia del circuito. Por lo tanto, para frecuencias bajas se deber\'a tener en cuenta la saturaci\'on de este \textit{op amp} en lugar de la salida del circuito, puesto que la ganancia se estabilizar\'a en $\nicefrac{R_1}{R_6} = \nicefrac{1}{4}\sim -12dB$ en lugar de decrecer 20dB por d\'ecada. Sin embargo, esto no pudo observarse con los $20V{pp}$ m\'aximos que entregan los generadores del laboratorio de la Universidad. \par
+
+No es recomendable aumentar los valores elegidos de $V_{CC}$, puesto que la hoja de datos del operacional establece que el l\'imite absoluto para este valor es de $\pm 18V$.\par
+
+Por otro lado, incluso cuando la saturaci\'on no es un problema, debe tenerse en cuenta que los componentes utilizados tienen limitaciones de potencia. Por ejemplo, ambas resistencias utilizadas para formar $R_6$ permiten disipar $\nicefrac{1}{8}W$. La mayor proporci\'on de corriente ir\'a a $R_{6a} = 12k\Omega$, que puede disipar como m\'aximo $i_{a_rms} = \sqrt{\frac{\nicefrac{1}{8}}{12000\Omega}} \sim 3.23mA$. Esto implica que la corriente de entrada debe mantenerse por debajo de $i_{rms} = \left(\frac{33k\Omega+12k\Omega}{33k\Omega}\right) \cdot i_{a_{rms}} \sim 4.4mA$ . Siendo que la impedancia de entrada del circuito es la misma que $R_6$ para casi todas las frecuencias, para estos valores la tensi\'on debe ser mucho menor a $38V_{rms}$. La impedancia de entrada aumenta alrededor de la frecuencia de resonancia, pero en ese caso el circuito se ve limitado por la saturaci\'on de los operacionales, con lo cual tampoco es posible utilizar el circuito en esas condiciones. \par
+
+
+
+\subsubsection{Limitaci\'on por frecuencia}
+Como ya se mencion\'o, el ancho de banda del operacional utilizado es de $4MHz$. Sin embargo, en las mediciones de respuesta en frecuencia se pone de manifiesto que el polo del operacional afecta el comportamiento del filtro mucho antes, como se observa en los gr\'aficos de la figura (\ref{fig:1-rtafrec}). Por lo tanto, s\'olo puede asegurarse que el filtro siga el comportamiento calculado hasta los $100kHz$.
+
+\subsection{Limitaci\'on por corriente}
+
+En hoja de datos del TL082 podemos observar que para una resistencia de carga de $100\Omega$, la tensi\'on m\'axima de salida del operacional es $4V_{pp}$, lo cual implica una corriente m\'axima \textit{rms} de aproximadamente $mA$. Para valores m\'as elevados de carga, sin embargo, esta limitaci\'on se hace m\'as estricta en $\frac{28V}{2\sqrt{2}} \cdot \frac{1}{10k\Omega} \sim 1mA$. Por lo tanto, al cargar este filtro debe tenerse en cuenta que la corriente a la salida del operacional no puede superar estos valores.
+
 
 \section{Conclusiones}
 
