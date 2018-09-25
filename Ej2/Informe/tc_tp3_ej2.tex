@@ -1,14 +1,78 @@
-
-
 \documentclass[../../tc_tp3_main.tex]{subfiles}
 
 \begin{document}
 \chapter{Introducci\'on a dise\~no de filtros}
 
-\input{gyrator.tex}
+
+Criterios considerados en todos los pasos de la realizaci\'on de filtros:
+
+\begin{itemize}
+	\item Cumplir la plantilla con tolerancia del 0\%.
+	\item Minimizar la cantidad de componentes. 
+	\item Minimizar la cantidad de valores distintos de componentes.
+	\item Utilizar un solo valor de inductancia para usar un solo dise\~no de gyrator.
+\end{itemize}
+
+
+
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Tipo de filtro & $f_p[kHz]$ & $f_a[kHz]$ & $f_c[kHz]$ \\ 
+\hline 
+LP & 4   & 14  & --- \\ 
+\hline 
+HP & 14  & 4   & --- \\ 
+\hline 
+BP & --- & --- & 8   \\ 
+\hline 
+BR & --- & --- & 4   \\ 
+\hline 
+\end{tabular}
+\label{tab:ej2_plantilla} 
+\caption{Plantilla}
+\end{table}
+
+
+
+
+
+
 
 \input{transferencias.tex}
 
+\section{EL POR QUE DE LA CANTIDAD DE INTEGRADOS Y SMD}
+
+ELEGI DOS INTEGRADOS DE 4 AUNQUE PODRIA HABER USADO UNO DE 4 Y UNO DE 2 PARA SEPARAR LOS GYRATORS DE LOS DEL RESTADOR. SI POSTA QUERES USAR UN SOLO INTEGRADO, O TE BANCAS LA SALIDA DIFERENCIAL Y ELIMINAL EL INTEGRADO DEL RESTADOR, O TE COMPRAS UNO DE 6 OPAMPS QUE EXISTEN Y TIENEN BANDA ANCHA (10MHZ).
+
+ELEGI SMD PORQUE SI NO NO ME DABA EL MONTECARLO PARA HACER EL LP Y EL HP JUNTOS.
+
+\section{SALIDA DIFERENCIAL DEL LP}
+
+
+Como se ve en las figuras \ref{fig:ej2_LP_gyr_res_vs_dif} y \ref{fig:ej2_LP_rlc_res_vs_dif}, hay bocha de diferencia si uso el restador o si no lo uso, pero me empieza a joder arriba de la frecuencia maxima a la cual el gyrator anda piola (aprox 20k).
+
+\begin{figure*}[htbp]
+\centering
+	\includegraphics[width=0.7\textwidth]{imagenes/{"LP_gyr no res vs LP_gyr"}}
+	\label{fig:ej2_LP_gyr_res_vs_dif}
+	\caption{Simulaci\'on del fitro low-pass con bobina real tomando salida diferencial y usando el restador }
+\end{figure*}
+
+\begin{figure*}[htbp]
+\centering
+	\includegraphics[width=0.7\textwidth]{imagenes/{"LP_rlc no res vs LP_rlc"}}
+	\label{fig:ej2_LP_rlc_res_vs_dif}
+	\caption{Simulaci\'on del fitro low-pass con bobina real tomando salida diferencial y usando el restador }
+\end{figure*}
+
+\input{gyrator.tex}
+
+\input{analisis_resultados.tex}
+
+\input{anexo.tex}
 
 
 \end{document}

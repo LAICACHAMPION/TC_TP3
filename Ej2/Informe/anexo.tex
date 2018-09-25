@@ -1,0 +1,117 @@
+\newpage
+\section{Anexo}
+
+\subsection{Obtenci\'on funciones transferencia RLC ideal}
+\label{ssec:ej2_H_rlc_ideal}
+
+Para todos los filtros se considera 
+\begin{align*}
+\omega_0 &= \frac{1}{\sqrt{LC}}\\
+\alpha &=\frac{R}{2L}\\
+\xi &= \frac{\alpha}{\omega_0} \\ &= \frac{R}{2}\sqrt{\frac{C}{L}} \\
+Q&=\frac{1}{2\xi} \\ &= \frac{1}{R}\sqrt{\frac{C}{L}}
+\end{align*}
+
+
+\todo{repetir todas las H pero con RL en serie con la bobina}
+
+\subsubsection{Filtro high-pass}
+
+RLC serie tomando la salida en el capacitor:
+
+\begin{align}
+H(s)&=\frac{\frac{1}{sC}}{\frac{1}{sC}+R+sL}	\\
+&= \frac{1}{s^2 \, LC + s\, RC + 1}	\\
+&= \frac{1}{\left(\frac{s}{\omega_0}\right)^2 + \frac{s}{\omega_0}\, 2\xi + 1}
+\end{align}
+
+
+\subsubsection{Filtro low-pass}
+
+$RLC$ serie tomando la salida en el inductor:
+
+\begin{align}
+H(s)&=\frac{sL}{\frac{1}{sC}+R+sL}	\\
+&= \frac{s^2LC}{s^2 \, LC + s\, RC + 1}	\\
+&= \frac{\left(\frac{s}{\omega_0}\right)^2}{\left(\frac{s}{\omega_0}\right)^2 + \frac{s}{\omega_0}\, 2\xi + 1}
+\end{align}
+
+\subsubsection{Filtro band-reject}
+
+$RLC$ serie tomando la salida en el inductor y el capacitor:
+
+\begin{align}
+H(s)&=\frac{sL + \frac{1}{sC}}{\frac{1}{sC}+R+sL}	\\
+&= \frac{s^2LC+1}{s^2 \, LC + s\, RC + 1}	\\
+&= \frac{\left(\frac{s}{\omega_0}\right)^2+1}{\left(\frac{s}{\omega_0}\right)^2 + \frac{s}{\omega_0}\, 2\xi + 1}
+\end{align}
+
+\subsubsection{Filtro band-pass}
+
+$R$ en serie con un paralelo $LC$ tomando la salida en el paralelo:
+
+\todo[inline]{H BP}
+
+\subsection{Obtenci\'on impedancia de entrada $Z_{in}$} \label{ssec:ej2_obtencion_zin_gyr}
+
+Para el siguiente c\'alculo se desprecian las corrientes de bias y la tensi\'on de offset.\\
+
+Relaci\'on entre $V^-$ y $V^+$:
+\begin{align}
+V^- &= A_{vol}\left( V^+ - V^-  \right)	\\
+V^- \left( 1 + A_{vol}\right) &= A_{vol}\, V^+ \\
+V^- &= V^+\frac{A_{vol}}{1+A_{vol}}\\
+V^- &= V^+K \label{eq:ej2_relacion_entradas_opamp_gyrator}
+\end{align}
+
+Con $K=\frac{A_{vol}}{1+A_{vol}}$.
+Usando el modelo de $A_{vol}$ del polo dominante se obtiene la expresion de K:
+
+%relacion entre V- y V+
+\begin{align}
+K&= \frac{\frac{A_o}{\frac{s}{\omega_p}+1}}{\frac{A_o}{\frac{s}{\omega_p}+1}+1} \\
+ &= \frac{A_o}{(A_o + 1) + \frac{s}{\omega_p}}\\
+ &= \frac{A_o}{A_o+1} \cdot \frac{1}{1+\frac{s}{(A_o+1)\omega_p}}\\
+ \intertext{Considerando que $A_o+1\approx A_o$:}
+  K&=\frac{1}{1+\frac{s}{2\pi BWP}}	\label{eq:ej2_K}
+ \intertext{Siendo $2\pi BWP=A_o\cdot \omega_p$}
+\end{align}
+
+
+Se buscan las tensiones en las entradas del \textit{op-amp} para luego hallar las corrientes $i_A$ y $i_B$.
+
+%relacion de V- y V+ con Vin
+\begin{align}
+	\intertext{Por divisor resistivo:}
+	V^+&=V_{in}\frac{R_{gyr}}{R_{gyr}+\frac{1}{sC_{gyr}}} \\
+	\intertext{De la ecuaci\'on \ref{eq:ej2_relacion_entradas_opamp_gyrator}:}
+	V^-&=V_{in}\cdot K \frac{R_{gyr}}{R_{gyr}+\frac{1}{sC_{gyr}}}
+\end{align} 
+
+%i_A, i_B, i_A+i_B
+\begin{align*}
+i_A &= \frac{1}{R_L}\left(V_{in} - V^-\right)\\
+ &= V_{in} \frac{1}{R_L}\left( 1-K\frac{R_{gyr}}{R_{gyr}+\frac{1}{sC_{gyr}}} \right)\\
+ &= V_{in} \frac{sCR_{gyr}+1-KsC_{gyr}R_{gyr}}{R_L\left( sC_{gyr}R_{gyr}+1 \right)} \\
+ &= V_{in} \frac{(1-K)sC_{gyr}R_{gyr}+1}{R_L\left( sC_{gyr}R_{gyr}+1 \right)}\\
+ & \\
+i_B &= V_{in} \frac{1}{\frac{1}{sC_{gyr}} + R_{gyr}}\\
+	&= V_{in} \frac{sC_{gyr}}{1+sC_{gyr}R_{gyr}}\\
+ & \\
+i_{in} &= i_A + i_B \\
+ &= V_{in} \left( \frac{(1-K)sC_{gyr}R_{gyr}+1}{R_L\left( sC_{gyr}R_{gyr}+1 \right)} +   \frac{sC_{gyr}}{1+sC_{gyr}R_{gyr}}   \right) \\ 
+ &= V_{in}  \frac{(1-K)sC_{gyr}R_{gyr}+1 + sC_{gyr}R_L}{R_L\left( sC_{gyr}R_{gyr}+1 \right)} \\
+ &= V_{in}  \frac{sC_{gyr}(R_{gyr}(1-K)+R_L) + 1}{R_L(sC_{gyr}R_{gyr}+1)}
+\end{align*}
+
+De este resultado \ref{eq:ej2_iin_gyr} se obtiene la impedancia de entrada:
+
+\begin{equation}
+	Z_{in}= \frac{ sCR_{gyr}R_L+R_L}{sC_{gyr}(R_{gyr}(1-K)+R_L) + 1} \label{eq:ej2_zin_gyr_sin_aprox} \\
+\end{equation}
+	en donde	$K  \approx\frac{1}{1+\frac{s}{2\pi BWP}}$ (ecuaci\'on \ref{eq:ej2_K}).
+
+
+impedancia de entrada gyrator
+
+como sale la media logaritmica
