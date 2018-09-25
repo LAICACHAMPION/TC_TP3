@@ -150,7 +150,7 @@ Entonces: \par
 }
 
 Esta relación ideal muestra una ganancia en modo diferencial potencialmente grande y constante para todas las frecuencias. De esta manera el modelo ideal cumple efectivamente con el modelo de un amplificador de instrumentación. Además, se logra un CMRR ideal infinito, es decir que el modo común sería eliminado en su totalidad en un análisis ideal. \par
-
+Tanto por comodidad como para lograr simetría en la primera etapa de amplificación (como se explicará más adelante), se tomo $R_3 = R_7$ y $R_4 = R_6$
 Luego, en el contexto ideal, si se requiere una ganancia $X$, se puede solucionar este problema mediante las siguientes asignaciones: \par
  	\begin{equation}
   	   \left\{
@@ -161,19 +161,21 @@ Luego, en el contexto ideal, si se requiere una ganancia $X$, se puede soluciona
 	     	\right.
  	\end{equation}
  	por lo que la razón $\frac{R_7}{R_6}$ quedaría también determinada como $\frac{R_7}{R_6} = \sqrt{X} - 1$ por la relación antes propuesta. Nótese que esta asignación busca una ganancia repartida de manera equitativa o uniforme entre las dos estapas de amplificación, una dada por la relación $\frac{R_3}{R_4}$ y otra por $\frac{R_2}{R_1}$\par
- 	Sin embargo, según la fórmula de Friis, cuando se conecta opamps en cascada la ganancia deberá ser superior en las últimas etapas de amplificación (en nuestro caso en $1+\frac{R_3}{R_4}$) para disminuir la amplificación del ruido. Es por esto que se decidió hacer que la ganancia fuera superior en la segunda etapa. Esta decisión, como se comentará más adelante, fue errónea: el opamp U4 tiene realimenta a los opamps U1 y U2, por lo que este sistema resulta ser circular y por ende la fórmula no tiene el sentido que antes tenía. Se cree que es por esta razón el sistema osciló, contrario a lo que mostraban las simulaciones.\par
-El problema se solucionó al alterar los valores de las resistencias para que la ganancia fuese más balanceada y aumentando el valor de $R_5$, que según mostraron las simulaciones y la función de transferencia no ideal (más en detalle más adelante), tenía una gran influencia sobre la estabilidad del circuito, al determinar donde se encuentran los polos de esta función.\par
+ 	Sin embargo, según la fórmula de Friis, cuando se conecta opamps en cascada la ganancia deberá ser superior en las últimas etapas de amplificación (en nuestro caso en $1+\frac{R_3}{R_4}$) para disminuir la amplificación del ruido. Es por esto que se decidió hacer que la ganancia fuera superior en la segunda etapa. Esta decisión, como se comentará más adelante, fue errónea: el opamp U4 tiene realimenta a los opamps U1 y U2, por lo que este sistema resulta ser circular y por ende la fórmula no tiene el sentido que antes tenía. Se cree que es por esta razón el sistema osciló en un primer intento de confección, contrario a lo que mostraban las simulaciones.\par
+El problema se solucionó al alterar los valores de las resistencias para que la ganancia fuese más balanceada y aumentando el valor de $R_5$, que según mostraron las simulaciones y la función de transferencia no ideal (más en detalle más adelante), tenía una gran influencia sobre la estabilidad del circuito, al determinar dónde se encuentran los polos de esta función.\par
  	
- 	Interpretando el análisis anterior, se puede decir que el sistema idealmente busca la simetría en la primer etapa de modo tal que las corrientes del medio para las resistencias $R_4, R_3$ y $R_6, R_7$ sean nulas. Esto implicaría que el modo común pasaría inadvertido por la primera etapa, procediendo a ser eliminado por el opamp restador de la segunda etapa. Esto está fundamentado por el teorema de simetría: Si un circuito puede ser descompuestos en dos emi circuitos iguales de forma tal que el circuito pueda ser expresado como la conexión simétrica de estos emi circuitos mediante cables, y si las tensiones de entrada están cada una conectada a un emi circuito, entonces si las tensiones de entrada son iguales entre sí, las corrientes de los cables conectores serán nulas. Es aquí donde planteamos el problema de las tolerancias de las resistencias y con ello la razón del opamp U4.
+ 	Interpretando el análisis anterior, se puede decir que el sistema idealmente busca la simetría en la primera etapa de modo tal que las corrientes del medio para las resistencias $R_4, R_3$ y $R_6, R_7$ sean nulas. Esto implicaría que el modo común pasaría inadvertido por la primera etapa, procediendo a ser eliminado por el opamp restador de la segunda etapa. Su fundamento es el teorema de simetría: Si un circuito puede ser descompuesto en dos emi circuitos iguales de forma tal que el circuito pueda ser expresado como la conexión simétrica de estos emi circuitos mediante cables, y si las tensiones de entrada están cada una conectada a un emi circuito, entonces si las tensiones de entrada son iguales entre sí, las corrientes de los cables conectores serán nulas. Es aquí donde planteamos el problema de las tolerancias de las resistencias y con ello la razón de ser del opamp U4.
  	
 \subsection{Análisis de tolerancias para el caso ideal}
 
 Se intenta buscar el efecto de las tolerancias sobre la ganancia ideal del circuito.\par
 Se hace notar que si una resistencia real $R$ tuviera una variación sobre su valor ideal de $\Delta x$, entonces ya no se cumpliría la condición $R_3\cdot (R_6 + R_7) = R_7\cdot (R_4 + R_3)$ mencionada en el tratamiento ideal, por lo que el modo común no se vería totalmente eliminado como se planeaba.\par 
 Es aquí donde entra en juego el funcionamiento del opamp U4, que viene a realizar la calibración del circuito, reacomodando la tensión del punto medio Vp mediante VFEED y $R_5$ para que en este punto haya una tensión de 0V o lo más cercana posible a este valor cosa tal de que se siga cumpliendo la simetría necesaria para eliminar al modo común. 
-Este opamp intentará forzar la tierra virtual sobre la entrada negativa, teniendo para esto que acomodar su tensión de forma acorde. 
-Si la tensión de entrada del cuarto opamp no fuera nula, se lograría por lo tanto una tensión de offset, ya que se intentaría forzar en el punto medio la tensión anterior más un corrimiento dado por el cambio de tensión de la tierra virtual. 
-Un análisis más comprensivo de lo dicho anteriormente es siguiendo el razonamientode las corrientes mencionadas anteriormente: En caso de no cumplirse la simetría deseada, las corrientes intermedias dejarán de ser nulas y por ende forzarán caídas de tensión distintas en cada extremo. Las distintas corriente causarán un desbalance a la entrada de los opamps: El opamp U4 tendrá que suplir entonces con una corriente a su salida tal que el anterior equilibro se logre de nuevo, de esta manera forzando la tierra virtual más fácilmente. Esto se debe a que la caída sobre la resistencia R9 cambiará con la corriente de entrada del opamp U4 y con eso la tensión de la tierra virtual, que deberá ser acomodada.
+Este opamp intentará forzar la tierra virtual sobre la entrada negativa, teniendo para esto que acomodar su tensión de salida de forma acorde. \par
+Si la tensión de entrada del cuarto opamp no fuera nula, se lograría por lo tanto una tensión de offset, ya que se intentaría forzar en el punto medio la tensión anterior más un corrimiento dado por el cambio de tensión de la tierra virtual. \par
+Un análisis más comprensivo de lo dicho anteriormente es siguiendo el razonamiento de las corrientes mencionadas anteriormente: En caso de no cumplirse la simetría deseada, las corrientes intermedias dejarán de ser nulas y por ende forzarán caídas de tensión distintas en cada extremo. Las distintas corrientes causarán un desbalance a la entrada de los opamps: El opamp U4 tendrá que suplir entonces con una corriente a su salida tal que el anterior equilibro se logre de nuevo y las corrientes intermedias vuelvan a ser nulas, para que se produzca la resta y con esto se elimine el modo común.\par
+ Como la caída sobre la resistencia R9 cambiará con la corriente de entrada del opamp U4, con la corriente de entrada se cambiará la tensión de la tierra virtual, que deberá ser acomodada por el opamp con una tensión y corriente de salida correspondiente.\par
+ Es así como se logra la calibración en tiempo continuo del circuito mediante la presencia del opamp U4.\par
 
   
 %Análisis no ideal
@@ -182,8 +184,8 @@ Un análisis más comprensivo de lo dicho anteriormente es siguiendo el razonami
 Se puede obtener la transferencia total del circuito en modo diferencial y en modo común por separado teniendo en cuenta las limitaciones propias de los opamps que conforman el circuito. Estas limitaciones están dadas por la consideración de una ganancia y una impedancia de entrada finitas (aunque muy grandes) y una respuesta en frecuencia con polo dominante.\par
 Sin embargo, la función transferencia del circuito utilizando estos modelos resulta tener una complejidad demasiado grande para realizar un análisis exhaustivo que resulte provechoso contra un análisis realizado por prueba y error mediante simulaciones con estas propiedades para cada opamp en LTSPICE. Sin embargo, dicho análisis teórico se ha hecho porque así lo pedía la consigna del trabajo. Se consideró la respuesta en frecuencia de todos los opamps con polo dominante e impedancia de entrada finita para todos menos el opamp U4. Al final de esta subsección se muestra tanto el sistema de ecuaciones como el despeje básico mediante el cual se intentó reducir la expresión a algo manejable, sin éxito.\par
 Por la complejidad de la función de transferencia, se decidió utilizar las relaciones de resistencias antes mencionados en la consideración ideal y luego determinar valores apropiados para R5, R8 y R9 mediante iteraciones inteligentes en LTSPICE, observando tanto la respuesta en frecuencia como la transitoria para verificar que se pudiese obtener la ganancia requerida y estabilidad en el sistema.\par
-Estas simulaciones arrojaron rangos de valores para R8 y R9 para que la ganancia ideal con el planteo anterior no se viese alterada significativamente y de R5 para lograr que el circuito convergiese a la ganancia esperada y no oscilara (sea inestable) ni atenuara toda la señal en su totalidad ni tampoco amplificara tanto el modo común y el modo diferencial a la vez.  Dentro de los rangos mencionados, se eligió un valor intermedio para que los posibles desvíos de los valores reales originados por las tolerancias (1\%para SMD, que fue lo que se decidió utilizar) no interfirieran en la ganancia ideal.\par
-Cabe destacar a su vez que variaciones en el valor de R5 alteraban enormemente al valor de VFEED, por lo que se requirió un análisis más detallado de la función del cuarto opamp y de R5 para lograr entender al circuito en mayor profundidad y así poder encontrar los valores apropiado. Es importante señalar también que variaciones en R8 y R9 no modifican significativamente la ganancia ideal, pero que se buscó optimizar este valor ideal con los valores elegidos por simulación.\par
+Estas simulaciones arrojaron rangos de valores para R8 y R9 para que la ganancia ideal con el planteo anterior no se viese alterada significativamente y de R5 para lograr que el circuito convergiese a la ganancia esperada y no oscilara (sea inestable) ni atenuara toda la señal en su totalidad, ni tampoco amplificara tanto el modo común y el modo diferencial a la vez.  Dentro de los rangos mencionados, se eligió un valor intermedio para que los posibles desvíos de los valores reales originados por las tolerancias (1\%para SMD, que fue lo que se decidió utilizar) no interfirieran en la ganancia ideal.\par
+Cabe destacar a su vez que variaciones en el valor de R5 alteraban enormemente al valor de VFEED, por lo que se requirió un análisis más detallado de la función del cuarto opamp y de R5 para lograr entender al circuito en mayor profundidad y así poder encontrar los valores apropiado. Este análisis fue presentado en la subsección anterior. Es importante señalar también que variaciones en R8 y R9 no modifican significativamente la ganancia ideal, pero que se buscó optimizar este valor ideal con los valores elegidos por simulación.\par
  
  Para el análisis analítico, se planteó el siguiente sistema de ecuaciones en Matlab: 
  
@@ -209,8 +211,8 @@ Cabe destacar a su vez que variaciones en el valor de R5 alteraban enormemente a
 
 \lstinputlisting{trans_no_ideal.m}
 
-que conlleva a una expresión de 6500 caracteres, que puede simplificarse aún más tratando al numerador y al denominador por separado, con los coeficientes de cada potencia de $s$ también por separado. Se usó el código de java del anexo para poder parsear con simplificidad la función de transferencia. Esta terminó con una forma del estilo $V_{out} = (V_1 - V_2)\cdot H(s)$ solamente en el caso en que $R_1 = 0$, lo cual no coincide con el análisis ideal. Se muestra en el anexo la función de transferencia simplificada para el caso en que $R_1$ = 0.\footnote{La versión impresa en la que $R_1$ no es nula será presentada en el examen oral si así se requiere} Independientemente de si $R_1$ fuera nula o no, la transferencia H(s) tendría la forma $\frac{N(s)}{D(s)}$, donde N(s) es un polinomio de orden 2 de s y D(s) un polinomio de orden 4 de s. Dado la complejidad del análisis de ceros para un polinomio de orden 4 y la extensión de su expresión, un análisis de polos para H(s) resulta completamente impráctica para resolver problemas de estabilidad y de ganancia constante y precisa, condiciones de todo amplificador de instrumentación frente a simulación. \par
-Se llega entonces a la conclusión de que si los polos de la H(s) estuviesen todos del lado izquierdo del eje imaginario (la parte real de los polos fuese negativa) y la función fase de H(s) no llegase a los 180\textdegree dentro de un margen seguro, entonces se podría asegurar que el circuito será estable. Un análisis más detallado en estos términos resulta impráctico.\par
+que conlleva una expresión de 6500 caracteres, que a su vez puede simplificarse aún más tratando al numerador y al denominador por separado, con los coeficientes de cada potencia de $s$ también por separado. Se usó el código de java del anexo para poder parsear con simplificidad la función de transferencia. Esta terminó con una forma del estilo $V_{out} = (V_1 - V_2)\cdot H(s)$ solamente en el caso en que $R_1 = 0$, lo cual no coincide con el análisis ideal. Se muestra en el anexo la función de transferencia simplificada para el caso en que $R_1$ = 0.\footnote{La versión impresa en la que $R_1$ no es nula será presentada en el examen oral si así se requiere} Independientemente de si $R_1$ fuera nula o no, la transferencia H(s) tendría la forma $\frac{N(s)}{D(s)}$, donde N(s) es un polinomio de orden 2 de s y D(s) un polinomio de orden 4 de s. Dado la complejidad del análisis de ceros para un polinomio de orden 4 y la extensión de su expresión, un análisis de polos para H(s) resulta completamente impráctica para resolver problemas de estabilidad y de ganancia constante y precisa, condiciones necesarias para todo amplificador de instrumentación. Es por esto que se recurrió a la simulación. \par
+Se llega entonces a la conclusión de que si los polos de la H(s) estuviesen todos del lado izquierdo del eje imaginario (la parte real de los polos fuese negativa) y la función fase de H(s) no llegase a los 180\textdegree dentro de un margen seguro, entonces se podría asegurar que el circuito será estable. Un análisis más detallado en estos términos resulta también impráctico con los conocimientos actuales (todavía no se ha visto en profundidad el criterio de Barkhausen ni métodos para identificar lazos de retroalimentación) .\par
 
 Mediante simulaciones, se determinó que los valores de R5 para garantizar la convergencia debían ser superiores o iguales a 10k\ohm, y se simuló con valores hasta 50k\ohm.\par
 Por otra parte, se eligió por comodidad que los valores de $R_8$ y $R_9$ fueran iguales. Se observó que valores de entre 100\ohm y 5K\ohm garantizaban estabilidad para los valores mencionados anteriormente de $R_5$ y la ganancia teórica ideal del análisis anterior.\par
@@ -222,18 +224,21 @@ Por otra parte, se eligió por comodidad que los valores de $R_8$ y $R_9$ fueran
 Se busca implementar un amplificador de instrumentación con una ganancia en modo diferencial $G$ dada por 
 $G = 120 + 20\cdot sen(\frac{3\cdot\pi}{4}+\frac{\pi}{6}) \approx 125.17$\par
 
-El primer intento de confección del circuito (el cual osciló, originando una salida senoidal montada a otra senoidal), intentó disriminar entre etapas de ganancia, otorgando ganancias mucho mayores la primer etpaa de amplificación. Al intentar solucionar la oscilación, se decidió modificar los valores de los componentes elegidos. Se cometió un error al hacer esta substitución, omitiéndose en 1 en el cálculo de los valores para la ganancia ideal. Es por esta razón que con los valores elegidos se obtuvo una ganancia del orden de las 136 veces para el modo diferencial en vez de las 125 esperadas. \par
+El primer intento de confección del circuito (el cual osciló, originando una salida senoidal montada a otra senoidal), intentó discriminar entre etapas de ganancia, otorgando una ganancia mucho mayor a la primer etapa de amplificación. Al intentar solucionar la oscilación, se decidió modificar los valores de los componentes elegidos. Se cometió un error al hacer esta substitución en el cálculo de los valores para la ganancia ideal. Es por esta razón que con los valores elegidos se obtuvo una ganancia del orden de las 136 veces para el modo diferencial en vez de las 125 esperadas. \par
 
 Los valores finales para las resistencias elegidas fueron:\par
 
 \begin{enumerate}
-	\item $R_3 = R_7 = 15k$
-	\item $R_4 = R_6 = 1.3k$
-	\item $R_8 = R_9 = 1k$
-	\item $R_5 = 20k$ 
+	\item $R_3 = R_7 = 15k\ohm$
+	\item $R_4 = R_6 = 1.3k\ohm$
+	\item $R_8 = R_9 = 1k\ohm$
+	\item $R_2 = 68k\ohm$
+	\item $R_1 = 6.2k\ohm$
+	\item $R_5 = 20k\ohm$ 
 \end{enumerate}
 
-El integrado utilizado en el primer intento fue un TL084, pero debido a que el mismo dejo de funcionar y a que en el pañol no se contaba con otro TL084, se utilizó el TL074, que luego se aprendió tenía mayor tolerancia al ruido, lo cual benefició al circuito.
+Se eligieron valores del orden de los 10 k\ohm porque impedancias de alto valor se corresponden con altos valores de ruido ya que variaciones muy pequeñas de corriente debido a la presencia de ruido producirán grandes cambios de tensión, aumentando así el ruido del sistema. Es por esto que se evitó agregar ruido extra al sistema al no utilizar impedancias altas.\par
+El integrado utilizado en el primer intento fue un TL084, pero debido a que el mismo dejo de funcionar y a que en el pañol no se contaba con otro TL084, se utilizó el TL074, que luego se supo tenía mayor tolerancia al ruido, lo cual benefició al circuito.
 
 
 %Puente de Wheatstone
@@ -324,9 +329,10 @@ Los errores $E_{R_3}$ y $E_{R_4}$ son obtenidos análogamente, por lo que result
  	Dado que el puente mencionado será utilizado para generar tensiones de baja amplitud, en valores de tensión de salida cercanos a cero $\frac{R_1}{R_2}\approx\frac{R_3}{R_4}$, por lo que $E_{R_1} \approx E_{R_2} \approx E_{R_3} \approx E_{R_4}$. De esta forma: \par
  	$E \approx 0.08 \cdot \frac{V_{in}\cdot R_3}{R_4}$. De aquí se observa que si el cociente teórico $\frac{R_3}{R_4}$ se mantiene bajo, entonces el error también lo será para amplitudes bajas de tensión se salida. Una tensión $V_{in}$ apropiadamente elegida también implicará un menor error.\par
  	Una posible solución a este problema sería medir las resistencias fijas antes de colocarlas en el puente, de manera tal de conocer el valor exacto del cociente $\frac{R_3}{R_4}$ y el valor de $R_1$. Así, se podría luego determinar fácilmente el valor de $R_2$ que logrará tensión nula y de allí determinar el rango de valores que deberá tomar la $R_2$ para el rango de tensiones que se querrá tomar como salida. \par
-
- 	Otra manera de solucionar el problema de tolerancias sería agregar presets en serie con las resistencias, para acomodar los valores reales a los valores teóricos previamente calculados.
-
+ 	Otra manera de solucionar el problema de tolerancias sería agregar presets en serie con las resistencias, para acomodar los valores reales a los valores teóricos previamente calculados.\par
+ 	Debe hacerse notar que del problema de las tolerancias se desprenden dos errores importantes: En el caso en que se desconociesen los valores reales de las resistencias antes o después de haberlas insertado en el circuito, no habría forma de determinar que valor de resistencia del preset haría que la salida sea nula completamente, por lo que se tendría que medir la salida en tiempo real para ubicar este punto. \par
+ 	El segundo problema es que el nuevo generador de señales será asimetrico en amplitud:
+ 	
 %Tierra compartida
 \subsection{Importancia de la tierra compartida para generar señales}
 
@@ -352,7 +358,7 @@ Esto es así porque en el caso en que la salida no comparta tierra con el genera
 	
 %Simulaciones
 \section{Simulaciones}
-
+Las simulaciones fueron realizadas en LTSPICE.
 %respuestas en frecuencia
 	\begin{figure*}[h!]	
 		\centering
@@ -361,6 +367,9 @@ Esto es así porque en el caso en que la salida no comparta tierra con el genera
 		\label{fig:ej5_bode_diferencial_simulado}
 	\end{figure*}
 
+Debe tenerse en cuenta el error en el cálculo de ganancia comentado anteriormente!\par
+Se muestra como el CMRR va disminuyendo exponencialmente (linealmente en escala logarítmica) a medida que se aumenta la frecuencia. Esto se debe a que la atenuación del modo común disminuye mientras que la amplificación del modo diferencial se mantiene práticamente constante en el mismo rango de frencuencias.\par
+
 	\begin{figure*}[h!]	
 		\centering
 		\includegraphics[scale=0.3]{imagenes/bode_diferencial_simulado.png}
@@ -368,6 +377,7 @@ Esto es así porque en el caso en que la salida no comparta tierra con el genera
 		\label{fig:ej5_bode_diferencial_simulado}
 	\end{figure*}
 	
+	Se observa de la imagen anterior como la ganancia de
 %muestra entrada salida	
 	\begin{figure*}[h!]	
 		\centering
@@ -385,6 +395,9 @@ Esto es así porque en el caso en que la salida no comparta tierra con el genera
 	
 %Mediciones
 \section{Mediciones}
+
+Encontrará las imágenes de las simulaciones y las mediciones al final del ejercicio.\par
+
 Las mediciones se realizaron con un analog discovery 2.\par
 Las ondas de baja amplitud fueron generadas mediante el uso del puente de Wheatstone conectado de la manera explicada en la sección anterior.
 Para la respuesta en frecuencia, se comenzó a medir a partir de 1kHz porque el modo común estaba demasiado atenuado para frecuencias menores a ese valor como para ser medido. \par
@@ -405,12 +418,12 @@ Esta respuesta en frecuencia nos dará la ganancia del modo común a partir de l
 	
 			\begin{figure*}[h!]	
 		\centering
-		\includegraphics[scale=0.6]{imagenes/bode_comun_montecarlo.png}
+		\includegraphics[scale=0.4]{imagenes/bode_comun_montecarlo.png}
 		\caption{Análisis de montecarlo}
 		\label{fig:ej3_bode_comun_medido}
 	\end{figure*}
 	
-	Se muestra de aquí que el sistema es altamente sensible a las tolerancias. Sin embargo, la razón de ser el opamp U4 es lograr calibrar el sistema en tiempo real de modo tal que no se tenga que usar presets para su calibración al contar con resistencias no ideales (las relaciones no se cumplen estrictamente).
+	Se muestra de aquí que el sistema es altamente sensible a las tolerancias. Sin embargo, la razón de ser el opamp U4 es lograr calibrar el sistema en tiempo real de modo tal que no se tenga que usar presets para su calibración al contar con resistencias no ideales (las relaciones no se cumplen estrictamente), por lo que es predecible que esta calibración o mejora en precisión se pague con una menor atenuación del modo común y una peor ganancia para el modo diferencial.
 	%muestra entrada salida
 			\begin{figure*}[h!]	
 		\centering
@@ -434,6 +447,13 @@ Esta respuesta en frecuencia nos dará la ganancia del modo común a partir de l
 		\includegraphics[scale=0.6]{imagenes/ganancia_diferencial_medido.png}
 		\caption{Muestra de la entrada y salida en modo diferencial a 1kHz}
 		\label{fig:ej3_ganancia_diferencial_medido}
+	\end{figure*}
+
+		\begin{figure*}[h!]	
+		\centering
+		\includegraphics[scale=0.4]{imagenes/bode_diferencial_montecarlo.png}
+		\caption{Bode diferencial, análisis de montecarlo}
+		\label{fig:ej3_bode_diferencial_montecarlo}
 	\end{figure*}
 
 \section{Conclusión}
