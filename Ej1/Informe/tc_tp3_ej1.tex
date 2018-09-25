@@ -259,17 +259,15 @@ Esto corresponde a un \textbf{filtro pasabanda}, definido por los siguientes par
  \end{equation}
 
 
-
-\section{Dise\~no del filtro pasabanda}
-
-
-\begin{figure*}[h!]
+\begin{figure*}[b]
 	\centering
   	\includegraphics[scale = 0.7]{imagenes/polos.jpg}
   	\caption{Ubicaci\'on de los polos para distintos valores de $R_6$}
   	\label{fig:1-polos}
 \end{figure*}
 
+
+\section{Dise\~no del filtro pasabanda}
 
 
 Las especificaciones de dise\~no de este filtro son:
@@ -322,6 +320,7 @@ Para simplificar la elecci\'on de componentes, se establecen las siguientes rela
  \end{itemize}
 
 
+
 \subsection{Funci\'on de $R_6$}
 
 
@@ -330,7 +329,6 @@ Si consideramos la simplificaci\'on del circuito utilizada en la figura (\ref{fi
 Esto se debe a que el factor de calidad del filtro $Q = \nicefrac{R_6}{R}$, donde $R$ lo consideramos constante, es inversamente proporcional a esta resistencia. Por lo tanto, para $R_6=0.5\cdot R$, el circuito tiene sus dos polos superpuestos en $s = -\omega_0$. A medida que aumenta, los polos se hacen complejos conjugados , acerc\'andose cada vez m\'as al eje imaginario, donde se encontrar\'ian los polos del pasabanda ideal. Si $R_6$ disminuye, en cambio, los polos se separan en dos reales distintos entre s\'i,   aumentando cada vez m\'as el ancho de banda del circuito. \par
 
 Esto puede observarse en la figura (\ref{fig:1-polos}). De la misma podemos concluir que la resistencia $R_6$ es el componente que define la selectividad del filtro.
-
 
 
 \subsection{Funci\'on de $R_8$}
@@ -388,10 +386,10 @@ Por lo tanto, se eligi\'o el operacional TL082. Si bien hay operacionales con ma
 
 \subsection{Elecci\'on de componentes}
 
-\begin{figure*}[b]
+\begin{figure*}[t]
 	\centering
   \includegraphics[scale = 0.7]{imagenes/ej1-montecarlo.jpg}
-  \caption{An\'alsis de montecarlo (resistencias 5\%, capacitores 10\%)}
+  \caption{An\'alisis de montecarlo (resistencias 5\%, capacitores 10\%)}
   \label{fig:1-montecarlo}
 \end{figure*}
 
@@ -425,12 +423,7 @@ Con esta selecci\'on de componentes y operacional, se efectu\'o un an\'alisis de
 
 Por lo tanto, se procedi\'o a implementar este filtro en una PCB con los componentes indicados y el amplificador TL082. Se utilizaron resistencias de metal-film y capacitores film. A su vez, se incluyeron dos capacitores de $100nF$ multicapa de desacople: uno entre $V_{CC}^+$ y tierra y otro entre $V_{CC}^-$ y tierra. Estos capacitores tienen como funci\'on compensar peque\~nos cambios de tensi\'on en la alimentaci\'on del operacional, para que la misma sea m\'as estable.
 
-
-\section{An\'alisis de resultados}
-
-\subsection{Respuesta en frecuencia}
-
-\begin{figure*}[h!]
+\begin{figure*}[t]
 	\centering
   	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_hf_mag.png}
   	\includegraphics[scale = 0.5]{imagenes/tc_tp3_ej1_hf_fase.png}
@@ -438,13 +431,17 @@ Por lo tanto, se procedi\'o a implementar este filtro en una PCB con los compone
   	\label{fig:1-rtafrec}
 \end{figure*}
 
+\section{An\'alisis de resultados}
+
+\subsection{Respuesta en frecuencia}
+
+
+
 Como se observa en los gr\'aficos de la figura (\ref{fig:1-rtafrec}), la respuesta en frecuencia del circuito coincide con la que se obtiene en la simulaci\'on. Para frecuencias altas, a partir de $100kHz$, comienzan a observarse en la fase los efectos del polo del operacional, que no se tuvieron en cuenta a la hora de calcular la funci\'on transferencia. Por otro lado, la medici\'on de magnitud a $1MHz$ discrepa de tanto la simulaci\'on como el c\'alculo. Esto puede deberse a que debido a la gran atenuaci\'on, la se\~nal de salida era tan peque\~na que resulta comparable con el ruido del osciloscopio, eliminando su validez. Tambi\'en es posible que a estas frecuencias, el comportamiento de los componentes se vea afectado por sus partes inductivas, lo cual no est\'a contemplado en el modelo te\'orico ni en \textit{Spice}. \par
 
 Se observa una pendiente de +20dB por d\'ecada hasta la frecuencia de corte, alrededor de los $2k\Omega$, y -20dB por d\'ecada a partir de la misma, con un salto de $-180^\circ$ en la fase: de $90^\circ$ a $-90^\circ$. Siendo que el factor de calidad calculado es $Q=4$, y se observa en la medici\'on el mismo comportamiento que en la simulaci\'on y el c\'alculo, se puede concluir que el filtro cumple con las prestaciones requeridas. 
 
 \subsection{Respuesta al escal\'on}
-
-\todo[inline]{calcular y simular rta esc}
 
 De lo desarrollado en la secci\'on anterior, podr\'iamos preguntarnos si el circuito exhibir\'a el comportamiento de derivador para frecuencias mucho menores que la de resonancia, y de integrador para frecuencias mucho mayores. En esos rangos, el filtro tiene la pendiente y la fase adecuada para que esto suceda. Se realizaron pues mediciones de respuesta al escal\'on. Para la derivada, deber\'iamos observar s\'olo el transitorio cuando la entrada tiene un salto, donde la derivada es el impulso $\delta(t)$, y en el integrador deber\'iamos observar una se\~nal triangular.
 
@@ -583,7 +580,7 @@ Por otro lado, incluso cuando la saturaci\'on no es un problema, debe tenerse en
 \subsubsection{Limitaci\'on por frecuencia}
 Como ya se mencion\'o, el ancho de banda del operacional utilizado es de $4MHz$. Sin embargo, en las mediciones de respuesta en frecuencia se pone de manifiesto que el polo del operacional afecta el comportamiento del filtro mucho antes, como se observa en los gr\'aficos de la figura (\ref{fig:1-rtafrec}). Por lo tanto, s\'olo puede asegurarse que el filtro siga el comportamiento calculado hasta los $100kHz$.
 
-\subsection{Limitaci\'on por corriente}
+\subsubsection{Limitaci\'on por corriente}
 
 En hoja de datos del TL082 podemos observar que para una resistencia de carga de $100\Omega$, la tensi\'on m\'axima de salida del operacional es $4V_{pp}$, lo cual implica una corriente m\'axima \textit{rms} de aproximadamente $mA$. Para valores m\'as elevados de carga, sin embargo, esta limitaci\'on se hace m\'as estricta en $\frac{28V}{2\sqrt{2}} \cdot \frac{1}{10k\Omega} \sim 1mA$. Por lo tanto, al cargar este filtro debe tenerse en cuenta que la corriente a la salida del operacional no puede superar estos valores.
 
