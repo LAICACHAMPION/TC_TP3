@@ -353,7 +353,7 @@ Resulta entonces que la ganancia m\'axima de ambos operacionales est\'a limitada
 
 \subsection{An\'alisis de sensibilidades}
 
-Dado que no es posible cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole}, y adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (para las resistencias) o el $10\%$ (para los capacitores), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
+Dado que no cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole} implicar\'ia utilizar combinaciones serie o paralelo para todos los componentes, y que adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (para las resistencias) o el $10\%$ (para los capacitores), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
 
 \begin{table}[H]
 	\centering
@@ -419,7 +419,10 @@ El valor elegido para $R$ fue $2.2k\Omega$. Los par\'ametros del circuito quedan
 
 De esta forma, todas las resistencias tienen su valor te\'orico exacto (dejando de lado la tolerancia del componente por el momento), y s\'olo se requiere hacer una combinaci\'on paralelo de $12k\Omega$ con $33k\Omega$ para obtener el valor de $R_6$. En cuanto a los capacitores, el valor de $34.878nF$ se obtiene al conectar en serie un capacitor de $39nF$ con uno de $330nF$. Tanto $C_2$ como $C_6$ afectan a $\omega_0$ con una sensibilidad de $-\nicefrac{1}{2}$, con lo cual sus efectos combinados s\'olo resultan en un $0.25\%$ de desviaci\'on respecto de $\omega_0$. En cuanto al valor de $Q$, al ser iguales ambos capacitores sus efectos se compensan, y s\'olo depende de $R_6$, con lo cual se obtiene de forma exacta.  \par
 
+
 Con esta selecci\'on de componentes y operacional, se efectu\'o un an\'alisis de Montecarlo en \textit{LtSpice}. De acuerdo al mismo, la tolerancia de los componentes lleva a que el rango donde se encontrar\'a la frecuencia de corte es aproximadamente entre $1.85kHz$ y $2.3kHz$, lo cual implica un margen de error de $\pm 10\%$. \par
+
+Consideramos elegir los componentes de manera tal que se gane precisi\'on a costa de necesitar hacer m\'as combinaciones serie o paralelo es a costa de agrega complejidad al circuito, y al fin y al cabo con la tolerancia de los componentes la diferencia ser\'ia apenas apreciable. Entonces esta elecci\'on de componentes se determin\'o como la definitiva.\par
 
 Por lo tanto, se procedi\'o a implementar este filtro en una PCB con los componentes indicados y el amplificador TL082. Se utilizaron resistencias de metal-film y capacitores film. A su vez, se incluyeron dos capacitores de $100nF$ multicapa de desacople: uno entre $V_{CC}^+$ y tierra y otro entre $V_{CC}^-$ y tierra. Estos capacitores tienen como funci\'on compensar peque\~nos cambios de tensi\'on en la alimentaci\'on del operacional, para que la misma sea m\'as estable.
 
@@ -439,7 +442,9 @@ Por lo tanto, se procedi\'o a implementar este filtro en una PCB con los compone
 
 Como se observa en los gr\'aficos de la figura (\ref{fig:1-rtafrec}), la respuesta en frecuencia del circuito coincide con la que se obtiene en la simulaci\'on. Para frecuencias altas, a partir de $100kHz$, comienzan a observarse en la fase los efectos del polo del operacional, que no se tuvieron en cuenta a la hora de calcular la funci\'on transferencia. Por otro lado, la medici\'on de magnitud a $1MHz$ discrepa de tanto la simulaci\'on como el c\'alculo. Esto puede deberse a que debido a la gran atenuaci\'on, la se\~nal de salida era tan peque\~na que resulta comparable con el ruido del osciloscopio, eliminando su validez. Tambi\'en es posible que a estas frecuencias, el comportamiento de los componentes se vea afectado por sus partes inductivas, lo cual no est\'a contemplado en el modelo te\'orico ni en \textit{Spice}. \par
 
-Se observa una pendiente de +20dB por d\'ecada hasta la frecuencia de corte, alrededor de los $2k\Omega$, y -20dB por d\'ecada a partir de la misma, con un salto de $-180^\circ$ en la fase: de $90^\circ$ a $-90^\circ$. Siendo que el factor de calidad calculado es $Q=4$, y se observa en la medici\'on el mismo comportamiento que en la simulaci\'on y el c\'alculo, se puede concluir que el filtro cumple con las prestaciones requeridas. 
+Si consideramos que la frecuencia de resonancia del circuito es aquella donde la ganancia es m\'axima, la misma se determin\'o en $1.94kHz$, donde se amplifica la entrada $5.6dB$ con un desfasaje de $5^\circ$.\par
+
+Se observa una pendiente de +20dB por d\'ecada hasta la frecuencia de resonancia, alrededor de los $2k\Omega$, y -20dB por d\'ecada a partir de la misma, con un salto de $-180^\circ$ en la fase: de $90^\circ$ a $-90^\circ$. Siendo que el factor de calidad calculado es $Q=4$, y se observa en la medici\'on el mismo comportamiento que en la simulaci\'on y el c\'alculo, se puede concluir que el filtro cumple con las prestaciones requeridas. 
 
 \subsection{Respuesta al escal\'on}
 
@@ -586,5 +591,86 @@ En hoja de datos del TL082 podemos observar que para una resistencia de carga de
 
 
 \section{Conclusiones}
+
+Se logr\'o implementar un filtro pasabandas con las prestaciones especificadas, que present\'o el comportamiento esperado hasta $100kHz$. La frecuencia de resonancia del mismo es $f_0 = 1.94kHz$, la cual difiere de la frecuencia pedida de $13,000\nicefrac{rad}{s}$ por un $6\%$. Gr\'aficamente se observa tambi\'en que el factor de calidad es el pedido. \par
+Asimismo, se logr\'o comprobar que el modelo utilizado para la simulaci\'on predice satisfactoriamente el comportamiento de la impedancia de entrada, de salida y del escal\'on. S\'olo se observaron discrepancias significativas para el caso de la impedancia de salida, la cual depende intr\'insecamente de par\'ametros del operacional que poseen una gran dispersi\'on. \par
+
+Todo esto fue posible gracias a la simplificaci\'on del GIC como una bobina cuya inductancia est\'a definida por las impedancias presentes en este subcircuito. Sin embargo, de haber usado un RLC real no se habr\'ia tenido problemas con la saturaci\'on y ancho de banda de los operacionales. Pero sto habr\'ia sido a costa de tener que agregar una bobina al circuito, lo cual en general es un elemento de gran tama\~no, con una elevada resistencia serie, o en su defecto m\'as caro que el resto de los elementos utilizados. En cambio, con capacitores, resistencias y operacionales logramos simular el comportamiento de una bobina de alrededor de $170mH$, que es un valor considerablemente grande.
+
+
+\clearpage
+\newpage
+\section{Anexo}
+
+\subsection{Respuesta en frecuencia}
+
+\begin{table}[H] 
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$f(kHz)$ & $V_{in_{pp}}\,(V)$ & $V_{out_{pp}}\,(V)$ & $\phase{H}\,(^\circ)$ & $\abs{H}\,(dB)$ \\ \hline \hline
+0.01     & 19.8               & 0.051               & 89                    & -51.9           \\ \hline
+0.02     & 19.8               & 0.101               & 90                    & -45.8           \\ \hline
+0.05     & 19.8               & 0.252               & 89                    & -37.9           \\ \hline
+0.1      & 19.8               & 0.500               & 89                    & -32.0           \\ \hline
+0.2      & 19.8               & 1.01                & 88                    & -25.8           \\ \hline
+0.5      & 19.8               & 2.66                & 86                    & -17.4           \\ \hline
+1.0      & 19.8               & 6.68                & 80                    & -9.4            \\ \hline
+1.5      & 10.8               & 8.95                & 65                    & -1.6            \\ \hline
+1.8      & 10.8               & 17.5                & 34                    & 4.2             \\ \hline
+1.94     & 10.2               & 19.5                & 5                     & 5.6             \\ \hline
+1.96     & 10.2               & 19.5                & 0                     & 5.6             \\ \hline
+2.00     & 10.9               & 20.7                & -8                    & 5.6             \\ \hline
+2.1      & 10.9               & 18.5                & -27                   & 4.6             \\ \hline
+2.2      & 10.8               & 15.7                & -41                   & 3.2             \\ \hline
+2.5      & 10.8               & 9.79                & -62                   & -0.9            \\ \hline
+3.0      & 10.8               & 5.96                & -74                   & -5.2            \\ \hline
+5.0      & 19.8               & 4.56                & -84                   & -12.8           \\ \hline
+10       & 19.8               & 2.00                & -87                   & -19.9           \\ \hline
+20       & 19.8               & 0.983               & -88                   & -26.1           \\ \hline
+50       & 19.8               & 0.392               & -89                   & -34.1           \\ \hline
+100      & 19.8               & 0.199               & -91                   & -40.0           \\ \hline
+200      & 19.8               & 0.101               & -93                   & -45.8           \\ \hline
+500      & 19.7               & 0.046               & -101                  & -52.6           \\ \hline
+1000     & 19.6               & 0.034               & -124                  & -55.2           \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
+
+\subsection{Impedancia de entrada}
+
+Mediciones realizadas sobre una resistencia de $r = 9.89k\Omega$.
+
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$f(kHz)$ & $V_{r_{pp}}\,(V)$ & $V_{in_{pp}}\,(V)$ & $\phase{Z}\,(^\circ)$ & $\abs{Z}\,(\Omega)$ \\ \hline
+0.10     & 10.3              & 9.37               & 1                     & 8997                \\ \hline
+0.20     & 10.3              & 9.37               & 1                     & 8997                \\ \hline
+0.50     & 10.3              & 9.38               & 4                     & 9007                \\ \hline
+1.00     & 10.2              & 9.48               & 9                     & 9192                \\ \hline
+1.50     & 7.10              & 7.10               & 24                    & 9890                \\ \hline
+1.80     & 5.88              & 9.47               & 51                    & 15928               \\ \hline
+1.90     & 3.30              & 12.1               & 62                    & 36263               \\ \hline
+1.93     & 1.91              & 12.8               & 57                    & 66279               \\ \hline
+1.94     & 1.41              & 13.0               & 48                    & 91184               \\ \hline
+1.95     & 1.04              & 13.0               & 27                    & 123625              \\ \hline
+1.96     & 0.899             & 13.0               & -8                    & 143014              \\ \hline
+1.97     & 1.12              & 13.0               & -33                   & 114795              \\ \hline
+2.0      & 2.30              & 12.8               & -63                   & 55040               \\ \hline
+2.5      & 7.15              & 7.15               & -28                   & 9890                \\ \hline
+3.0      & 7.31              & 6.74               & -17                   & 9119                \\ \hline
+5.0      & 7.36              & 6.56               & -8                    & 8815                \\ \hline
+10       & 7.39              & 6.54               & -6                    & 8752                \\ \hline
+20       & 7.40              & 6.54               & -8                    & 8741                \\ \hline
+50       & 7.60              & 6.47               & -17                   & 8420                \\ \hline
+100      & 8.22              & 6.24               & -31                   & 7508                \\ \hline
+200      & 9.69              & 5.46               & -49                   & 5573                \\ \hline
+500      & 12.3              & 3.38               & -68                   & 2718                \\ \hline
+1000     & 13.2              & 1.92               & -73                   & 1439                \\ \hline
+\end{tabular}
+\end{table}
+
 
 \end{document}

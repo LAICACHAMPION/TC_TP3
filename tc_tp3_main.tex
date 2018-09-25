@@ -22,9 +22,6 @@
 %hago backup del comando \input actual, y lo cambio para que cambie el path de buqueda de nuevos archivos
 %esto va a afectar a los includes de este archivo y a los del archivo del subfile, pero solo cuando compilo desde aca. Si compilo desde el subfile este cambio no sucede entonces sigue andando.
 
-\subfile{tc_tp3_intro.tex}
-
-\clearpage
 
 \let\oldinput=\input 	
 \def\input#1{\oldinput{Ej1/Informe/#1}}	
@@ -53,14 +50,5 @@
 \subfile{tc_tp3_ej4.tex}
 \let\input=\oldinput
 
-\clearpage
 
-\let\oldinput=\input 	
-\def\input#1{\oldinput{Ej5/Informe/#1}}	
-\subfile{tc_tp3_ej5.tex}
-\let\input=\oldinput
-
-\clearpage
-
-\subfile{tc_tp3_anexo.tex}
 \end{document}
