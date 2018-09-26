@@ -1,0 +1,180 @@
+\section{Gyrator como simulador de un inductor}
+
+El gyrator es un circuito cuya impedancia de entrada puede aproximarse a la de una bobina con resistencia en serie en cierto rango de frecuencias. Se muestra un ejemplo en la figura \ref{fig:ej2_gyrator_simulacion_inductor}. Esta es la implementaci\'on que se usa en los filtros.
+
+Adem\'as del rango acotado de funcionamiento, la simulaci\'on del inductor tiene otras limitaciones, de las cuales se mencionan dos ejemplos a continuaci\'on:
+
+\begin{description}	
+	\item[Alamcenamiento energ\'etico] no puede almacenar energ\'ia de la misma manera que un inductor. La magnitud de la fem producida ante cambios de corriente $\left( V = \frac{di}{dt} \right) $ tiene limitaciones propias de las caracter\'isticas el\'ectricas del circuito (ej.: el slew-rate del op-amp limita la velocidad de cambio de la tensi\'on) 
+	
+	\item[Efecto mutua inducci\'on] No crean campos magn\'eticos de la misma forma que los inductores, por lo que no se puede conseguir un efecto de mutua inducci\'on entre un gyrator y un inductor o entre dos gyrators de la misma forma que s\'i sucede entre dos inductores. 
+
+\end{description}
+
+
+
+
+
+\begin{figure*}[htbp]
+	\centering
+	\input{imagenes/esquematico_equivalente_gyrator.tex}
+	\input{imagenes/esquematico_gyrator.tex}
+	\caption{Uso de gyrator como inductor}
+	\label{fig:ej2_gyrator_simulacion_inductor}
+\end{figure*}
+
+
+
+
+En la secci\'on \ref{ssec:ej2_obtencion_zin_gyr} se obtiene que la impedancia de entrada del gyrator es
+
+\begin{equation}
+	Z_{in}= \frac{ sC_{gyr}R_{gyr}R_L+R_L}{sC_{gyr}(R_{gyr}(1-K)+R_L) + 1} \label{eq:ej2_zin_gyr_sin_aprox} \\
+\end{equation}
+	en donde	$K  \approx\frac{1}{1+\frac{s}{2\pi BWP}}$ (ecuaci\'on \ref{eq:ej2_K}).
+ 
+Si el denominador puede aproximarse a 1 (ver secci\'on \ref{ssec:ej2_zin_gyr_aprox_inductor}), la impedancia de entrada se puede aproximar a la del modelo de un inductor con resistencia serie con valores $L=CR_LR_1$ y $R_{coil}=R_L$
+
+\begin{align}
+	Z_{in} &= sC_{gyr}R_LR_{gyr}+R_L \\
+ 	\abs{Z_{in}} &= R_L \, \sqrt{4\pi^2f^2C_{gyr}^2R_{gyr}^2+1} \\
+ 	\phase{Z_{in}} &= arctg(2\pi fC_{gyr}R_{gyr})
+	\label{eq:ej2_zin_gyrator_con_aprox}
+\end{align}
+
+
+
+\subsection{Limitaciones en frecuencia} \label{ssec:ej2_zin_gyr_aprox_inductor}
+
+%condiciones para la aproximacion
+Se analiza el denominador de la impedancia de entrada (ecuaci\'on \ref{eq:ej2_zin_gyr_sin_aprox}) y se busca en qu\'e rango de frecuencias puede aproximarse a 1. Siendo $D(s)$ el denominador:
+
+\[D(s) = sC_{gyr}(R_{gyr}(1-\frac{1}{1+\frac{s}{2\pi BWP}})+R_L) + 1 \]
+\[	= \frac{C_{gyr}R_T\, s^2 + 2\pi BWP\, C_{gyr} R_L \, s + 2\pi BWP}{s+2\pi BWP}   \]
+Siendo $R_T = R_L + R_{gyr}$.
+\[=\frac{\frac{C_{gyr}R_T}{2\pi BWP}s^2 + C_{gyr}R_L s +1}{\frac{s}{2\pi BWP}+1}\]
+
+A continuaci\'on se analizan los polos y ceros de $D(s)$:
+
+\begin{description}
+
+	\item[\textbf{Cero doble en $f_{cero} = \frac{1}{2\pi}\sqrt{\frac{2\pi BWP}{C_{gyr}R_T}}$: }]
+
+
+
+Se observa que el denominador tiene un cero doble en $f_0 = \frac{1}{2\pi}\sqrt{\frac{2\pi BWP}{C_{gyr}R_T}}$. La existencia o no del sobrepico (y de existir, su altura y posici\'on) depende de la relaci\'on entre el coeficiente lineal $b = C_{gyr}R_L$ y $f_0$. 
+
+\[b = \frac{2\xi}{2\pi f_0}\]
+\[\xi = \frac{2\pi f_0 b}{2}\]
+\[\xi = \frac{\sqrt{\frac{2\pi BWP}{C_{gyr}R_T}} \cdot C_{gyr}R_L}{2}   \]
+\[ = \frac{1}{2}R_L\sqrt{\frac{2\pi BWP C_{gyr}}{R_L + R_{gyr}}}\]
+Si $R_{gyr} \gg R_L$:
+\[ \approx \frac{1}{2}R_L\sqrt{\frac{2\pi BWP C_{gyr}}{R_{gyr}}}\]
+Si $\xi \leqslant \frac{1}{\sqrt{2}}$, $D(s)$ tiene sobrepico (va a ser cada vez mas pronunciado mientras m\'as chico sea $\xi$). 
+
+
+	\item[\textbf{Polo simple en $f_{polo} = BWP$}]
+
+\end{description}
+
+$f_{cero} < f_{polo} \Rightarrow$ es el cero de $D(s)$ el que delimita cuando el gyrator deja de comportarse como inductor.
+
+
+
+
+\subsection{Eleccion de componentes}
+
+Sabiendo que $R_L = 50\Omega$, $L = 0.02H$ y $L = R_L R_{gyr} C_{gyr}$, se obtienen siguientes valores:
+\begin{align*}
+	R_{gyr} &= 39k\Omega \\
+	C_{gyr} &= 10nF
+\end{align*}
+
+
+Analizando la $f_{cero}$  se obtiene una aproximaci\'on de cu\'ando la impedancia de entrada del gyrator deja de ser aproximadamente la de un inductor:
+
+\[f_{cero} = \frac{1}{2\pi}\sqrt{\frac{2\pi 6MHz}{10nF39K\Omega}} \approx 35.0KHz\]
+
+Esto coincide con lo observado en la figura \ref{eq:ej2_zin_gyr_sin_aprox}. 
+
+De la figura \ref{fig:ej2_zin_gyr_vs_rlc} se observa que tanto en frecuencia como en m\'odulo la impedancia del gyrator aproxima a la de un inductor de $L=0.02$ con $R_L = 50\Omega$ hasta 20KHz.\par
+En la figura \ref{fig:ej2_zin_gyr_calc_vs_sim} se observa que la impedancia calculada coincide con la simulada hasta aproximadamente $100KHz$ en fase y $400KHz$ en m\'odulo. A partir de esas frecuencias, la forma de la simulaci\'on es la del c\'alculo pero adelantada. Posiblemente estos efectos se deban a caracter\'isticas no ideales del op-amp como polos secundarios de la ganancia o una impedancia de salida no despreciable. \par
+
+En las figuras siguientes se observa que el m\'odulo de la salida de los filtros con gyrator se separa de la de los filtros con inductor en frecuencias de 20KHz o m\'as altas.
+
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{imagenes/{"zin_gyr calculo vs sim"}}
+	\caption{C\'alculo y simulaci\'on de la impedancia de entrada del gyrator}	
+	\label{fig:ej2_zin_gyr_calc_vs_sim}
+\end{figure*}
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{imagenes/{"zin_gyr vs zin_rlc"}}
+	\caption{Simulaci\'on de la impedancia de entrada del gyrator y de la de una bobina real}
+	\label{fig:ej2_zin_gyr_vs_rlc}
+\end{figure*}
+
+
+%\begin{figure*}
+%	\includegraphics[width=\textwidth]{imagenes/{"BP_gyr vs BP_rlc"}}
+%	\caption{Simulaci\'on filtro band-pass implementado con bobina real y con gyrator}
+%	\label{fig:ej2_BP_gyr_vs_BP_rlc}
+%\end{figure*}
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{imagenes/{"BR_gyr vs BR_rlc"}}
+	\caption{Simulaci\'on filtro band-reject implementado con bobina real y con gyrator}
+	\label{fig:ej2_BR_gyr_vs_BR_rlc}
+\end{figure*}
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{imagenes/{"HP_gyr vs HP_rlc"}}
+	\caption{Simulaci\'on filtro high-pass implementado con bobina real y con gyrator}
+	\label{fig:ej2_HP_gyr_vs_HP_rlc}
+\end{figure*}
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{imagenes/{"LP_gyr vs LP_rlc"}}
+	\caption{Simulaci\'on filtro low-pass implementado con bobina real y con gyrator. Salida del restador}
+	\label{fig:ej2_LP_gyr_vs_LP_rlc}
+\end{figure*}
+
+
+
+\begin{figure*}
+	\includegraphics[width=\textwidth]{imagenes/{"LP_gyr no res vs LP_rlc no res"}}
+	\caption{Simulaci\'on filtro low-pass implementado con bobina real y con gyrator. Salida diferencial}
+	\label{fig:ej2_LP_dif_gyr_vs_rlc}
+\end{figure*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
