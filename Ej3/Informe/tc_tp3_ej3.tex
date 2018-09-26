@@ -358,6 +358,8 @@ Esto es así porque en el caso en que la salida no comparta tierra con el genera
 	
 %Simulaciones
 \section{Simulaciones}
+
+Encontrará las imágenes de las simulaciones y las mediciones al final del ejercicio.\par
 Las simulaciones fueron realizadas en LTSPICE.
 %respuestas en frecuencia
 	\begin{figure*}[h!]	
@@ -368,7 +370,7 @@ Las simulaciones fueron realizadas en LTSPICE.
 	\end{figure*}
 
 Debe tenerse en cuenta el error en el cálculo de ganancia comentado anteriormente.\par
-Se muestra como el CMRR va disminuyendo exponencialmente (linealmente en escala logarítmica) a medida que se aumenta la frecuencia. Esto se debe a que la atenuación del modo común disminuye mientras que la amplificación del modo diferencial se mantiene práticamente constante en el mismo rango de frencuencias.\par
+En las imágenes de la respuesta en frecuencia del modo común y diferencial , se muestra como el CMRR va disminuyendo exponencialmente (linealmente en escala logarítmica) a medida que se aumenta la frecuencia. Esto se debe a que la atenuación del modo común disminuye mientras que la amplificación del modo diferencial se mantiene práticamente constante en el mismo rango de frencuencias.\par
 
 	\begin{figure*}[h!]	
 		\centering
@@ -377,7 +379,6 @@ Se muestra como el CMRR va disminuyendo exponencialmente (linealmente en escala 
 		\label{fig:ej5_bode_diferencial_simulado}
 	\end{figure*}
 	
-	Se observa de la imagen anterior como la ganancia de
 %muestra entrada salida	
 	\begin{figure*}[h!]	
 		\centering
@@ -396,8 +397,6 @@ Se muestra como el CMRR va disminuyendo exponencialmente (linealmente en escala 
 %Mediciones
 \section{Mediciones}
 
-Encontrará las imágenes de las simulaciones y las mediciones al final del ejercicio.\par
-
 Las mediciones se realizaron con un analog discovery 2.\par
 Las ondas de baja amplitud fueron generadas mediante el uso del puente de Wheatstone conectado de la manera explicada en la sección anterior.
 Para la respuesta en frecuencia, se comenzó a medir a partir de 1kHz porque el modo común estaba demasiado atenuado para frecuencias menores a ese valor como para ser medido. \par
@@ -414,7 +413,7 @@ Esta respuesta en frecuencia nos dará la ganancia del modo común a partir de l
 	Se observa la misma forma para la respuesta en frecuencia de la curva simulada con la medida: mismos puntos de inflexión, zonas lineales y zonas planas en los mismos rangos de frecuencia.\par
 	En cuanto a la fase,  si bien se puede apreciar la forma de campana de la simulación, se encuentra que la fase comienza a sufrir cambios contra lo esperado para frecuencias mayores a 100k. \par
 	Dado el análisis anterior, se espera que el circuito funcione correctamente para frecuencias de hasta 100kHz.
-	El siguiente análisis de montecarlo muestra claramente que la respuesta en frecuencia lograda estaba dentro de lo esperado:
+	El análisis de montecarlo y su respectiva imagen muestran claramente que la respuesta en frecuencia lograda estaba dentro de lo esperado.\par
 	
 			\begin{figure*}[h!]	
 		\centering
@@ -423,7 +422,7 @@ Esta respuesta en frecuencia nos dará la ganancia del modo común a partir de l
 		\label{fig:ej3_bode_comun_medido}
 	\end{figure*}
 	
-	Se muestra de aquí que el sistema es altamente sensible a las tolerancias. Sin embargo, la razón de ser el opamp U4 es lograr calibrar el sistema en tiempo real de modo tal que no se tenga que usar presets para su calibración al contar con resistencias no ideales (las relaciones no se cumplen estrictamente), por lo que es predecible que esta calibración o mejora en precisión se pague con una menor atenuación del modo común y una peor ganancia para el modo diferencial.
+	Se muestra del análisis de Montecarlo que el sistema es altamente sensible a las tolerancias. Sin embargo, la razón de ser el opamp U4 es lograr calibrar el sistema en tiempo real de modo tal que no se tenga que usar presets para su calibración al contar con resistencias no ideales (las relaciones no se cumplen estrictamente), por lo que es predecible que esta calibración o mejora en precisión se pague con una menor atenuación del modo común y una peor ganancia para el modo diferencial.
 	%muestra entrada salida
 			\begin{figure*}[h!]	
 		\centering
