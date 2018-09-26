@@ -60,8 +60,7 @@ Si el rango de frecuencias donde se est\'a trabajando permite utilizar amplifica
 \end{figure}
 
 
-Como consideramos ideales a ambos operacionales, la tensi\'on de entrada se encuentra replicada donde se encuentran los terminales inversores del circuito, y a su vez en la entrada no inversora del segundo operacional. Asimismo, como no hay corriente entre $V^+$ y $V^-$ para ninguno de los operacionales, hay s\'olo tres corrientes, puesto que la corriente de $Z_2$ es la misma que la de $Z_3$, y la de $Z_4$ que la de $Z_5$. Quedan definidas entonces las ecuaciones:
-
+Como consideramos ideales a ambos operacionales, la tensi\'on de entrada se encuentra replicada donde se encuentran los terminales inversores del circuito, y a su vez en la entrada no inversora del segundo operacional. Asimismo, como no hay corriente entre $V^+$ y $V^-$ para ninguno de los operacionales, hay s\'olo tres corrientes en el circuito: una que circula por $Z_2$ y $Z_3$, otra por $Z_4$ que y $Z_5$, y la de entrada. Quedan definidas entonces las ecuaciones:
 
  \[
 	\left\{
@@ -277,7 +276,7 @@ Las especificaciones de dise\~no de este filtro son:
 	\left\{
 		\begin{aligned}
 			\omega_0 &= 13,000\nicefrac{rad}{s} & \Rightarrow f_0 = 2,079Hz \\
-			Q &= 4  & \Rightarrow f_1 = 1,827Hz &\wedge f_1 = 2,344Hz  \\ 
+			Q &= 4  & \Rightarrow f_1 = 1,827Hz &\wedge f_2 = 2,344Hz  \\ 
 		\end{aligned}
 	\right.
  \end{equation}
@@ -326,7 +325,7 @@ Para simplificar la elecci\'on de componentes, se establecen las siguientes rela
 
 Si consideramos la simplificaci\'on del circuito utilizada en la figura (\ref{fig:ej1-rlc}), $R_6$ es una resistencia serie en un circuito resonante. Como tal, su valor no influye en la frecuencia de resonancia, sino que determina el factor de calidad del circuito: a medida que $R_6$ se hace m\'as grande, el comportamiento del circuito se acerca m\'as a un pasabanda ideal, es decir uno con ancho de banda tendiendo a 0. An\'alogamente, a medida que $R_6$ se hace 0, el ancho de banda crece, convirtiendo al circuito en un pasa todo. \par
 
-Esto se debe a que el factor de calidad del filtro $Q = \nicefrac{R_6}{R}$, donde $R$ lo consideramos constante, es inversamente proporcional a esta resistencia. Por lo tanto, para $R_6=0.5\cdot R$, el circuito tiene sus dos polos superpuestos en $s = -\omega_0$. A medida que aumenta, los polos se hacen complejos conjugados , acerc\'andose cada vez m\'as al eje imaginario, donde se encontrar\'ian los polos del pasabanda ideal. Si $R_6$ disminuye, en cambio, los polos se separan en dos reales distintos entre s\'i,   aumentando cada vez m\'as el ancho de banda del circuito. \par
+Esto se debe a que el factor de calidad del filtro $Q = \nicefrac{R_6}{R}$, donde $R$ lo consideramos constante, es directamente proporcional a esta resistencia. Por lo tanto, para $R_6=0.5\cdot R$, el circuito tiene sus dos polos superpuestos en $s = -\omega_0$. A medida que aumenta, los polos se hacen complejos conjugados , acerc\'andose cada vez m\'as al eje imaginario, donde se encontrar\'ian los polos del pasabanda ideal. Si $R_6$ disminuye, en cambio, los polos se separan en dos reales distintos entre s\'i,   aumentando cada vez m\'as el ancho de banda del circuito. \par
 
 Esto puede observarse en la figura (\ref{fig:1-polos}). De la misma podemos concluir que la resistencia $R_6$ es el componente que define la selectividad del filtro.
 
@@ -353,7 +352,7 @@ Resulta entonces que la ganancia m\'axima de ambos operacionales est\'a limitada
 
 \subsection{An\'alisis de sensibilidades}
 
-Dado que cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole} implicar\'ia utilizar combinaciones serie o paralelo para todos los componentes, y que adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (para las resistencias) o el $10\%$ (para los capacitores), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
+Dado que cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando valores comerciales de componentes \textit{through hole} implicar\'ia utilizar combinaciones serie o paralelo para todos los componentes, y que adem\'as cada componente tendr\'a asociada una tolerancia del $5\%$ (seg\'un la informaci\'on disponible sobre los componentes en el pa\~nol de electr\'onica de la Universidad), analizaremos a continuaci\'on qu\'e componentes son los m\'as cr\'iticos del circuito. Utilizando la f\'ormula $S_{x}^{y} = \frac{x}{y} \cdot  \frac{\partial y}{\partial x}$, donde $S_x^y$ es la sensibilidad del par\'ametro $y$ a cambios en $x$, partiendo de las relaciones obtenidas en (\ref{eq:1-LGIC}) y (\ref{eq:1-w0QyHw0}), se confeccion\'o la siguiente tabla:
 
 \begin{table}[H]
 	\centering
@@ -368,7 +367,7 @@ Dado que cumplir con los requisitos de dise\~no con un $0\%$ de error utilizando
 	\caption{Sensibilidad de $\omega_0$ y $Q$ a los componentes}
 \end{table} 
 
-Se puede observar que todos los componentes del GIC influyen de igual manera en los par\'ametros caracter\'isticos del circuito, si bien los aumentos en $R_4$ se ven reflejados de manera inversamente proporcional cuando las dem\'as lo hacen de manera proporcional y viceversa. Lo mismo que ocurre con estos valores ocurre con $C_6$: cambios peque\~nos en este par\'ametro son un $50\%$ menos visibles en $\omega_0$ y $Q$, con lo cual por ejemplo su $10\%$ de tolerancia puede llegar a cambiar hasta un $5\%$ las caracter\'isticas del filtro (en el peor caso).\par 
+Se puede observar que todos los componentes del GIC influyen de igual manera en los par\'ametros caracter\'isticos del circuito, si bien los aumentos en $R_4$ se ven reflejados de manera inversamente proporcional cuando las dem\'as lo hacen de manera proporcional y viceversa. Lo mismo que ocurre con estos valores ocurre con $C_6$: cambios peque\~nos en este par\'ametro son un $50\%$ menos visibles en $\omega_0$ y $Q$, con lo cual por ejemplo su $5\%$ de tolerancia puede llegar a cambiar hasta un $2.5\%$ las caracter\'isticas del filtro (en el peor caso).\par 
 
 El \'unico componente que presenta otros efectos es $R_6$: mientras que no incide en absoluto en la frecuencia de resonancia, es el principal factor a tener en cuenta en el factor de calidad. Por lo tanto, es cr\'itico obtener un valor preciso para esta resistencia, dentro de lo que permite la tolerancia.  
 
@@ -389,7 +388,7 @@ Por lo tanto, se eligi\'o el operacional TL082. Si bien hay operacionales con ma
 \begin{figure*}[t]
 	\centering
   \includegraphics[scale = 0.7]{imagenes/ej1-montecarlo.jpg}
-  \caption{An\'alisis de montecarlo (resistencias 5\%, capacitores 10\%)}
+  \caption{An\'alisis de montecarlo (tolerancias $5\%$)}
   \label{fig:1-montecarlo}
 \end{figure*}
 
