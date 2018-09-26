@@ -1,0 +1,96 @@
+\documentclass[../../tc_tp3_main.tex]{subfiles}
+
+\begin{document}
+\chapter{Introducci\'on a dise\~no de filtros}
+
+
+Criterios considerados en todos los pasos de la realizaci\'on de filtros:
+
+\begin{itemize}
+	\item Cumplir la plantilla con tolerancia del 0\%.
+	\item Minimizar la cantidad de componentes. 
+	\item Minimizar la cantidad de valores distintos de componentes.
+	\item Utilizar un solo valor de inductancia para usar un solo dise\~no de gyrator.
+	\item El gyrator debe poder usarse como inductor hasta al menos $20KHz$
+\end{itemize}
+
+
+
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Tipo de filtro & $f_p[kHz]$ & $f_a[kHz]$ & $f_c[kHz]$ \\ 
+\hline 
+LP & 4   & 14  & --- \\ 
+\hline 
+HP & 14  & 4   & --- \\ 
+\hline 
+BP & --- & --- & 8   \\ 
+\hline 
+BR & --- & --- & 4   \\ 
+\hline 
+\end{tabular}
+\caption{Plantilla}
+\label{tab:ej2_plantilla} 
+\end{table}
+
+
+
+
+
+
+
+\input{transferencias.tex}
+
+\section{Dise\~no de circuito}
+
+\subsection{Salida del low-pass referida a tierra con restador}
+
+En el filtro low-pass, la salida se toma sobre el capacitor, pero el gyrator debe estar a tierra. Para evitar tomar la salida diferencial, se utiliza un restador, de forma tal que pueda tomarse la salida referenciada a tierra. Como se ve en las figuras \ref{fig:ej2_LP_gyr_res_vs_dif} y \ref{fig:ej2_LP_rlc_res_vs_dif}, si bien \'este modifica la transferencia del filtro, lo hace fuera del rango de operaci\'on definido anteriormente (0 a 20KHz). \par
+
+\begin{figure*}[htbp]
+\centering
+	\includegraphics[width=0.7\textwidth]{imagenes/{"LP_gyr no res vs LP_gyr"}}
+	\caption{Simulaci\'on del fitro low-pass con bobina real tomando salida diferencial y usando el restador }
+		\label{fig:ej2_LP_gyr_res_vs_dif}
+\end{figure*}
+
+\begin{figure*}[htbp]
+\centering
+	\includegraphics[width=0.7\textwidth]{imagenes/{"LP_rlc no res vs LP_rlc"}}
+	\caption{Simulaci\'on del fitro low-pass con bobina real tomando salida diferencial y usando el restador }
+		\label{fig:ej2_LP_rlc_res_vs_dif}
+\end{figure*}
+
+\subsection{Uso de componentes SMD}
+
+Para reducir la cantidad de componentes (especialmente de op-amps), se decide implementar los filtros low-pass y high-pass en un mismo $RLC$ serie con dos salidas, ya que tienen los mismos valores de $R$, $L$, y $C$. Un an\'alisis de montecarlo (figuras \ref{fig:ej2_montecarlo_HPLP_SMD} y \ref{fig:ej2_montecarlo_HPLP_noSMD}) indica que los filtros pueden no cumplir plantilla con las tolerancias t\'ipicas de los componentes \textit{through-hole} (10\% para las resistencias y 20\% para los capacitores), pero que s\'i la cumplen para componentes SMD (tolerancia 1\% para resistencias y 10\% para capacitores).
+
+\begin{figure*}[htbp]
+\centering
+	\includegraphics[width=0.7\textwidth]{imagenes/{"montecarlo HPLP noSMD"}}
+	\caption{An\'alisis de montecarlo para los filtros low-pass y high-pass con componentes \textit{through-hole}}
+		\label{fig:ej2_montecarlo_HPLP_noSMD}
+\end{figure*}
+
+\begin{figure*}[htbp]
+\centering
+	\includegraphics[width=0.7\textwidth]{imagenes/{"montecarlo HPLP SMD"}}
+	\caption{An\'alisis de montecarlo para los filtros low-pass y high-pass con componentes SMD}
+		\label{fig:ej2_montecarlo_HPLP_SMD}
+\end{figure*}
+
+\subsection{Cantidad de integrados}
+
+En total se utilizan 6 op-amps (3 para el restador y 3 para los filtros). De ser necesario, se podr\'ian incluir todos en un solo integrado de 6 op-amps. Si la salida diferencial no fuese un problema, se podr\'ia eliminar el integrado que implementa el restador y tener as\'i los cuaro filtros con un solo integrado de 4 op-amps. 
+
+\input{gyrator.tex}
+
+\input{analisis_resultados.tex}
+
+\input{anexo.tex}
+
+
+\end{document}
